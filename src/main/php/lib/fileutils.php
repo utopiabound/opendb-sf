@@ -30,6 +30,15 @@ function get_opendb_file($filename) {
 	return $baseDir . '/' . $filename;
 }
 
+function get_opendb_relative_file($path) {
+	$baseDir = get_opendb_basedir();
+	if (starts_with($path, $baseDir)) {
+		return substr($path, strlen($baseDir) + 1); // remove the slash as well!
+	} else {
+		return $path; // fallback not much else to do!
+	}
+}
+
 /**
  * Its assumed that the filename will be relative to the base directory returned
  * by get_opendb_basedir()
