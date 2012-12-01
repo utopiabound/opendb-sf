@@ -345,7 +345,7 @@ function theme_image($src, $title=NULL, $type=NULL) {
  *
  * @return unknown
  */
-function _theme_graph_config() {
+function theme_graph_config() {
 	$theme = get_opendb_site_theme();
 
 	$cssParser = new cssparser(FALSE);

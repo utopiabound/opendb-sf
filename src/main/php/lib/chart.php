@@ -51,7 +51,7 @@ function build_and_send_graph($data_rs, $chartType, $title)
 	$imgType = $gdImage->getImageType();
 	unset($gdImage);
 	
-	$graphCfg = _theme_graph_config();
+	$graphCfg = theme_graph_config();
 	
 	$chart = new StatsChartImpl($chartType, $graphCfg);
 	

@@ -296,7 +296,7 @@ if(is_site_enabled())
 					}
 					echo("</ul>");
 					
-					$graphCfg = _theme_graph_config();
+					$graphCfg = theme_graph_config();
 					$chartLib = get_opendb_config_var('stats', 'chart_lib');
 					if($chartLib!='legacy') {
 						$widthHeightAttribs = "width=\"${graphCfg['width']}\" height=\"${graphCfg['height']}\"";
