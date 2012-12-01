@@ -33,7 +33,7 @@ function theme_header($pageid, $title, $include_menu, $mode, $user_id) {
 		"\n<head>".
 		"\n<title>".$pageTitle.(!empty($title)?" - $title":"")."</title>".
 		"\n<meta http-equiv=\"Content-Type\" content=\"".get_content_type_charset()."\">".
-		"\n<link rel=\"icon\" href=\""._theme_image_src("icon-16x16.gif")."\" type=\"image/gif\" />".
+		"\n<link rel=\"icon\" href=\"".theme_image_src("icon-16x16.gif")."\" type=\"image/gif\" />".
 		"\n<link rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"".get_opendb_title()." Title Search\" href=\"./searchplugins.php?type=title\">".
 		"\n<link rel=\"search\" type=\"application/opensearchdescription+xml\" title=\"".get_opendb_title()." UPC Search\" href=\"./searchplugins.php?type=upc\">".
 		get_theme_css($pageid, $mode).
@@ -50,16 +50,16 @@ function theme_header($pageid, $title, $include_menu, $mode, $user_id) {
 
 		$help_page = get_opendb_help_page($pageid);
 		if($help_page!=NULL) {
-			echo("<li class=\"help\"><a href=\"help.php?page=".$help_page."\" target=\"_new\" title=\"".get_opendb_lang_var('help')."\">"._theme_image("help.png")."</a></li>");
+			echo("<li class=\"help\"><a href=\"help.php?page=".$help_page."\" target=\"_new\" title=\"".get_opendb_lang_var('help')."\">".theme_image("help.png")."</a></li>");
 		}
 		
 		$printable_page_url = get_printable_page_url($pageid);
 		if($printable_page_url!=NULL) {
-			echo("<li><a href=\"".$printable_page_url."\" target=\"_new\" title=\"".get_opendb_lang_var('printable_version')."\">"._theme_image("printable.gif")."</a></li>");
+			echo("<li><a href=\"".$printable_page_url."\" target=\"_new\" title=\"".get_opendb_lang_var('printable_version')."\">".theme_image("printable.gif")."</a></li>");
 		}
 	
 		if(is_exists_my_reserve_basket($user_id)) {
-			echo("<li><a href=\"borrow.php?op=my_reserve_basket\">"._theme_image("basket.png", get_opendb_lang_var('item_reserve_list'))."</a></li>");
+			echo("<li><a href=\"borrow.php?op=my_reserve_basket\">".theme_image("basket.png", get_opendb_lang_var('item_reserve_list'))."</a></li>");
 		}
 
 		if(is_user_granted_permission(PERM_VIEW_LISTINGS)) {

@@ -236,15 +236,8 @@ function get_theme_search_site_dir_list() {
 	return $dirPath;
 }
 
-function _theme_image_src($src, $PermitOtherExtension = TRUE) {
+function theme_image_src($src, $PermitOtherExtension = TRUE) {
 	if(strlen($src)>0) {
-		if(function_exists('theme_image_src')) {
-			$theme_image_src = theme_image_src($src);
-			if(strlen($theme_image_src)>0 && file_exists($theme_image_src)) {
-				return $theme_image_src;
-			}
-		}
-		
 		if(starts_with($src, 'images/site/')) {
 			$dirPaths = get_theme_search_site_dir_list();
 		} else {
@@ -267,6 +260,7 @@ function _theme_image_src($src, $PermitOtherExtension = TRUE) {
 			reset($extension_r);
 			while(list(,$extension) = each($extension_r)) {
 				$file = $dir.'/'.$src.'.'.$extension;
+				
 				if(file_exists($file)) {
 					return $file;
 				}
@@ -328,29 +322,12 @@ function safe_filename($src) {
 						s_item_type - for 's_item_type' images.
 						borrowed_item - Borrow system status images.
 						action - Item operation (edit, delete, etc)
-								
-	These are the steps it uses to work out which image to display:
-
-	1)  Checks if 'theme_image' function is defined.  This function
-		should return a fully formed <img src="" ...> or a textual 
-		equivalent.
-
-		If the theme specific 'theme_image' returns FALSE, this indicates
-		that the local function is not taking responsibility for displaying
-		the image in this case.  We should continue as though the theme
-		specific 'theme_image' function did not exist.
-			
-	2)	Calls _theme_image_src 
-
-	4)	If _theme_image_src returns FALSE, then return the $src, without extension, in initcap format.
 */
-function _theme_image($src, $title=NULL, $type=NULL) {
+function theme_image($src, $title=NULL, $type=NULL) {
 	$file_r = parse_file(basename($src));
 	$alt = ucfirst($file_r['name']);
 		
-	if(function_exists('theme_image') && ($value = theme_image($src, $title, $type))!==FALSE) {
-		return $value;
-	} else if ( ($src = _theme_image_src($src)) !== FALSE) {
+	if ( ($src = theme_image_src($src)) !== FALSE) {
 		return "<img src=\"$src\""
 			.(strlen($alt)>0?" alt=\"".$alt."\"":"")
 			.(strlen($title)>0?" title=\"$title\"":"")
