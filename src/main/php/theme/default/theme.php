@@ -17,17 +17,17 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-function theme_header($pageid, $title, $include_menu, $mode, $user_id)
-{
+function theme_header($pageid, $title, $include_menu, $mode, $user_id) {
 	global $PHP_SELF;
 	global $HTTP_VARS;
 	global $ADMIN_TYPE;
 	
-	if($pageid == 'install')
+	if($pageid == 'install') {
 		$pageTitle = get_opendb_title_and_version(). " Installation";
-	else
+	} else {
 		$pageTitle = get_opendb_title();
-			
+	}
+	
 	echo("<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\">".
 		"\n<html>".
 		"\n<head>".
@@ -45,29 +45,24 @@ function theme_header($pageid, $title, $include_menu, $mode, $user_id)
 	echo("<div id=\"header\">");
 	echo("<h1><a href=\"index.php\">".$pageTitle."</a></h1>");
 	
-	if($include_menu)
-	{
+	if($include_menu) {
 		echo("<ul class=\"headerLinks\">");
 
 		$help_page = get_opendb_help_page($pageid);
-		if($help_page!=NULL)
-		{
+		if($help_page!=NULL) {
 			echo("<li class=\"help\"><a href=\"help.php?page=".$help_page."\" target=\"_new\" title=\"".get_opendb_lang_var('help')."\">"._theme_image("help.png")."</a></li>");
 		}
 		
 		$printable_page_url = get_printable_page_url($pageid);
-		if($printable_page_url!=NULL)
-		{
+		if($printable_page_url!=NULL) {
 			echo("<li><a href=\"".$printable_page_url."\" target=\"_new\" title=\"".get_opendb_lang_var('printable_version')."\">"._theme_image("printable.gif")."</a></li>");
 		}
 	
-		if(is_exists_my_reserve_basket($user_id))
-		{
+		if(is_exists_my_reserve_basket($user_id)) {
 			echo("<li><a href=\"borrow.php?op=my_reserve_basket\">"._theme_image("basket.png", get_opendb_lang_var('item_reserve_list'))."</a></li>");
 		}
 
-		if(is_user_granted_permission(PERM_VIEW_LISTINGS))
-		{
+		if(is_user_granted_permission(PERM_VIEW_LISTINGS)) {
 			echo("<li><form class=\"quickSearch\" action=\"listings.php\">".
 				"<input type=\"hidden\" name=\"search_list\" value=\"y\">".
 				//"<input type=\"hidden\" name=\"attribute_type\" value=\"UPC_ID\">".
@@ -78,17 +73,13 @@ function theme_header($pageid, $title, $include_menu, $mode, $user_id)
 				"</form></li>");
 		}
 		
-		if(is_user_granted_permission(PERM_VIEW_ADVANCED_SEARCH))
-		{
+		if(is_user_granted_permission(PERM_VIEW_ADVANCED_SEARCH)) {
 			echo("<li><a href=\"search.php\" title=\"".get_opendb_lang_var('advanced_search')."\">".get_opendb_lang_var('advanced')."</a></li>");
 		}
 		
-		if(strlen($user_id)>0)
-		{
+		if(strlen($user_id)>0) {
 			echo("<li class=\"login\"><a href=\"logout.php\">".get_opendb_lang_var('logout', 'user_id', $user_id)."</a></li>");
-		}
-		else
-		{
+		} else {
 			echo("<li class=\"login\"><a href=\"login.php?op=login\">".get_opendb_lang_var('login')."</a></li>");
 		}
 		
@@ -99,10 +90,8 @@ function theme_header($pageid, $title, $include_menu, $mode, $user_id)
 	
 	echo("<div id=\"content\" class=\"${pageid}Content\">");
 
-	if($include_menu)
-	{
-		if($pageid == 'admin')
-		{
+	if($include_menu) {
+		if($pageid == 'admin') {
 		    echo("\n<div id=\"admin-menu\" class=\"menuContainer toggleContainer\" onclick=\"return toggleVisible('admin-menu');\">
                 <span id=\"admin-menu-toggle\" class=\"menuToggle toggleHidden\">".get_opendb_lang_var('admin_tools')."</span>
                 <div id=\"admin-menu-content\" class=\"menuContent elementHidden\">
@@ -124,8 +113,7 @@ function theme_header($pageid, $title, $include_menu, $mode, $user_id)
 	}
 }
 
-function theme_footer($pageid, $user_id)
-{
+function theme_footer($pageid, $user_id) {
 	echo("</div>");
 	
 	if($pageid != 'install')
@@ -134,8 +122,7 @@ function theme_footer($pageid, $user_id)
 	echo("</body></html>");
 }
 
-function theme_css_map($pageid)
-{
+function theme_css_map($pageid) {
 	$themeCssMap = array(
 		'borrow'=>array('listings', 'item_display'),
 		'item_borrow'=>array('listings', 'item_display'),
@@ -150,9 +137,10 @@ function theme_css_map($pageid)
 		'item_review'=>array('item_input')
 	);
 
-	if(isset($themeCssMap))
+	if(isset($themeCssMap)) {
 		return $themeCssMap[$pageid];
-	else
+	} else {
 		return NULL;
+	}
 }
 ?>

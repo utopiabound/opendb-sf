@@ -22,25 +22,24 @@
 include_once("include/begin.inc.php");
 include_once("lib/GDImage.class.php");
 
+/**
+ * These tests will fail if the GD extension is not installed
+ */
 class GDImageTest extends PHPUnit_Framework_TestCase {
 	function testPngBasicFunctions() {
 		$gdImage = new GDImage('png');
 		$this->assertEquals('png', $gdImage->getImageType());
 		$this->assertEquals('png', $gdImage->getImageExtension());
 		$this->assertEquals('image/png', $gdImage->getImageContentType());
-		$this->assertEquals('./images/code_bg.png', $gdImage->_getImageSrc('code_bg'));
+		$this->assertEquals('images/code_bg.png', $gdImage->getImageSrc('code_bg'));
 		
-		$this->assertEquals(TRUE, $gdImage->isImageTypeValid('png'));
-		$this->assertEquals(FALSE, $gdImage->isImageTypeValid('xxx'));
-		
-		//print_r($gdImage->getErrors());
+		$this->assertTrue($gdImage->isImageTypeValid('png'));
+		$this->assertFalse($gdImage->isImageTypeValid('xxx'));
 	}
 	
 	function testJpgBasicFunctions() {
 		$gdImage = new GDImage('jpg');
 		$this->assertEquals('jpg', $gdImage->getImageExtension());
-		
-		//print_r($gdImage->getErrors());
 	}
 	
 	/**
@@ -50,27 +49,20 @@ class GDImageTest extends PHPUnit_Framework_TestCase {
 	function testAutoBasicFunctions() {
 		$gdImage = new GDImage('auto');
 		$this->assertEquals('png', $gdImage->getImageExtension());
-		
-		//print_r($gdImage->getErrors());
 	}
 	
 	function testGetImageConfig() {
 		$gdImage = new GDImage('png');
 		$image_config_r = $gdImage->getImageTypeConfig();
 		$this->assertEquals('png', $image_config_r['extension']);
-		
-		//print_r($gdImage->getErrors());
 	}
 	
 	function testImageCreate() {
 		$gdImage = new GDImage('png');
 		
-		$this->assertEquals(FALSE, $gdImage->createImage('code_bg.png'));
-		
-		$this->assertEquals(TRUE, $gdImage->createImage('code_bg'));
-		$this->assertEquals('./images/code_bg.png', $gdImage->getImageSrc());
-		
-		//print_r($gdImage->getErrors());
+		$this->assertFalse($gdImage->createImage('code_bg.png'));
+		$this->assertTrue($gdImage->createImage('code_bg'));
+		$this->assertEquals('images/code_bg.png', $gdImage->getImageSrc());
 	}
 	
 	// run after disabling ImagePNG

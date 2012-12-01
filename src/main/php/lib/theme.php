@@ -43,13 +43,11 @@ function get_content_type_charset() {
 	return $contentType;
 }
 
-function _theme_header($title=NULL, $inc_menu=TRUE)
-{
+function _theme_header($title=NULL, $inc_menu=TRUE) {
 	global $PHP_SELF;
 	global $HTTP_VARS;
 	
-	if(function_exists('theme_header'))
-	{
+	if(function_exists('theme_header')) {
 	    header("Cache-control: no-store");
 		header("Pragma: no-store");
 		header("Expires: 0");
@@ -60,17 +58,14 @@ function _theme_header($title=NULL, $inc_menu=TRUE)
 			$user_id = get_opendb_session_var('user_id');
 		
 		$include_menu = ($inc_menu!==FALSE && $inc_menu!=='N'?TRUE:FALSE);
-		if(!$include_menu && strlen($HTTP_VARS['mode'])==0)
-		{
+		if(!$include_menu && strlen($HTTP_VARS['mode'])==0) {
 			$HTTP_VARS['mode'] = 'no-menu';	
 		}
 		
 		$pageId = basename($PHP_SELF, '.php');
 		
 		return theme_header($pageId, $title, $include_menu, $HTTP_VARS['mode'], $user_id);
-	}
-	else
-	{
+	} else {
 		return NULL;
 	}
 }
@@ -82,25 +77,20 @@ function _theme_footer()
 	
 	$user_id = get_opendb_session_var('user_id');
 	
-	if(is_site_public_access())
-	{
+	if(is_site_public_access()) {
 		$user_id = NULL;
 	}
 
 	$pageId = basename($PHP_SELF, '.php');
 	
-	if(function_exists('theme_footer'))
-	{
+	if(function_exists('theme_footer')) {
 		return theme_footer($pageId, $user_id);
-	}
-	else
-	{
+	} else {
 		return NULL;
 	}
 }
 
-function get_theme_javascript($pageid)
-{
+function get_theme_javascript($pageid) {
 	$scripts[] = 'common.js';
 	$scripts[] = 'date.js';
 	$scripts[] = 'forms.js';
@@ -110,50 +100,42 @@ function get_theme_javascript($pageid)
 	$scripts[] = 'tabs.js';
 	$scripts[] = 'validation.js';	
 
-	if($pageid == 'admin')
-	{
-		$scripts[] = './javascript/overlibmws/overlibmws.js';
-		$scripts[] = './javascript/overlibmws/overlibmws_function.js';
-		$scripts[] = './javascript/overlibmws/overlibmws_iframe.js';
-		$scripts[] = './javascript/overlibmws/overlibmws_hide.js';
-		$scripts[] = './javascript/admin/tooltips.js';
+	if($pageid == 'admin') {
+		$scripts[] = 'javascript/overlibmws/overlibmws.js';
+		$scripts[] = 'javascript/overlibmws/overlibmws_function.js';
+		$scripts[] = 'javascript/overlibmws/overlibmws_iframe.js';
+		$scripts[] = 'javascript/overlibmws/overlibmws_hide.js';
+		$scripts[] = 'javascript/admin/tooltips.js';
 	}
 	
 	$buffer = '';
 	
-	while(list(,$script) = each($scripts))
-	{
+	while(list(,$script) = each($scripts)) {
 		$buffer .= get_javascript($script);
 	}
 	
 	return $buffer;
 }
 
-function get_theme_css($pageid, $mode = NULL)
-{
+function get_theme_css($pageid, $mode = NULL) {
 	global $_OpendbBrowserSniffer;
 	
 	$buffer = "\n";
 	
 	$file_list = _theme_css_file_list($pageid);
-	if(count($file_list)>0)
-	{
-		while(list(, $css_file_r) = each($file_list))
-		{
-			if(strlen($css_file_r['browser'])==0 || $_OpendbBrowserSniffer->isBrowser($css_file_r['browser']))
-			{
+	if(count($file_list)>0) {
+		while(list(, $css_file_r) = each($file_list)) {
+			if(strlen($css_file_r['browser'])==0 
+					|| $_OpendbBrowserSniffer->isBrowser($css_file_r['browser'])) {
 				$buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$css_file_r['file']."\">\n";
 			}
 		}
 	}
 	
-	if($mode == 'printable' || $mode == 'no-menu')
-	{
+	if($mode == 'printable' || $mode == 'no-menu') {
 		$file_list = _theme_css_file_list($pageid, $mode);
-		if(count($file_list)>0)
-		{
-			while(list(, $css_file_r) = each($file_list))
-			{
+		if(count($file_list)>0) {
+			while(list(, $css_file_r) = each($file_list)) {
 				$buffer .= "<link rel=\"stylesheet\" type=\"text/css\" href=\"".$css_file_r['file']."\">\n";
 			}
 		}
@@ -162,26 +144,22 @@ function get_theme_css($pageid, $mode = NULL)
 	return $buffer;
 }
 
-function _theme_css_map($pageid)
-{
+function _theme_css_map($pageid) {
 	if(function_exists('theme_css_map'))
 		return theme_css_map($pageid);
 	else
 		return NULL;
 }
 
-function _theme_css_file_list($pageid, $mode = NULL)
-{
+function _theme_css_file_list($pageid, $mode = NULL) {
 	$css_file_list = array();
 	
 	add_css_files('style', $mode, $css_file_list);
 
 	$css_map = _theme_css_map($pageid);
-	if(is_not_empty_array($css_map))
-	{
+	if(is_not_empty_array($css_map)) {
 		reset($css_map);
-		while(list(,$page) = each($css_map))
-		{
+		while(list(,$page) = each($css_map)) {
 			add_css_files($page, $mode, $css_file_list);
 		}
 	}
@@ -191,65 +169,50 @@ function _theme_css_file_list($pageid, $mode = NULL)
 	return $css_file_list;
 }
 
-function add_css_files($pageid, $mode, &$css_file_list)
-{
+function add_css_files($pageid, $mode, &$css_file_list) {
 	global $_OpendbBrowserSniffer;
 	
 	$theme = get_opendb_site_theme();
 	
-	if(strlen($mode)==0)
-	{
-		if(strlen($theme)>0 && file_exists("./css/$theme/${pageid}.css"))
-		{
-			$css_file_list[] = array(file=>"./css/$theme/${pageid}.css");
+	if(strlen($mode)==0) {
+		if(strlen($theme)>0 && file_exists("css/$theme/${pageid}.css")) {
+			$css_file_list[] = array(file=>"css/$theme/${pageid}.css");
 		}
 		
 		$browsers_r = $_OpendbBrowserSniffer->getSupportedBrowsers();
-		while(list(,$browser) = each($browsers_r))
-		{
+		while(list(,$browser) = each($browsers_r)) {
 			$suffix = str_replace(".", NULL, $browser);
 			
-			if(strlen($theme)>0 && file_exists("./css/$theme/${pageid}_${suffix}.css"))
-			{
-				$css_file_list[] = array(file=>"./css/$theme/${pageid}_${suffix}.css", browser=>$browser);
+			if(strlen($theme)>0 && file_exists("css/$theme/${pageid}_${suffix}.css")) {
+				$css_file_list[] = array(file=>"css/$theme/${pageid}_${suffix}.css", browser=>$browser);
 			}
 		}
-	}
-	else if($mode == 'printable')
-	{
-		if(strlen($theme)>0 && file_exists("./css/$theme/${pageid}_print.css"))
-		{
-			$css_file_list[] = array(file=>"./css/$theme/${pageid}_print.css");
+	} else if($mode == 'printable') {
+		if(strlen($theme)>0 && file_exists("css/$theme/${pageid}_print.css")) {
+			$css_file_list[] = array(file=>"css/$theme/${pageid}_print.css");
 		}
-	}
-	else if($mode == 'no-menu')
-	{
-		if(strlen($theme)>0 && file_exists("./css/$theme/${pageid}_nomenu.css"))
-		{
-			$css_file_list[] = array(file=>"./css/$theme/${pageid}_nomenu.css");
+	} else if($mode == 'no-menu') {
+		if(strlen($theme)>0 && file_exists("css/$theme/${pageid}_nomenu.css")) {
+			$css_file_list[] = array(file=>"css/$theme/${pageid}_nomenu.css");
 		}
 	}
 }
 
-function get_theme_search_dir_list()
-{
+function get_theme_search_dir_list() {
 	$theme = get_opendb_site_theme();
 	$language = strtolower(get_opendb_site_language());
 	
 	$dirPath = array();
 			
-	if(strlen($theme)>0 && strlen($language)>0)
-	{
+	if(strlen($theme)>0 && strlen($language)>0) {
 		$dirPath[] = "images/$theme/$language";
 	}
 	
-	if(strlen($theme)>0)
-	{
+	if(strlen($theme)>0) {
 		$dirPath[] = "images/$theme";
 	}			
 	
-	if(strlen($language)>0)
-	{
+	if(strlen($language)>0) {
 		$dirPath[] = "images/default/$language";
 	}
 	
@@ -259,14 +222,12 @@ function get_theme_search_dir_list()
 	return $dirPath;
 }
 
-function get_theme_search_site_dir_list()
-{
+function get_theme_search_site_dir_list() {
 	$theme = get_opendb_site_theme();
 	
 	$dirPath = array();
 	
-	if(strlen($theme)>0)
-	{
+	if(strlen($theme)>0) {
 		$dirPath[] = "images/$theme/site";
 	}
 	
@@ -275,24 +236,24 @@ function get_theme_search_site_dir_list()
 	return $dirPath;
 }
 
-function _theme_image_src($src, $PermitOtherExtension = TRUE)
-{
-	if(strlen($src)>0)
-	{
-		if(function_exists('theme_image_src'))
-		{
+function _theme_image_src($src, $PermitOtherExtension = TRUE) {
+	if(strlen($src)>0) {
+		if(function_exists('theme_image_src')) {
 			$theme_image_src = theme_image_src($src);
-			if(strlen($theme_image_src)>0 && file_exists($theme_image_src))
+			if(strlen($theme_image_src)>0 && file_exists($theme_image_src)) {
 				return $theme_image_src;
+			}
 		}
 		
-		if(starts_with($src, 'images/site/'))
+		if(starts_with($src, 'images/site/')) {
 			$dirPaths = get_theme_search_site_dir_list();
-		else
+		} else {
 			$dirPaths = get_theme_search_dir_list();
+		}
 		
 		$src = safe_filename($src);
 		$file_r = parse_file($src);
+
 		$src = $file_r['name'];
 		
 		// this might seem a little weird, but its simpler code to write
@@ -305,7 +266,7 @@ function _theme_image_src($src, $PermitOtherExtension = TRUE)
 		while(list(,$dir) = each($dirPaths)) {
 			reset($extension_r);
 			while(list(,$extension) = each($extension_r)) {
-				$file = './'.$dir.'/'.$src.'.'.$extension;
+				$file = $dir.'/'.$src.'.'.$extension;
 				if(file_exists($file)) {
 					return $file;
 				}
@@ -322,7 +283,7 @@ function find_filename() {
 		reset($extension_r);
 		while(list(,$extension) = each($extension_r))
 		{
-			$file = './'.$dir.'/'.$src.'.'.$extension;
+			$file = $dir.'/'.$src.'.'.$extension;
 			if(file_exists($file))
 			{
 				return $file;
@@ -339,8 +300,7 @@ function find_filename() {
  * @param unknown_type $src
  * @return unknown
  */
-function safe_filename($src)
-{
+function safe_filename($src) {
 	// ensure dealing with only one path separator!
 	$src = str_replace("\\", "/", $src);
 	
@@ -384,27 +344,21 @@ function safe_filename($src)
 
 	4)	If _theme_image_src returns FALSE, then return the $src, without extension, in initcap format.
 */
-function _theme_image($src, $title=NULL, $type=NULL)
-{
+function _theme_image($src, $title=NULL, $type=NULL) {
 	$file_r = parse_file(basename($src));
 	$alt = ucfirst($file_r['name']);
 		
-	if(function_exists('theme_image') && ($value = theme_image($src, $title, $type))!==FALSE)
+	if(function_exists('theme_image') && ($value = theme_image($src, $title, $type))!==FALSE) {
 		return $value;
-	else if ( ($src = _theme_image_src($src)) !== FALSE)
-	{
+	} else if ( ($src = _theme_image_src($src)) !== FALSE) {
 		return "<img src=\"$src\""
 			.(strlen($alt)>0?" alt=\"".$alt."\"":"")
 			.(strlen($title)>0?" title=\"$title\"":"")
 			.(strlen($type)>0?" class=\"$type\"":"")
 			.">";
-	}
-	else if($type == "action") // Special type, that if not handled, will be handled back at caller instead!
-	{
+	} else if($type == "action") { // Special type, that if not handled, will be handled back at caller instead!
 		return FALSE;
-	}
-	else
-	{
+	} else {
 		return $alt;
 	}	
 }
@@ -414,13 +368,11 @@ function _theme_image($src, $title=NULL, $type=NULL)
  *
  * @return unknown
  */
-function _theme_graph_config()
-{
+function _theme_graph_config() {
 	$theme = get_opendb_site_theme();
 
 	$cssParser = new cssparser(FALSE);
-	if(strlen($theme)>0 && $cssParser->Parse("./css/$theme/stats.css"))
-	{
+	if(strlen($theme)>0 && $cssParser->Parse("css/$theme/stats.css")) {
 		$stats_graph_config_r = $cssParser->GetSection('.OpendbStatsGraphs');
 		return $stats_graph_config_r;
 	}
@@ -428,9 +380,8 @@ function _theme_graph_config()
 	return FALSE;
 }
 
-function is_exists_theme($theme)
-{
-	if(strlen($theme)<=20 && file_exists("./theme/$theme/theme.php"))
+function is_exists_theme($theme) {
+	if(strlen($theme)<=20 && file_exists("theme/$theme/theme.php"))
 		return TRUE;
 	else
 		return FALSE;
@@ -439,15 +390,12 @@ function is_exists_theme($theme)
 /**
 	Generate a list of user themes.
 */
-function get_user_theme_r()
-{
-	$handle=opendir('./theme');
+function get_user_theme_r() {
+	$handle=opendir('theme');
 	while ($file = readdir($handle))
     {
-		if(!ereg("^[.]",$file) && is_dir("./theme/$file"))
-		{
-			if(is_exists_theme($file))
-			{
+		if(!ereg("^[.]",$file) && is_dir("theme/$file")) {
+			if(is_exists_theme($file)) {
 				$themes[] = $file;
 			}
 		}

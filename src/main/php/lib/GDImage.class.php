@@ -148,8 +148,10 @@ class GDImage {
 			
 			$src = _theme_image_src($filename, FALSE);
 			if($src!==FALSE) {
+				echo "FOUND" . $src . "\n";
 				return $src;
 			} else {
+				echo "NOTFOUND\n";
 				$this->addError('Name source not found: '.$filename);
 				return FALSE;
 			}
