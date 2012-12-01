@@ -17,17 +17,12 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-function get_javascript($filename)
-{
-	if(basename($filename) == $filename)
-	{
-		$filename = "./javascript/$filename";
-	}
+function get_javascript($filename) {
+	$filename = "javascript/$filename";
 	return "<script src=\"${filename}\" language=\"JavaScript\" type=\"text/javascript\"></script>\n";
 }
 
-function encode_javascript_array($args)
-{
+function encode_javascript_array($args) {
 	$buf="";
 	for ($i=0; $i<count($args); $i++)
 	{

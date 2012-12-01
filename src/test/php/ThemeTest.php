@@ -27,7 +27,7 @@ class ThemeTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($themes));
 	}
 	
-	function testFindThemeImage() {
+	function testThemeImageSrc() {
 		global $_OPENDB_THEME;
 		
 		// lets just ensure that the default theme is active
@@ -35,5 +35,16 @@ class ThemeTest extends PHPUnit_Framework_TestCase {
 		
 		$src = theme_image_src('code_bg.png');
 		$this->assertEquals('images/code_bg.png', $src);
+		
+		$src = theme_image_src('images/site/imdb.gif');
+		$this->assertEquals('images/site/imdb.gif', $src);
+	}
+	
+	function testGetJavascript() {
+		$js = get_theme_javascript('admin');
+		$this->assertTrue(strpos($js, "javascript/overlibmws/overlibmws_function.js") !== FALSE);
+		
+		$js = get_theme_javascript('item_input');
+		$this->assertTrue(strpos($js, "javascript/overlibmws/overlibmws_function.js") === FALSE);
 	}
 }

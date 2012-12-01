@@ -52,10 +52,11 @@ function _theme_header($title=NULL, $inc_menu=TRUE) {
 		header("Pragma: no-store");
 		header("Expires: 0");
 		
-		if(is_site_public_access())
+		if(is_site_public_access()) {
 			$user_id = NULL;
-		else
+		} else {
 			$user_id = get_opendb_session_var('user_id');
+		}
 		
 		$include_menu = ($inc_menu!==FALSE && $inc_menu!=='N'?TRUE:FALSE);
 		if(!$include_menu && strlen($HTTP_VARS['mode'])==0) {
@@ -99,11 +100,11 @@ function get_theme_javascript($pageid) {
 	$scripts[] = 'validation.js';	
 
 	if($pageid == 'admin') {
-		$scripts[] = 'javascript/overlibmws/overlibmws.js';
-		$scripts[] = 'javascript/overlibmws/overlibmws_function.js';
-		$scripts[] = 'javascript/overlibmws/overlibmws_iframe.js';
-		$scripts[] = 'javascript/overlibmws/overlibmws_hide.js';
-		$scripts[] = 'javascript/admin/tooltips.js';
+		$scripts[] = 'overlibmws/overlibmws.js';
+		$scripts[] = 'overlibmws/overlibmws_function.js';
+		$scripts[] = 'overlibmws/overlibmws_iframe.js';
+		$scripts[] = 'overlibmws/overlibmws_hide.js';
+		$scripts[] = 'admin/tooltips.js';
 	}
 	
 	$buffer = '';
