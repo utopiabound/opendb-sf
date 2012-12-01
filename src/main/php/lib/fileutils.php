@@ -43,7 +43,12 @@ function get_opendb_file($filename) {
  * @see get_opendb_basedir()
  */
 function file_open($filename, $mode) {
-	return @fopen(get_opendb_file($filename), $mode);
+	$resource = @fopen(get_opendb_file($filename), $mode);
+	if ($resource !== FALSE) {
+		return $resource;
+	} else {
+		return NULL;
+	}
 }
 
 /**
@@ -66,8 +71,7 @@ function get_file_list($dir, $ext=NULL) {
 			    // get the extension first.
 			    $fileext = get_file_ext($file);
 	
-				if($ext==NULL ||
-						(!is_array($ext) && $fileext == $ext) ||
+				if($ext==NULL || (!is_array($ext) && $fileext == $ext) ||
 						(is_array($ext) && in_array($fileext, $ext))) {
 	                   $filelist[] = $file;
 				}
@@ -143,6 +147,8 @@ function parse_file($filename) {
 /**
 	Will return the filename extension if it is legal. Or false
 	otherwise.
+	
+	@param $extensions - comma delimited set of extensions, NOT an ARRAY!!!
 */
 function get_valid_extension($filename, $extensions) {
 	$ext = strtolower(get_file_ext($filename));
