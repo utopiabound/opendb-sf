@@ -18,6 +18,9 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+// This must be first - includes config.php
+require_once("webapp/include/begin.inc.php");
+
 require_once("lib/GDImage.class.php");
 
 class GDImageTest extends PHPUnit_Framework_TestCase {

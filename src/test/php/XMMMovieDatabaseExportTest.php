@@ -18,6 +18,8 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+include_once("include/begin.inc.php");
+
 include_once("lib/export/XMMMovieDatabasePlugin.class.php");
 
 class XMMMovieDatabaseExportTest extends PHPUnit_Framework_TestCase {

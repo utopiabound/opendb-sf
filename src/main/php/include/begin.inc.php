@@ -40,9 +40,9 @@ else if(extension_loaded('mysql'))
 	include_once('lib/database/mysql.inc.php');
 }
 
-if(file_exists("./include/local.config.php"))
+if(file_exists("include/local.config.php"))
 {
-	include_once("./include/local.config.php");
+	include_once("include/local.config.php");
 }		
 
 include_once("lib/config.php");
@@ -205,7 +205,7 @@ if(function_exists('db_connect'))
 			
 	if(strlen($_OPENDB_THEME)>0)
 	{
-		include_once("./theme/$_OPENDB_THEME/theme.php");
+		include_once("theme/$_OPENDB_THEME/theme.php");
 	}
 }
 else
