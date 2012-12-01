@@ -25,6 +25,11 @@ function get_opendb_basedir() {
 	return dirname($currentDir);
 }
 
+function get_opendb_file($filename) {
+	$baseDir = get_opendb_basedir();
+	return $baseDir . '/' . $filename;
+}
+
 /**
  * Its assumed that the filename will be relative to the base directory returned
  * by get_opendb_basedir()
@@ -38,8 +43,7 @@ function get_opendb_basedir() {
  * @see get_opendb_basedir()
  */
 function file_open($filename, $mode) {
-	$baseDir = get_opendb_basedir();
-	return fopen($baseDir . '/' . $filename, $mode);
+	return @fopen(get_opendb_file($filename), $mode);
 }
 
 /**
@@ -55,8 +59,7 @@ function file_open($filename, $mode) {
 function get_file_list($dir, $ext=NULL) {
 	$filelist = array();
 	
-	$baseDir = get_opendb_basedir();
-	$handle = @opendir($baseDir . '/' . $dir);
+	$handle = @opendir(get_opendb_file($dir));
 	if($handle) {
 		while ($file = readdir($handle)) {
 			if($file != "." && $file != ".." && !is_dir($dir.'/'.$file)) {
@@ -116,22 +119,6 @@ function dir_tempnam($dir, $prefix) {
 }
 
 /**
-	Alternative fpassthru which opens file for us, and streams out the
-	contents, 4096 bytes at a time
-*/
-function fpassthru2($filename) {
-	$fp = file_open($filename, 'rb');
-	if($fp) {
-    	while(!feof($fp)) {
-    	   $buf = fread($fp, 4096);
-    	   echo $buf;
-		}
-	} else {
-	    return FALSE;
-	}
-}
-
-/**
 	Get file extension.
 */
 function get_file_ext($filename) {
@@ -177,25 +164,8 @@ function get_valid_extension($filename, $extensions) {
 	return FALSE;
 }
 
-/**
- * Validate that a file reference is a legal relative opendb file to
- * save into the following locations:
- * 	importcache
- * 	itemcache
- * 	upload
- *
- * @param unknown_type $filename
- */
-function is_exists_opendb_file($fileLocation) {
-	if(strlen($fileLocation)>0 && $fileLocation!='.' && $fileLocation != '..') {
-		return TRUE;
-	}
-	
-	//else
-	return FALSE;
-}
-
 function delete_file($filename) {
+	$filename = get_opendb_file($filename);
 	if(@is_file($filename)) {
 		if(@unlink($filename)) {
 			opendb_logger(OPENDB_LOG_INFO, __FILE__, __FUNCTION__, NULL, array($filename));

@@ -82,6 +82,24 @@ function fetch_import_cache_r($sequence_number, $user_id = NULL)
 }
 
 /**
+ * Validate that a file reference is a legal relative opendb file to
+ * save into the following locations:
+ * 	importcache
+ * 	itemcache
+ * 	upload
+ *
+ * @param unknown_type $filename
+ */
+function is_valid_opendb_file($fileLocation) {
+	if(strlen($fileLocation)>0 && $fileLocation!='.' && $fileLocation != '..') {
+		return TRUE;
+	}
+
+	//else
+	return FALSE;
+}
+
+/**
  * Returns an open file pointer that must be closed
  *
  * @param unknown_type $sequence_number
@@ -98,7 +116,7 @@ function import_cache_fetch_file($sequence_number)
 		if ($record_r!== FALSE)
 		{
 			$directory = import_cache_get_cache_directory();
-			if(is_exists_opendb_file($directory.'/'.$record_r['cache_file']))
+			if(is_valid_opendb_file($directory.'/'.$record_r['cache_file']))
 			{
 				$import_file = file_open($directory.'/'.$record_r['cache_file'], 'rb');
 				if($import_file)

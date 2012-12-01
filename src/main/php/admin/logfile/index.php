@@ -76,8 +76,12 @@ if(strlen($logging_config_r['file'])>0) {
 		    header("Content-disposition: attachment; filename=$filename");
 			header("Content-type: application/octetstream");
 			header("Content-Length: ".filesize($logging_config_r['file']));
-                
-			fpassthru2($logging_config_r['file']);
+			
+			$fp = file_open($logging_config_r['file'], 'rb');
+			if($fp) {
+				fpassthru($fp);
+			}
+			fclose($fp);
 
 			//no theme here!
 			return;
