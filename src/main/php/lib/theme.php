@@ -199,9 +199,9 @@ function add_css_files($pageid, $mode, &$css_file_list)
 	
 	if(strlen($mode)==0)
 	{
-		if(strlen($theme)>0 && file_exists("./theme/$theme/${pageid}.css"))
+		if(strlen($theme)>0 && file_exists("./css/$theme/${pageid}.css"))
 		{
-			$css_file_list[] = array(file=>"./theme/$theme/${pageid}.css");
+			$css_file_list[] = array(file=>"./css/$theme/${pageid}.css");
 		}
 		
 		$browsers_r = $_OpendbBrowserSniffer->getSupportedBrowsers();
@@ -209,24 +209,24 @@ function add_css_files($pageid, $mode, &$css_file_list)
 		{
 			$suffix = str_replace(".", NULL, $browser);
 			
-			if(strlen($theme)>0 && file_exists("./theme/$theme/${pageid}_${suffix}.css"))
+			if(strlen($theme)>0 && file_exists("./css/$theme/${pageid}_${suffix}.css"))
 			{
-				$css_file_list[] = array(file=>"./theme/$theme/${pageid}_${suffix}.css", browser=>$browser);
+				$css_file_list[] = array(file=>"./css/$theme/${pageid}_${suffix}.css", browser=>$browser);
 			}
 		}
 	}
 	else if($mode == 'printable')
 	{
-		if(strlen($theme)>0 && file_exists("./theme/$theme/${pageid}_print.css"))
+		if(strlen($theme)>0 && file_exists("./css/$theme/${pageid}_print.css"))
 		{
-			$css_file_list[] = array(file=>"./theme/$theme/${pageid}_print.css");
+			$css_file_list[] = array(file=>"./css/$theme/${pageid}_print.css");
 		}
 	}
 	else if($mode == 'no-menu')
 	{
-		if(strlen($theme)>0 && file_exists("./theme/$theme/${pageid}_nomenu.css"))
+		if(strlen($theme)>0 && file_exists("./css/$theme/${pageid}_nomenu.css"))
 		{
-			$css_file_list[] = array(file=>"./theme/$theme/${pageid}_nomenu.css");
+			$css_file_list[] = array(file=>"./css/$theme/${pageid}_nomenu.css");
 		}
 	}
 }
@@ -240,22 +240,20 @@ function get_theme_search_dir_list()
 			
 	if(strlen($theme)>0 && strlen($language)>0)
 	{
-		$dirPath[] = "theme/$theme/images/$language";
+		$dirPath[] = "images/$theme/$language";
 	}
 	
 	if(strlen($theme)>0)
 	{
-		$dirPath[] = "theme/$theme/images";
-		$dirPath[] = "theme/$theme";
+		$dirPath[] = "images/$theme";
 	}			
 	
 	if(strlen($language)>0)
 	{
-		$dirPath[] = "theme/default/images/$language";
+		$dirPath[] = "images/default/$language";
 	}
 	
-	$dirPath[] = "theme/default/images";
-	$dirPath[] = "theme/default";
+	$dirPath[] = "images/default";
 	$dirPath[] = "images";
 
 	return $dirPath;
@@ -269,10 +267,10 @@ function get_theme_search_site_dir_list()
 	
 	if(strlen($theme)>0)
 	{
-		$dirPath[] = "theme/$theme/images/site";
+		$dirPath[] = "images/$theme/site";
 	}
 	
-	$dirPath[] = "site/images";
+	$dirPath[] = "images/site";
 	
 	return $dirPath;
 }
@@ -288,7 +286,7 @@ function _theme_image_src($src, $PermitOtherExtension = TRUE)
 				return $theme_image_src;
 		}
 		
-		if(starts_with($src, 'site/images/'))
+		if(starts_with($src, 'images/site/'))
 			$dirPaths = get_theme_search_site_dir_list();
 		else
 			$dirPaths = get_theme_search_dir_list();
@@ -421,7 +419,7 @@ function _theme_graph_config()
 	$theme = get_opendb_site_theme();
 
 	$cssParser = new cssparser(FALSE);
-	if(strlen($theme)>0 && $cssParser->Parse("./theme/$theme/stats.css"))
+	if(strlen($theme)>0 && $cssParser->Parse("./css/$theme/stats.css"))
 	{
 		$stats_graph_config_r = $cssParser->GetSection('.OpendbStatsGraphs');
 		return $stats_graph_config_r;

@@ -18,7 +18,7 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once('../../lib/phpthumb/phpthumb.class.php');
+include_once('./lib/phpthumb/phpthumb.class.php');
 ?>
 <html>
 <head>
@@ -42,10 +42,10 @@ if(@$_GET['op'] == 'generate')
 	$phpThumb->setParameter('config_output_format', 'jpeg');
 	$phpThumb->setParameter('config_cache_directory', '/tmp');
 	
-	$phpThumb->setSourceFilename(realpath('./itemcache/5.cache.jpeg'));
+	$phpThumb->setSourceFilename(realpath('./5.cache.jpeg'));
 	
 	// generate & output thumbnail
-	if ($phpThumb->GenerateThumbnail() && $phpThumb->RenderToFile(realpath('./itemcache') . '/5_THUMB.cache.jpeg')) 
+	if ($phpThumb->GenerateThumbnail() && $phpThumb->RenderToFile(realpath('../../itemcache') . '/5_THUMB.cache.jpeg')) 
 	{
 		echo '<td>Thumbnail generated<br />';
 		echo('<img src="./itemcache/5_THUMB.cache.jpeg"></td>');
