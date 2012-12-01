@@ -6,6 +6,9 @@
 		<phpmaven.release.number>2.0.2</phpmaven.release.number>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<phpunit.version>3.6.10</phpunit.version>
+
+        <phpmaven.jettycgi.version>2.0.2</phpmaven.jettycgi.version>
+        <phpmaven.maven-jetty-plugin.version>6.1.10</phpmaven.maven-jetty-plugin.version>
 	</properties>
 
 	<groupId>com.pellcorp</groupId>
@@ -41,13 +44,21 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.phpunit</groupId>
-			<artifactId>phpunit5</artifactId>
-			<version>3.3.9</version>
+                <groupId>org.phpmaven</groupId>
+                <artifactId>maven-php-jettycgi</artifactId>
+                <version>${phpmaven.jettycgi.version}</version>
+            </dependency>
+	
+		<dependency>
+			<groupId>de.phpunit</groupId>
+			<artifactId>PHPUnit</artifactId>
+			<version>3.6.9</version>
+			<type>phar</type>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
+	
 	<pluginRepositories>
 		<pluginRepository>
 			<id>release-repos.php-maven.org</id>
