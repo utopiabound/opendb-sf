@@ -18,10 +18,10 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/database.php");
-include_once("./lib/logging.php");
-include_once("./lib/fileutils.php");
-include_once("./lib/utils.php");
+include_once("lib/database.php");
+include_once("lib/logging.php");
+include_once("lib/fileutils.php");
+include_once("lib/utils.php");
 
 function fix_10_version($version)
 {
@@ -839,13 +839,13 @@ function build_upgrader_list(&$upgrader_rs, &$latest_to_version)
    	$latest_to_version = NULL;
   	
     $upgrader_rs = array();
-    $handle	= @opendir('./install/upgrade/');
+    $handle	= @opendir('install/upgrade/');
 	while ($file = readdir($handle))
 	{
 	    if (!preg_match("/^\./",$file) && preg_match("/Upgrader_(.*).class.php$/",$file,$regs))
 		{
 		    $upgraderRef = 'Upgrader_'.$regs[1];
-			include_once('./install/upgrade/'.$upgraderRef.'.class.php');
+			include_once('install/upgrade/'.$upgraderRef.'.class.php');
 			$upgraderPlugin = new $upgraderRef();
 			if($upgraderPlugin !== NULL)
 			{
@@ -991,7 +991,7 @@ function get_upgraders_rs($db_version, $opendb_version, &$latest_to_version)
 
 function is_upgrader_plugin($plugin)
 {
-	if(strlen($plugin)>0 && file_exists('./install/upgrade/'.$plugin.'.class.php'))
+	if(strlen($plugin)>0 && file_exists('install/upgrade/'.$plugin.'.class.php'))
 		return TRUE;
 	else
 		return FALSE;

@@ -23,13 +23,13 @@ if(!defined('OPENDB_ADMIN_TOOLS'))
 	die('Admin tools not accessible directly');
 }
 
-include_once("./admin/s_item_type_group/functions.php");
-include_once("./admin/s_attribute_type/functions.php");
+include_once("admin/s_item_type_group/functions.php");
+include_once("admin/s_attribute_type/functions.php");
 
-include_once("./lib/site_plugin.php");
-include_once("./lib/item_type.php");
-include_once("./lib/item_type_group.php");
-include_once("./lib/install.php");
+include_once("lib/site_plugin.php");
+include_once("lib/item_type.php");
+include_once("lib/item_type_group.php");
+include_once("lib/install.php");
 
 // attributes delivered as part of core installation or included in optional patches
 $_CORE_ATTRIBUTE_TYPES = array(

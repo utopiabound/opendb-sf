@@ -29,8 +29,8 @@
 	2008-07-17
 	Changes for getting books based in ISBN13 number, getting of reviews and getting book images.
 */
-include_once("./lib/SitePlugin.class.inc");
-include_once("./lib/site/amazonutils.php");
+include_once("lib/SitePlugin.class.inc");
+include_once("lib/site/amazonutils.php");
 		
 class amazonuk extends SitePlugin
 {

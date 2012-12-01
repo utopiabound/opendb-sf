@@ -18,13 +18,13 @@
 $ServerInfo['gd_string']  = 'unknown';
 $ServerInfo['gd_numeric'] = 0;
 //ob_start();
-if (!include_once('../../lib/phpthumb/phpthumb.functions.php')) {
+if (!include_once('../.lib/phpthumb/phpthumb.functions.php')) {
 	ob_end_flush();
-	die('failed to include_once("../../lib/phpthumb/phpthumb.functions.php")');
+	die('failed to include_once("../.lib/phpthumb/phpthumb.functions.php")');
 }
-if (!include_once('../../lib/phpthumb/phpthumb.class.php')) {
+if (!include_once('../.lib/phpthumb/phpthumb.class.php')) {
 	//ob_end_flush();
-	die('failed to include_once("../../lib/phpthumb/phpthumb.class.php")');
+	die('failed to include_once("../.lib/phpthumb/phpthumb.class.php")');
 }
 //ob_end_clean();
 $phpThumb = new phpThumb();

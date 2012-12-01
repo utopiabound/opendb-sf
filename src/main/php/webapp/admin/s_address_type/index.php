@@ -23,11 +23,11 @@ if(!defined('OPENDB_ADMIN_TOOLS'))
 	die('Admin tools not accessible directly');
 }
 
-include_once("./admin/s_item_type/functions.php");
-include_once("./admin/s_attribute_type/functions.php");
+include_once("admin/s_item_type/functions.php");
+include_once("admin/s_attribute_type/functions.php");
 
-include_once("./lib/site_plugin.php");
-include_once("./lib/address_type.php");
+include_once("lib/site_plugin.php");
+include_once("lib/address_type.php");
 
 /*
 * s_address_type			varchar(10) NOT NULL,

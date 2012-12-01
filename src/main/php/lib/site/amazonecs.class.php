@@ -38,7 +38,7 @@
 	9782742747955
 	9782729606107
 */
-include_once("./lib/SitePlugin.class.inc");
+include_once("lib/SitePlugin.class.inc");
 
 function amazonItemFactory($itemType)
 {

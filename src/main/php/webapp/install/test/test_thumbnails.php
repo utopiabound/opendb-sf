@@ -18,7 +18,7 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once('./lib/phpthumb/phpthumb.class.php');
+include_once('lib/phpthumb/phpthumb.class.php');
 ?>
 <html>
 <head>

@@ -18,12 +18,12 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/chart/StatsChart.class.php");
+include_once("lib/chart/StatsChart.class.php");
 
-include_once("./lib/jpgraph/jpgraph.php");
-include_once("./lib/jpgraph/jpgraph_pie.php");
-include_once("./lib/jpgraph/jpgraph_pie3d.php");
-include_once("./lib/jpgraph/jpgraph_bar.php");
+include_once("lib/jpgraph/jpgraph.php");
+include_once("lib/jpgraph/jpgraph_pie.php");
+include_once("lib/jpgraph/jpgraph_pie3d.php");
+include_once("lib/jpgraph/jpgraph_bar.php");
 
 class StatsChartImpl extends StatsChart
 {

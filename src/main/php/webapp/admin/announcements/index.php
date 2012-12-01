@@ -25,15 +25,15 @@ if(!defined('OPENDB_ADMIN_TOOLS'))
 	die('Admin tools not accessible directly');
 }
 
-include_once("./lib/database.php");
-include_once("./lib/auth.php");
-include_once("./lib/logging.php");
+include_once("lib/database.php");
+include_once("lib/auth.php");
+include_once("lib/logging.php");
 
-include_once("./lib/user.php");
-include_once("./lib/announcement.php");
-include_once("./lib/datetime.php");
-include_once("./lib/borrowed_item.php");
-include_once("./lib/listutils.php");
+include_once("lib/user.php");
+include_once("lib/announcement.php");
+include_once("lib/datetime.php");
+include_once("lib/borrowed_item.php");
+include_once("lib/listutils.php");
 
 function get_edit_announcement_input_form($announcement_r, $HTTP_VARS=NULL)
 {

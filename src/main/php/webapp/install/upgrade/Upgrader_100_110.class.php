@@ -18,8 +18,8 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/OpenDbUpgrader.class.php");
-include_once("./lib/filecache.php");
+include_once("lib/OpenDbUpgrader.class.php");
+include_once("lib/filecache.php");
 
 /**
 @param $filename - assumes its been basenamed
@@ -95,7 +95,7 @@ class Upgrader_100_110 extends OpenDbUpgrader
 	
 	function executeStep2($stepPart)
 	{
-		return exec_install_sql_file("./admin/s_status_type/sql/R-Related.sql", $errors);
+		return exec_install_sql_file("admin/s_status_type/sql/R-Related.sql", $errors);
 	}
 	
 	/**

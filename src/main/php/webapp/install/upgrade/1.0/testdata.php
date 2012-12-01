@@ -5,9 +5,9 @@ chdir('../../../');
 // This must be first - includes config.php
 require_once("./include/begin.inc.php");
 
-include_once("./lib/database.php");
+include_once("lib/database.php");
 
-include_once("./lib/item_attribute.php");
+include_once("lib/item_attribute.php");
 
 function insert_item_image_attrib_and_cache($item_attrib_r, $count)
 {
@@ -38,8 +38,8 @@ function insert_item_image_attrib_and_cache($item_attrib_r, $count)
 	db_query("INSERT INTO file_cache(cache_type, cache_date, expire_date, url, upload_file_ind, cache_file, cache_file_thumb)
 			VALUES ('ITEM', NOW(), NULL, '$url', 'Y', '$cacheFile', '$cacheFileThumb')");
 	
-	copy("./install/upgrade/1.0/image.jpg", "./itemcache/".$cacheFile);
-	copy("./install/upgrade/1.0/image.jpg", "./itemcache/".$cacheFileThumb);
+	copy("install/upgrade/1.0/image.jpg", "./itemcache/".$cacheFile);
+	copy("install/upgrade/1.0/image.jpg", "./itemcache/".$cacheFileThumb);
 }
 
 function insert_unique_imageurl()

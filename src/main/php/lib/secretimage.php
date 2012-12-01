@@ -20,9 +20,9 @@
  This code is based on the GFX check functionality in PHP-Nuke 7.7
  */
 
-include_once("./lib/config.php");
-include_once("./lib/http.php");
-require_once("./functions/GDImage.class.php");
+include_once("lib/config.php");
+include_once("lib/http.php");
+require_once("lib/GDImage.class.php");
 
 function get_secret_image_random_num() {
 	mt_srand ((double)microtime()*1000000);

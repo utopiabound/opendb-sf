@@ -21,9 +21,9 @@
 		Search for '12 Angry Men' to get an exact title match.
 		Search for 'faddsda' to trigger a search error.
 */
-include_once("./lib/SitePlugin.class.inc");
-include_once("./lib/site/imdbphp2/imdb.class.php");
-include_once("./lib/site/imdbphp2/imdbsearch.class.php");
+include_once("lib/SitePlugin.class.inc");
+include_once("lib/site/imdbphp2/imdb.class.php");
+include_once("lib/site/imdbphp2/imdbsearch.class.php");
 
 
 

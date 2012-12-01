@@ -17,9 +17,9 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-include_once("./lib/database.php");
-include_once("./lib/logging.php");
-include_once("./lib/status_type.php");
+include_once("lib/database.php");
+include_once("lib/logging.php");
+include_once("lib/status_type.php");
 
 /*
 * Fetch a complete list of item records, which have at least one
@@ -91,7 +91,7 @@ function fetch_export_item_instance_rs($s_item_type, $owner_id)
 
 function is_export_plugin($plugin)
 {
-	if(strlen($plugin)>0 && file_exists('./lib/export/'.$plugin.'.class.php'))
+	if(strlen($plugin)>0 && file_exists('lib/export/'.$plugin.'.class.php'))
 		return TRUE;
 	else
 		return FALSE;
@@ -123,7 +123,7 @@ function get_export_r()
 
 function &get_export_plugin($pluginName) {
 	if(is_export_plugin($pluginName)) {
-		include_once("./lib/export/".$pluginName.".class.php");
+		include_once("lib/export/".$pluginName.".class.php");
 		$exportPlugin = new $pluginName();
 		return $exportPlugin;
 	} else {
@@ -139,7 +139,7 @@ function get_export_plugin_list_r() {
 	{
 		while(list(,$pluginRef) = @each($export_type_r))
 		{
-			include_once("./lib/export/".$pluginRef.".class.php");
+			include_once("lib/export/".$pluginRef.".class.php");
 			$exportPlugin = new $pluginRef();
 			if($exportPlugin !== NULL)
 			{

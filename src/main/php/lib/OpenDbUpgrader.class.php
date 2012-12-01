@@ -17,7 +17,7 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-include_once('./functions/install.php');
+include_once('lib/install.php');
 
 class OpenDbUpgrader
 {
@@ -39,7 +39,7 @@ class OpenDbUpgrader
 	function OpenDbUpgrader($from_version, $to_version = NULL, $steps_r = NULL)
 	{
 	    // derive a upgrade sql directory from the classname
-		$this->_upgraderdir = './install/upgrade/'.$from_version;
+		$this->_upgraderdir = 'install/upgrade/'.$from_version;
 		if($to_version!=NULL)
 		{
 			// if only one upgrader upgrades from a version, there is no need to specify a TO directory component.

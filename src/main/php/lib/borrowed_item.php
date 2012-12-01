@@ -20,12 +20,12 @@
 
 // This file contains functions for manipulating the borrowed_item table.
 // including viewing and updating details.
-include_once("./lib/user.php");
-include_once("./lib/item.php");
-include_once("./lib/utils.php");
-include_once("./lib/database.php");
-include_once("./lib/logging.php");
-include_once("./lib/datetime.php");
+include_once("lib/user.php");
+include_once("lib/item.php");
+include_once("lib/utils.php");
+include_once("lib/database.php");
+include_once("lib/logging.php");
+include_once("lib/datetime.php");
 
 function handle_reserve($item_id, $instance_no, $borrower_id, $more_information, &$errors)
 {

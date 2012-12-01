@@ -17,15 +17,15 @@
  along with this program; if not, write to the Free Software
  Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
  */
-include_once("./lib/fileutils.php");
-include_once("./lib/logging.php");
-include_once("./lib/widgets.php");
-include_once("./lib/utils.php");
-include_once("./lib/DocTypeNameSpaceXMLParser.class.php");
-include_once("./lib/XMLImportPluginHandler.class.php");
-include_once("./lib/RowImportPluginHandler.class.php");
-include_once("./lib/PreviewImportPlugin.class.php");
-include_once("./lib/WrapperFileHandler.class.php");
+include_once("lib/fileutils.php");
+include_once("lib/logging.php");
+include_once("lib/widgets.php");
+include_once("lib/utils.php");
+include_once("lib/DocTypeNameSpaceXMLParser.class.php");
+include_once("lib/XMLImportPluginHandler.class.php");
+include_once("lib/RowImportPluginHandler.class.php");
+include_once("lib/PreviewImportPlugin.class.php");
+include_once("lib/WrapperFileHandler.class.php");
 
 function get_item_id_range($item_id_r)
 {
@@ -94,16 +94,16 @@ function isXpathStartsWith($xpath, $startsWith) {
 }
 
 /*
- * Return the name of the plugin minus './lib/import/' prefix and '.php' extension,
+ * Return the name of the plugin minus 'lib/import/' prefix and '.php' extension,
  * or FALSE if no plugin with doctype is found.  This will only ever return
  * the first plugin encountered which supports the doctype.
  */
 function &get_import_plugin_for_extension($extension, $doctype = NULL, $namespace = NULL)
 {
-	$handle=opendir('./lib/import');
+	$handle=opendir('lib/import');
 	while ($file = readdir($handle)) {
 		if ( !preg_match("/^\./",$file) && preg_match("/(.*).class.php$/",$file,$regs)) {
-			include('./lib/import/'.$regs[1].'.class.php');
+			include('lib/import/'.$regs[1].'.class.php');
 			$importPlugin = new $regs[1];
 
 			if(strcasecmp(get_class($importPlugin), $regs[1])===0) {

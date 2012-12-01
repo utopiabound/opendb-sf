@@ -18,11 +18,11 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/logging.php");
-include_once("./lib/user.php");
-include_once("./lib/utils.php");
-include_once("./lib/http.php");
-include_once("./lib/opendbmailer.class.php");
+include_once("lib/logging.php");
+include_once("lib/user.php");
+include_once("lib/utils.php");
+include_once("lib/http.php");
+include_once("lib/opendbmailer.class.php");
 
 function is_valid_opendb_mailer()
 {
@@ -35,7 +35,7 @@ function is_valid_opendb_mailer()
 	routine in this script, which allows calling programs to test their
 	email addresses with the same test.
 	
-	Also used in functions/widgets.php 
+	Also used in lib/widgets.php 
 */
 function is_valid_email_addr($email_addr)
 {

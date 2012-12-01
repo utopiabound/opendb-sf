@@ -21,29 +21,29 @@
 // This must be first - includes config.php
 require_once("./include/begin.inc.php");
 
-include_once("./lib/database.php");
-include_once("./lib/auth.php");
-include_once("./lib/logging.php");
+include_once("lib/database.php");
+include_once("lib/auth.php");
+include_once("lib/logging.php");
 
-include_once("./lib/utils.php");
-include_once("./lib/user.php");
-include_once("./lib/interest.php");
-include_once("./lib/review.php");
-include_once("./lib/borrowed_item.php");
-include_once("./lib/borrowed_item.php");
-include_once("./lib/item_type.php");
-include_once("./lib/item_type_group.php");
-include_once("./lib/item.php");
-include_once("./lib/item_attribute.php");
-include_once("./lib/widgets.php");
-include_once("./lib/http.php");
-include_once("./lib/parseutils.php");
-include_once("./lib/listutils.php");
-include_once("./lib/item_listing_conf.php");
-include_once("./lib/status_type.php");
-include_once("./lib/HTML_Listing.class.inc");
+include_once("lib/utils.php");
+include_once("lib/user.php");
+include_once("lib/interest.php");
+include_once("lib/review.php");
+include_once("lib/borrowed_item.php");
+include_once("lib/borrowed_item.php");
+include_once("lib/item_type.php");
+include_once("lib/item_type_group.php");
+include_once("lib/item.php");
+include_once("lib/item_attribute.php");
+include_once("lib/widgets.php");
+include_once("lib/http.php");
+include_once("lib/parseutils.php");
+include_once("lib/listutils.php");
+include_once("lib/item_listing_conf.php");
+include_once("lib/status_type.php");
+include_once("lib/HTML_Listing.class.inc");
 
-include_once("./lib/xajax/xajax_core/xajax.inc.php");
+include_once("lib/xajax/xajax_core/xajax.inc.php");
 
 function getListingFiltersBlock()
 {

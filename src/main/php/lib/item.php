@@ -18,18 +18,18 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/database.php");
-include_once("./lib/logging.php");
-include_once("./lib/item_attribute.php");
-include_once("./lib/item_type.php");
-include_once("./lib/theme.php");
-include_once("./lib/utils.php");
-include_once("./lib/datetime.php");
-include_once("./lib/status_type.php");
-include_once("./lib/BooleanParser.class.inc");
-include_once("./lib/widgets.php");
-include_once("./lib/parseutils.php");
-include_once("./lib/item_type_group.php");
+include_once("lib/database.php");
+include_once("lib/logging.php");
+include_once("lib/item_attribute.php");
+include_once("lib/item_type.php");
+include_once("lib/theme.php");
+include_once("lib/utils.php");
+include_once("lib/datetime.php");
+include_once("lib/status_type.php");
+include_once("lib/BooleanParser.class.inc");
+include_once("lib/widgets.php");
+include_once("lib/parseutils.php");
+include_once("lib/item_type_group.php");
 
 /**
 	Will check that the $uid has an item_instance for item_id.  If instance_no specified,

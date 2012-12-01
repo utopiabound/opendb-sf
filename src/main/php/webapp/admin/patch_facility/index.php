@@ -23,7 +23,7 @@ if(!defined('OPENDB_ADMIN_TOOLS'))
 	die('Admin tools not accessible directly');
 }
 
-include_once("./lib/install.php");
+include_once("lib/install.php");
 
 /**
 	Will display queries as they appear in the script, will
@@ -61,7 +61,7 @@ function display_patch_list($title, $patchdir)
 	global $ADMIN_TYPE;
 
     echo("<h3>".$title."</h3>");
-	$filelist = get_file_list('./admin/patch_facility/sql/'.$patchdir, 'sql');
+	$filelist = get_file_list('admin/patch_facility/sql/'.$patchdir, 'sql');
 	$sqllist = NULL;
 	if(is_not_empty_array($filelist))
 	{
@@ -100,7 +100,7 @@ function validate_sql_script($patchdir, $sqlfile)
 	$patchdir = basename($patchdir);
 	$sqlfile = basename($sqlfile);
 	
-	$file = "./admin/patch_facility/sql/$patchdir/$sqlfile";
+	$file = "admin/patch_facility/sql/$patchdir/$sqlfile";
 	
 	if(file_exists($file))
 		return $file;

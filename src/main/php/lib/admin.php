@@ -17,8 +17,8 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-include_once('./functions/utils.php');
-include_once('./functions/http.php');
+include_once('lib/utils.php');
+include_once('lib/http.php');
 
 /**
 	Taken from phpMyAdmin libraries/defines.lib.php
@@ -79,10 +79,10 @@ function get_overflow_tooltip_column($columntext, $size = NULL)
 
 function get_admin_tools_r()
 {
-	$handle=opendir('./admin');
+	$handle=opendir('admin');
 	while ($file = readdir($handle))
     {
-		if ( (!ereg("[.]",$file)) && file_exists('./admin/'.$file.'/index.php'))
+		if ( (!ereg("[.]",$file)) && file_exists('admin/'.$file.'/index.php'))
 		{
 			$adminlist[] = $file;
 		}
@@ -97,7 +97,7 @@ function get_admin_tools_r()
 
 function is_legal_admin_type($type)
 {
-	if(strlen($type)>0 && file_exists('./admin/'.$type.'/index.php'))
+	if(strlen($type)>0 && file_exists('admin/'.$type.'/index.php'))
 		return true;
 	else
 		return false;
@@ -147,7 +147,7 @@ function get_system_admin_tools_menu($admin_type = NULL)
 function execute_sql_install($ADMIN_TYPE, $sqlfile, &$errors)
 {
 	$sqlfile = basename($sqlfile);
-	$sqlfile = './admin/'.$ADMIN_TYPE.'/sql/'.$sqlfile;
+	$sqlfile = 'admin/'.$ADMIN_TYPE.'/sql/'.$sqlfile;
 	if(file_exists($sqlfile))
 	{
 		if(exec_install_sql_file($sqlfile, $errors))
@@ -176,7 +176,7 @@ function execute_sql_install($ADMIN_TYPE, $sqlfile, &$errors)
  */
 function generate_sql_list($ADMIN_TYPE, $typeName, $sqlRegexp, $is_not_exists_function)
 {
-	$filelist = get_file_list('./admin/'.$ADMIN_TYPE.'/sql/', 'sql');
+	$filelist = get_file_list('admin/'.$ADMIN_TYPE.'/sql/', 'sql');
 	$sitelist = NULL;
 	if(is_not_empty_array($filelist))
 	{

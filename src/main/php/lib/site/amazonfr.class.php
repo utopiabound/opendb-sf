@@ -21,8 +21,8 @@
  Converted to 0.81 format by Jason Pell <jasonpell@users.sourceforge.net>
  Updated for 1.0 by Marc Powell <shaddw@users.sourceforge.net>
  */
-include_once("./lib/SitePlugin.class.inc");
-include_once("./lib/site/amazonutils.php");
+include_once("lib/SitePlugin.class.inc");
+include_once("lib/site/amazonutils.php");
 
 class amazonfr extends SitePlugin
 {

@@ -18,10 +18,10 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/database.php");
-include_once("./lib/logging.php");
-include_once("./lib/utils.php");
-include_once("./lib/address_type.php");
+include_once("lib/database.php");
+include_once("lib/logging.php");
+include_once("lib/utils.php");
+include_once("lib/address_type.php");
 
 define('EXCLUDE_ROLE_PERMISSIONS', 'EXCLUDE_ROLE_PERMISSIONS');
 define('INCLUDE_ROLE_PERMISSIONS', 'INCLUDE_ROLE_PERMISSIONS');

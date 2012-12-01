@@ -21,13 +21,13 @@
 // This must be first - includes config.php
 require_once("./include/begin.inc.php");
 
-include_once("./lib/database.php");
-include_once("./lib/auth.php");
-include_once("./lib/logging.php");
+include_once("lib/database.php");
+include_once("lib/auth.php");
+include_once("lib/logging.php");
 
-include_once("./lib/widgets.php");
-include_once("./lib/http.php");
-include_once("./lib/importcache.php");
+include_once("lib/widgets.php");
+include_once("lib/http.php");
+include_once("lib/importcache.php");
 
 if(is_user_admin_changed_user())
 {

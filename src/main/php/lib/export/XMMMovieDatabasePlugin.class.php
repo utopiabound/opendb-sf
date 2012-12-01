@@ -18,12 +18,12 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/zip.lib.php");
-include_once("./lib/review.php");
-include_once("./lib/filecache.php");
-include_once("./lib/item_attribute.php");
-include_once("./lib/datetime.php");
-include_once("./lib/site_plugin.php");
+include_once("lib/zip.lib.php");
+include_once("lib/review.php");
+include_once("lib/filecache.php");
+include_once("lib/item_attribute.php");
+include_once("lib/datetime.php");
+include_once("lib/site_plugin.php");
 
 class XMMMovieDatabasePlugin {
 	var $purchasedateformatmask;

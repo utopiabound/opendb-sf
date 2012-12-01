@@ -17,16 +17,16 @@
 	along with this program; if not, write to the Free Software
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
-include_once("./lib/database.php");
-include_once("./lib/logging.php");
-include_once("./lib/utils.php");
-include_once("./lib/item_type.php");
-include_once("./lib/item_attribute.php");
-include_once("./lib/item_type_group.php");
-include_once("./lib/parseutils.php");
-include_once("./lib/TitleMask.class.php");
-include_once("./lib/phpcuecat/PHPCueCat.class.php");
-include_once("./lib/ISBN/ISBN.class.php");
+include_once("lib/database.php");
+include_once("lib/logging.php");
+include_once("lib/utils.php");
+include_once("lib/item_type.php");
+include_once("lib/item_attribute.php");
+include_once("lib/item_type_group.php");
+include_once("lib/parseutils.php");
+include_once("lib/TitleMask.class.php");
+include_once("lib/phpcuecat/PHPCueCat.class.php");
+include_once("lib/ISBN/ISBN.class.php");
 
 function get_month_num_for_name($monthname, $months) {
 	$key = array_search(strtolower($monthname), $months);
@@ -123,7 +123,7 @@ function &get_site_plugin_instance($site_type)
 	$site_plugin_classname = fetch_site_plugin_classname($site_type);
 	if($site_plugin_classname !== FALSE)
 	{
-		include_once("./lib/site/".$site_plugin_classname.".class.php");
+		include_once("lib/site/".$site_plugin_classname.".class.php");
 		$sitePlugin = new $site_plugin_classname($site_type);
 				
 		return $sitePlugin;

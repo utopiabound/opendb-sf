@@ -1,5 +1,5 @@
 <?php
-require_once("./lib/xajax/xajax_core/xajax.inc.php");
+require_once("lib/xajax/xajax_core/xajax.inc.php");
 
 class AdminAjaxJobs
 {

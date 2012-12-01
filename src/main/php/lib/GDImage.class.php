@@ -1,5 +1,5 @@
 <?php
-include_once("./lib/logging.php");
+include_once("lib/logging.php");
 
 $GD_IMAGE_TYPES = array(
 			'png'=>array(extension=>'png', ctype=>'image/png', sendfunc=>'ImagePNG', createfunc=>'ImageCreateFromPNG'),

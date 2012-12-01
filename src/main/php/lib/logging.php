@@ -18,8 +18,8 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/utils.php");
-include_once("./lib/http.php");
+include_once("lib/utils.php");
+include_once("lib/http.php");
 
 // definitions for use in logging that may not be defined in older version of PHP, but
 // which we want to be able to assume exist.
@@ -40,7 +40,7 @@ function get_relative_opendb_filename($filename)
 {
 	// make all unix for ease of reference
 	$dir = trim(str_replace('\\', '/', __FILE__)); // Should end in functions/logging.php
-	$index = strpos($dir, 'functions/logging.php');
+	$index = strpos($dir, 'lib/logging.php');
 	if($index!==FALSE)
 	{
 		$dir = substr($dir, 0, $index);

@@ -23,14 +23,14 @@ $_OVRD_OPENDB_LANGUAGE = 'english';
 // This must be first - includes config.php
 require_once("./include/begin.inc.php");
 
-include_once("./lib/database.php");
-include_once("./lib/auth.php");
-include_once("./lib/logging.php");
+include_once("lib/database.php");
+include_once("lib/auth.php");
+include_once("lib/logging.php");
 
-include_once("./lib/utils.php");
-include_once("./lib/parseutils.php");
-include_once("./lib/widgets.php");
-include_once("./lib/admin.php");
+include_once("lib/utils.php");
+include_once("lib/parseutils.php");
+include_once("lib/widgets.php");
+include_once("lib/admin.php");
 
 define('OPENDB_ADMIN_TOOLS', 'true');
 
@@ -43,16 +43,16 @@ if(is_site_enabled())
 			$HTTP_VARS['type'] = ifempty($HTTP_VARS['type'], 'config');
 			
 			$ADMIN_TYPE = $HTTP_VARS['type'];
-			$ADMIN_DIR = './admin/'.$ADMIN_TYPE;
+			$ADMIN_DIR = 'admin/'.$ADMIN_TYPE;
 			
-			if(file_exists("./admin/".$ADMIN_TYPE."/functions.php"))
+			if(file_exists("admin/".$ADMIN_TYPE."/functions.php"))
 			{
-				include_once("./admin/".$ADMIN_TYPE."/functions.php");
+				include_once("admin/".$ADMIN_TYPE."/functions.php");
 			}
 			
-			if(file_exists("./admin/".$ADMIN_TYPE."/ajaxjobs.php"))
+			if(file_exists("admin/".$ADMIN_TYPE."/ajaxjobs.php"))
 			{
-				require_once("./lib/xajax/xajax_core/xajax.inc.php");
+				require_once("lib/xajax/xajax_core/xajax.inc.php");
 
 				$xajax = new xajax("admin.php?type=$ADMIN_TYPE");
 				$xajax->configure('javascript URI', 'lib/xajax/');
@@ -60,7 +60,7 @@ if(is_site_enabled())
 				$xajax->configure('statusMessages', true);
 				$xajax->configure('waitCursor', true);
 				
-				include_once("./admin/".$ADMIN_TYPE."/ajaxjobs.php");
+				include_once("admin/".$ADMIN_TYPE."/ajaxjobs.php");
 				
 				$xajax->processRequest();
 			}
@@ -80,7 +80,7 @@ if(is_site_enabled())
 				echo("<h2>".$title."</h2>");
 			}
 
-			include_once("./admin/".$ADMIN_TYPE."/index.php");
+			include_once("admin/".$ADMIN_TYPE."/index.php");
 			
 			if($HTTP_VARS['mode'] != 'job')
 			{

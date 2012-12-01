@@ -18,20 +18,20 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-require_once("./functions/GDImage.class.php");
+require_once("lib/GDImage.class.php");
 
 $chartLib = get_opendb_config_var('stats', 'chart_lib');
 
 if($chartLib == 'legacy') {
-	include_once("./lib/chart/LegacyStatsChart.class.php");
-} else if($chartLib == 'phplot' && is_dir("./lib/phplot")) {
-	include_once("./lib/chart/PhplotStatsChart.class.php");
-} else if($chartLib == 'jpgraph' && is_php51() && is_dir("./lib/jpgraph")) {
-	include_once("./lib/chart/JPGraphStatsChart.class.php");
+	include_once("lib/chart/LegacyStatsChart.class.php");
+} else if($chartLib == 'phplot' && is_dir("lib/phplot")) {
+	include_once("lib/chart/PhplotStatsChart.class.php");
+} else if($chartLib == 'jpgraph' && is_php51() && is_dir("lib/jpgraph")) {
+	include_once("lib/chart/JPGraphStatsChart.class.php");
 } else if(is_php5()) {
-	include_once("./lib/chart/StatsLibChart12.class.php");
+	include_once("lib/chart/StatsLibChart12.class.php");
 } else {
-	include_once("./lib/chart/StatsLibChart11.class.php");
+	include_once("lib/chart/StatsLibChart11.class.php");
 }
 
 function sort_data_element($a_r, $b_r)

@@ -18,13 +18,13 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/database.php");
-include_once("./lib/logging.php");
-include_once("./lib/utils.php");
-include_once("./lib/item_type.php");
-include_once("./lib/filecache.php");
-include_once("./lib/file_type.php");
-include_once("./lib/http.php");
+include_once("lib/database.php");
+include_once("lib/logging.php");
+include_once("lib/utils.php");
+include_once("lib/item_type.php");
+include_once("lib/filecache.php");
+include_once("lib/file_type.php");
+include_once("lib/http.php");
 
 function fetch_item_instance_for_attribute_val_rs($attribute_val, $s_attribute_type)
 {

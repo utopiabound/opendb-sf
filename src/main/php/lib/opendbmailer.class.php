@@ -18,12 +18,12 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-require_once('./functions/phpmailer/class.phpmailer.php');
+require_once('lib/phpmailer/class.phpmailer.php');
 // hardcoded to english messages for now
-include_once("./lib/phpmailer/language/phpmailer.lang-en.php");
+include_once("lib/phpmailer/language/phpmailer.lang-en.php");
 
-include_once("./lib/config.php");
-include_once("./lib/logging.php");
+include_once("lib/config.php");
+include_once("lib/logging.php");
 
 /**
 	If set to email.mailer = 'mail', then must provide extra details:

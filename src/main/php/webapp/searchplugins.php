@@ -25,10 +25,10 @@
 // This must be first - includes config.php
 require_once("./include/begin.inc.php");
 
-include_once("./lib/database.php");
-include_once("./lib/auth.php");
-include_once("./lib/logging.php");
-include_once("./lib/http.php");
+include_once("lib/database.php");
+include_once("lib/auth.php");
+include_once("lib/logging.php");
+include_once("lib/http.php");
 
 $siteUrl = get_site_url();
 $siteTitle = get_opendb_title();

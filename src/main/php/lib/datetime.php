@@ -18,8 +18,8 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/utils.php");
-include_once("./lib/adodb-time.inc.php");
+include_once("lib/utils.php");
+include_once("lib/adodb-time.inc.php");
 
 function get_lang_var_months_r($abbrev=FALSE)
 {

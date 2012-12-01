@@ -18,9 +18,9 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/TitleMask.class.php");
-include_once("./lib/HTML_Listing.class.inc");
-include_once("./lib/item.php");
+include_once("lib/TitleMask.class.php");
+include_once("lib/HTML_Listing.class.inc");
+include_once("lib/item.php");
 
 /**
 	This function will return a complete table of all links valid

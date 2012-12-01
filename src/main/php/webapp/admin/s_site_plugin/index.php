@@ -23,13 +23,13 @@ if(!defined('OPENDB_ADMIN_TOOLS'))
 	die('Admin tools not accessible directly');
 }
 
-include_once("./lib/datetime.php");
-include_once("./lib/item_type.php");
-include_once("./lib/item_type_group.php");
-include_once("./lib/import.php");
-include_once("./admin/s_item_type/functions.php");
-include_once("./admin/s_attribute_type/functions.php");
-include_once("./lib/install.php");
+include_once("lib/datetime.php");
+include_once("lib/item_type.php");
+include_once("lib/item_type_group.php");
+include_once("lib/import.php");
+include_once("admin/s_item_type/functions.php");
+include_once("admin/s_attribute_type/functions.php");
+include_once("lib/install.php");
 
 $cfg_date_mask = 'DD/MM/YYYY HH24:MI:SS';
 
@@ -1503,7 +1503,7 @@ else if($HTTP_VARS['op'] == 'maintain_site_plugin_install') // special function 
 	$site_plugin_r = fetch_site_plugin_r($HTTP_VARS['site_type']);
 	if(is_not_empty_array($site_plugin_r))
 	{
-		if(strlen($HTTP_VARS['import_file'])>0 && file_exists('./admin/s_site_plugin/upload/'.$HTTP_VARS['import_file']))
+		if(strlen($HTTP_VARS['import_file'])>0 && file_exists('admin/s_site_plugin/upload/'.$HTTP_VARS['import_file']))
 		{
 			@set_time_limit(600);
 			
@@ -1522,7 +1522,7 @@ else if($HTTP_VARS['op'] == 'maintain_site_plugin_install') // special function 
 			echo("\n<h3>".$site_plugin_r['title']." Installation Maintenance</h3>");
 			
 			$classname = "Install_".$HTTP_VARS['site_type'];
-			include_once("./admin/s_site_plugin/sql/".$HTTP_VARS['site_type'].".install.class.php");
+			include_once("admin/s_site_plugin/sql/".$HTTP_VARS['site_type'].".install.class.php");
 			$installPlugin = new $classname();
 			
 			$recordCount = $installPlugin->getRecordCount();
@@ -1539,14 +1539,14 @@ else if($HTTP_VARS['op'] == 'maintain_site_plugin_install') // special function 
 				echo("\n<p>Last updated: ".$lastUpdatedString."</p>");
 			}
 			
-			echo("\n<h4>Listing <code>./admin/s_site_plugin/upload/</code> directory</h4>");
+			echo("\n<h4>Listing <code>admin/s_site_plugin/upload/</code> directory</h4>");
 			echo("\n<table>");
 			echo("\n<tr class=\"navbar\">"
 				."<th>CSV File</th>"
 				."<th>Action</th>"
 				."\n</tr>");
 				
-			$file_list_r = get_file_list('./admin/s_site_plugin/upload/', 'csv');
+			$file_list_r = get_file_list('admin/s_site_plugin/upload/', 'csv');
 			if(is_not_empty_array($file_list_r))
 			{
 				$toggle = TRUE;
@@ -1577,7 +1577,7 @@ else if($HTTP_VARS['op'] == 'maintain_site_plugin_install') // special function 
 				echo("<div class=\"error\">No files found</div>");
 			}
 			
-			echo(format_help_block(array('text'=>'Upload CSV files directly (using FTP or equivalent) to the <code>./admin/s_site_plugin/upload/</code> directory.')));
+			echo(format_help_block(array('text'=>'Upload CSV files directly (using FTP or equivalent) to the <code>admin/s_site_plugin/upload/</code> directory.')));
 		}
 	}
 	else//if(is_not_empty_array($site_plugin_r))
@@ -1637,7 +1637,7 @@ if($HTTP_VARS['op'] == 'list_site_plugins')
 			echo(" / <a href=\"${PHP_SELF}?type=${ADMIN_TYPE}&op=edit_site_plugin_input_fields&site_type=".$site_plugin_r['site_type']."\">Input Fields</a>");
 			echo(" / <a href=\"${PHP_SELF}?type=${ADMIN_TYPE}&op=edit_site_plugin_s_attribute_type_maps&site_type=".$site_plugin_r['site_type']."\">Attribute Map</a>");
 			echo(" / <a href=\"${PHP_SELF}?type=${ADMIN_TYPE}&op=edit_site_plugin_s_attribute_type_lookup_maps&site_type=".$site_plugin_r['site_type']."\">Lookup Attribute Map</a>");
-			if(file_exists('./admin/s_site_plugin/sql/'.$site_plugin_r['site_type'].'.install.class.php'))
+			if(file_exists('admin/s_site_plugin/sql/'.$site_plugin_r['site_type'].'.install.class.php'))
 			{
 				echo(" / <a href=\"${PHP_SELF}?type=${ADMIN_TYPE}&op=maintain_site_plugin_install&site_type=".$site_plugin_r['site_type']."\">Install&nbsp;Maintenance</a>");
 			}

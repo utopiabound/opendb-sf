@@ -18,7 +18,7 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/OpenDbUpgrader.class.php");
+include_once("lib/OpenDbUpgrader.class.php");
 
 function get_rebuilt_function($function_name, $arguments_r)
 {
@@ -897,7 +897,7 @@ class Upgrader_081_100 extends OpenDbUpgrader
 
 	function executeStep10($stepPart)
 	{
-		if(exec_install_sql_file("./admin/s_language/sql/english.sql", $errors))
+		if(exec_install_sql_file("admin/s_language/sql/english.sql", $errors))
 		{
 			return TRUE;
 		}

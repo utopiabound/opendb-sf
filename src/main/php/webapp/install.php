@@ -24,13 +24,13 @@ $_OVRD_OPENDB_LANGUAGE = 'english';
 // This must be first - includes config.php
 require_once("./include/begin.inc.php");
 
-include_once("./lib/database.php");
-include_once("./lib/auth.php");
-include_once("./lib/logging.php");
+include_once("lib/database.php");
+include_once("lib/auth.php");
+include_once("lib/logging.php");
 
-include_once("./lib/http.php");
-include_once("./lib/install.php");
-include_once("./lib/widgets.php");
+include_once("lib/http.php");
+include_once("lib/install.php");
+include_once("lib/widgets.php");
 
 $_opendb_install_required_writedirs = array(
 		'./log', './include', OPENDB_IMPORT_CACHE_DIRECTORY, OPENDB_ITEM_CACHE_DIRECTORY, OPENDB_ITEM_UPLOAD_DIRECTORY, OPENDB_HTTP_CACHE_DIRECTORY);
@@ -626,19 +626,19 @@ function install_opendb_new_install($HTTP_VARS, &$errors)
   	
 	if($HTTP_VARS['confirmed'] === 'true')
   	{
-		if(exec_install_sql_file("./install/new/tables.sql", $errors))
+		if(exec_install_sql_file("install/new/tables.sql", $errors))
 	   	{
-	   	  	if(exec_install_sql_file("./install/new/systemdata.sql", $errors) && 
-				 	exec_install_sql_file("./admin/s_language/sql/english.sql", $errors))
+	   	  	if(exec_install_sql_file("install/new/systemdata.sql", $errors) && 
+				 	exec_install_sql_file("admin/s_language/sql/english.sql", $errors))
 	   		{
-	   			exec_install_sql_file("./admin/s_status_type/sql/A-Available.sql", $errors);
-				exec_install_sql_file("./admin/s_status_type/sql/N-Inactive.sql", $errors);
-				exec_install_sql_file("./admin/s_status_type/sql/H-Hidden.sql", $errors);
-				exec_install_sql_file("./admin/s_status_type/sql/X-External.sql", $errors);
-				exec_install_sql_file("./admin/s_status_type/sql/W-Wishlist.sql", $errors);
-				exec_install_sql_file("./admin/s_status_type/sql/R-Related.sql", $errors);
+	   			exec_install_sql_file("admin/s_status_type/sql/A-Available.sql", $errors);
+				exec_install_sql_file("admin/s_status_type/sql/N-Inactive.sql", $errors);
+				exec_install_sql_file("admin/s_status_type/sql/H-Hidden.sql", $errors);
+				exec_install_sql_file("admin/s_status_type/sql/X-External.sql", $errors);
+				exec_install_sql_file("admin/s_status_type/sql/W-Wishlist.sql", $errors);
+				exec_install_sql_file("admin/s_status_type/sql/R-Related.sql", $errors);
 				
-				exec_install_sql_file("./install/new/adminuser.sql", $errors);
+				exec_install_sql_file("install/new/adminuser.sql", $errors);
 
 				// no steps to complete, its all in one, so we can insert release record with 
 				// NULL step (indicating complete) straight away.
@@ -727,7 +727,7 @@ function perform_upgrade_step($HTTP_VARS, $opendb_release_r, $latest_to_version 
 {
   	if(is_upgrader_plugin($HTTP_VARS['upgrader_plugin']))
 	{
-      	include_once('./install/upgrade/'.$HTTP_VARS['upgrader_plugin'].'.class.php');
+      	include_once('install/upgrade/'.$HTTP_VARS['upgrader_plugin'].'.class.php');
         $upgraderRef = $HTTP_VARS['upgrader_plugin'];
         $upgraderPlugin = new $upgraderRef();
         
@@ -1057,7 +1057,7 @@ else if($HTTP_VARS['step'] == 'pre-install')
 		{
 			if(!check_opendb_table('s_opendb_release') || count_opendb_table_columns('s_opendb_release') != 6)
 			{
-				if(exec_install_sql_file('./install/new/s_opendb_release.sql', $errors))
+				if(exec_install_sql_file('install/new/s_opendb_release.sql', $errors))
 				{
 					$preinstall_details[] = 'OpenDb release table created';	
 				}

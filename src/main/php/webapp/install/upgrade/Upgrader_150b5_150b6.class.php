@@ -18,7 +18,7 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("./lib/OpenDbUpgrader.class.php");
+include_once("lib/OpenDbUpgrader.class.php");
 
 class Upgrader_150b5_150b6 extends OpenDbUpgrader
 {
@@ -40,7 +40,7 @@ class Upgrader_150b5_150b6 extends OpenDbUpgrader
 	function executeStep1($stepPart)
 	{
 		if(is_lookup_attribute_type('BOOKGENRE')) {
-			return exec_install_sql_file("./install/upgrade/1.5.0b5/step1.sql", $errors);
+			return exec_install_sql_file("install/upgrade/1.5.0b5/step1.sql", $errors);
 		} else {
 			return TRUE;
 		}
@@ -49,7 +49,7 @@ class Upgrader_150b5_150b6 extends OpenDbUpgrader
 	function executeStep2($stepPart)
 	{
 		if(is_lookup_attribute_type('GAMEGENRE')) {
-			return exec_install_sql_file("./install/upgrade/1.5.0b5/step2.sql", $errors);
+			return exec_install_sql_file("install/upgrade/1.5.0b5/step2.sql", $errors);
 		} else {
 			return TRUE;
 		}
@@ -67,7 +67,7 @@ class Upgrader_150b5_150b6 extends OpenDbUpgrader
 	function executeStep4($stepPart)
 	{
 		if(is_lookup_attribute_type('GAMEREGION')) {
-			return exec_install_sql_file("./install/upgrade/1.5.0b5/step4.sql", $errors);
+			return exec_install_sql_file("install/upgrade/1.5.0b5/step4.sql", $errors);
 		} else {
 			return TRUE;
 		}
