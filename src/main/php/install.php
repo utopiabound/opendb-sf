@@ -22,7 +22,7 @@ $_OVRD_OPENDB_THEME = 'default';
 $_OVRD_OPENDB_LANGUAGE = 'english';
 
 // This must be first - includes config.php
-require_once("./include/begin.inc.php");
+require_once("include/begin.inc.php");
 
 include_once("lib/database.php");
 include_once("lib/auth.php");
@@ -33,7 +33,7 @@ include_once("lib/install.php");
 include_once("lib/widgets.php");
 
 $_opendb_install_required_writedirs = array(
-		'./log', './include', OPENDB_IMPORT_CACHE_DIRECTORY, OPENDB_ITEM_CACHE_DIRECTORY, OPENDB_ITEM_UPLOAD_DIRECTORY, OPENDB_HTTP_CACHE_DIRECTORY);
+		'log', 'include', OPENDB_IMPORT_CACHE_DIRECTORY, OPENDB_ITEM_CACHE_DIRECTORY, OPENDB_ITEM_UPLOAD_DIRECTORY, OPENDB_HTTP_CACHE_DIRECTORY);
 
 $TICK_IMAGE = _theme_image('tick.gif');
 $CROSS_IMAGE = _theme_image('cross.gif');
@@ -150,7 +150,7 @@ function install_check_install_dir()
 	// installed in 0.81
     if(file_exists("./patch") || 
     			file_exists("./lang") || 
-    			file_exists("./include/config.php"))
+    			file_exists("include/config.php"))
     {
     	$buffer .= "<h3>Installed in a new directory?</h3>";
     	
@@ -287,8 +287,8 @@ function install_current_db_configuration()
 	{
 		$buffer .= "<h3>OpenDb Database Configuration</h3>\n";
 		
-		$buffer .= "<p>The following are the database connection details configured in the <code>./include/local.config.php</code>.  If you would like to force the
-				installer to have the details re-entered, please delete or rename the <code>./include/local.config.php</code> file.</p>";
+		$buffer .= "<p>The following are the database connection details configured in the <code>include/local.config.php</code>.  If you would like to force the
+				installer to have the details re-entered, please delete or rename the <code>include/local.config.php</code> file.</p>";
 		
 		$buffer .= "<table class=\"databaseDetails\">
 			<tr><td class=\"prompt\">MySQL Database Host:</td><td class=\"data\">".$dbserver_conf_r['host']."</td></tr>
@@ -595,19 +595,19 @@ function install_write_config_file($db_details_r, &$config_file, &$errors)
 					"\$CONFIG_VARS['session_handler']['enable'] = FALSE;\n".
 					"?>\n";
 	
-			if(file_put_contents('./include/local.config.php', $config_file))
+			if(file_put_contents('include/local.config.php', $config_file))
 			{
    			    return TRUE;
 	   		}
    			else
    			{
-   				if(!is_writable('./include/'))
+   				if(!is_writable('include/'))
    				{
-   					$errors[] = 'Directory (./include/) is not writable.';
+   					$errors[] = 'Directory (include/) is not writable.';
    				}
-   				else if(!is_writable('./include/local.config.php'))
+   				else if(!is_writable('include/local.config.php'))
    				{
-   					$errors[] = 'File (./include/local.config.php) is not writable.';
+   					$errors[] = 'File (include/local.config.php) is not writable.';
    				}
    				
 	   		    return FALSE;
@@ -1003,7 +1003,7 @@ else if($HTTP_VARS['step'] == 'pre-install')
 		{
 			if(install_write_config_file($db_details_r, $config_file_contents, $errors))
 			{
-				echo("<p>OpenDb configuration was written to <code>./include/local.config.php</code></p>");
+				echo("<p>OpenDb configuration was written to <code>include/local.config.php</code></p>");
 				
 				echo("\n<form action=\"$PHP_SELF\" method=\"GET\">");
 				echo("<input type=\"hidden\" name=\"step\" value=\"pre-install\">\n");
@@ -1012,7 +1012,7 @@ else if($HTTP_VARS['step'] == 'pre-install')
 			}
 			else
 			{
-				echo("<p class=\"error\">OpenDb configuration was not written to <code>./include/local.config.php</code></p>");
+				echo("<p class=\"error\">OpenDb configuration was not written to <code>include/local.config.php</code></p>");
 				
 				if(is_array($errors))
 				{
@@ -1030,7 +1030,7 @@ else if($HTTP_VARS['step'] == 'pre-install')
 				echo("</form>\n");
 				
 				echo("<p>If you cannot resolve the issue, you can save the configuration file manually.  The contents of the textarea should be saved to  
-				<code>./include/local.config.php</code>.  Once this is done click <strong>Retry</strong>.");
+				<code>include/local.config.php</code>.  Once this is done click <strong>Retry</strong>.");
 				
 				echo("<form>");
 				echo("<textarea rows=\"12\" cols=\"100\">".htmlspecialchars($config_file_contents)."</textarea>");
@@ -1213,5 +1213,5 @@ else
 }
 
 // Cleanup after begin.inc.php
-require_once("./include/end.inc.php");
+require_once("include/end.inc.php");
 ?>

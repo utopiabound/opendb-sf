@@ -3,6 +3,7 @@
 include_once("lib/AdminAjaxJobs.class.php");
 include_once("lib/WrapperFileHandler.class.php");
 include_once("lib/import.php");
+include_once("lib/fileutils.php");
 
 class InstallTableAjaxJobs extends AdminAjaxJobs
 {
@@ -26,7 +27,7 @@ class InstallTableAjaxJobs extends AdminAjaxJobs
 	}
 	
 	function __count_records() {
-		$fh = @fopen('admin/s_site_plugin/upload/'.$this->_uploadFile, 'rb');
+		$fh = file_open('admin/s_site_plugin/upload/'.$this->_uploadFile, 'rb');
 		$count = 0;
 		if($fh!==FALSE) {
 			while (($data = fgetcsv($fh, 4096, ",")) !== FALSE) {
@@ -52,7 +53,7 @@ class InstallTableAjaxJobs extends AdminAjaxJobs
 			if($installPlugin->getInstallType() == 'Install_Table') {
 				if(check_opendb_table($installPlugin->getInstallTable())) {
 					if($this->_batchlimit > 0) {
-						$fh = @fopen('admin/s_site_plugin/upload/'.$this->_uploadFile, 'rb');
+						$fh = @file_open('admin/s_site_plugin/upload/'.$this->_uploadFile, 'rb');
 						if($fh!==FALSE) {
 							$installPlugin->setRowRange($this->_completed+1, $this->_completed+$this->_batchlimit);
 							

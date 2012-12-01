@@ -19,7 +19,7 @@
 */
 
 // This must be first - includes config.php
-require_once("./include/begin.inc.php");
+require_once("include/begin.inc.php");
 
 if($_OpendbBrowserSniffer->isBrowserSupported())
 	$pageTitle = get_opendb_lang_var('browser_supported');
@@ -56,5 +56,5 @@ if(!$_OpendbBrowserSniffer->isBrowserSupported())
 echo _theme_footer();
 
 // Cleanup after begin.inc.php
-require_once("./include/end.inc.php");
+require_once("include/end.inc.php");
 ?>

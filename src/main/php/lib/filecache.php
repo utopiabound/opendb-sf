@@ -429,7 +429,7 @@ function file_cache_open_file($file_cache_r)
 {
 	$file = file_cache_get_cache_file($file_cache_r);
 	if($file!==FALSE)
-		return fopen($file, 'rb');
+		return file_open($file, 'rb');
 	else
 		return FALSE;
 }
@@ -438,7 +438,7 @@ function file_cache_open_thumbnail_file($file_cache_r)
 {
 	$file = file_cache_get_cache_file_thumbnail($file_cache_r);
 	if($file!==FALSE)
-		return fopen($file, 'rb');
+		return file_open($file, 'rb');
 	else
 		return FALSE;
 }

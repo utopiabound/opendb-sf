@@ -18,6 +18,8 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+include_once("lib/fileutils.php");
+
 $file = "export.xml";
 
 function startElement($parser, $name, $attribs) {
@@ -43,7 +45,7 @@ $xml_parser = xml_parser_create();
 xml_set_element_handler($xml_parser, "startElement", "endElement");
 xml_set_character_data_handler($xml_parser, "characterData");
 
-if (!($fp = fopen($file, "r"))) { 
+if (!($fp = file_open($file, "r"))) { 
 	die("could not open XML input"); 
 } 
 

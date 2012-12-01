@@ -100,7 +100,7 @@ function import_cache_fetch_file($sequence_number)
 			$directory = import_cache_get_cache_directory();
 			if(is_exists_opendb_file($directory.'/'.$record_r['cache_file']))
 			{
-				$import_file = fopen($directory.'/'.$record_r['cache_file'], 'rb');
+				$import_file = file_open($directory.'/'.$record_r['cache_file'], 'rb');
 				if($import_file)
 				{
 					return $import_file;

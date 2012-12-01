@@ -21,7 +21,7 @@
 */
 
 // This must be first - includes config.php
-require_once("./include/begin.inc.php");
+require_once("include/begin.inc.php");
 
 include_once("lib/database.php");
 include_once("lib/auth.php");
@@ -242,5 +242,5 @@ else
 }
 
 // Cleanup after begin.inc.php
-require_once("./include/end.inc.php");
+require_once("include/end.inc.php");
 ?>

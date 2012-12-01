@@ -3,7 +3,7 @@
 chdir('../../../');
 
 // This must be first - includes config.php
-require_once("./include/begin.inc.php");
+require_once("include/begin.inc.php");
 
 include_once("lib/database.php");
 
@@ -89,5 +89,5 @@ insert_unique_imageurl();
 insert_duplicate_imageurl();
 
 // Cleanup after begin.inc.php
-require_once("./include/end.inc.php");
+require_once("include/end.inc.php");
 ?>

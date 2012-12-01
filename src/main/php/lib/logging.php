@@ -36,25 +36,23 @@ define('OPENDB_LOG_ERROR', 'E');
 define('OPENDB_LOG_WARN', 'W');
 define('OPENDB_LOG_INFO', 'I');
 
-function get_relative_opendb_filename($filename)
-{
+function get_relative_opendb_filename($filename) {
 	// make all unix for ease of reference
 	$dir = trim(str_replace('\\', '/', __FILE__)); // Should end in functions/logging.php
 	$index = strpos($dir, 'lib/logging.php');
-	if($index!==FALSE)
-	{
+	if($index!==FALSE) {
 		$dir = substr($dir, 0, $index);
-		
+
 		$index = strpos($filename, $dir);
-		if($index!==FALSE)
-		{
+		if($index!==FALSE) {
 			return substr($filename, strlen($dir));
 		}
 	}
-	
+
 	//else
 	return $filename;
 }
+
 
 /**
 	A line is space delimited, any columns with spaces in them, should use a quote
@@ -63,8 +61,7 @@ function get_relative_opendb_filename($filename)
 	Order of columns returned will be:
 		ip, uid, datetime, type, function, parameters, message
 */
-function fget_tokenised_log_entry(&$file)
-{
+function fget_tokenised_log_entry(&$file) {
 	$token_names = array('datetime', 'type', 'ip', 'user_id', 'admin_user_id', 'file', 'function', 'parameters', 'message');
 	$tokens = NULL;
 	$in_quote = FALSE;
@@ -72,56 +69,51 @@ function fget_tokenised_log_entry(&$file)
 	$column = '';
 	$count = 0;
 	
-	while(!feof($file) && ($tokens == NULL || count($tokens) < count($token_names)))
-	{
+	while(!feof($file) && ($tokens == NULL || count($tokens) < count($token_names))) {
 		$line = trim(fgets($file, 4096));
 				
-		for($i=0; $i<strlen($line); $i++)
-		{
-			switch($line{$i})
-			{
+		for($i=0; $i<strlen($line); $i++) {
+			switch($line{$i}) {
 				case "\\":
-					if($i < strlen($line+1) && $line{$i+1}!='"')
-					{
+					if($i < strlen($line+1) && $line{$i+1}!='"') {
 						$column .= $line{$i};		
 					}
 					break;
 					
 				case '"':
-					if($i==0 || $line{$i-1}!="\\")
-					{
+					if($i==0 || $line{$i-1}!="\\") {
 						$in_quote = !$in_quote;
-					}
-					else
-					{
+					} else {
 						$column .= $line{$i};
 					}
 					break;
 				
 				case '[':
-					if(!$in_quote && $token_names[$count] == 'datetime') // only column allowed to be enclodes this way is datetime
+					if(!$in_quote && $token_names[$count] == 'datetime') { // only column allowed to be enclodes this way is datetime
 						$in_bracket = TRUE;
-					else
+					} else {
 						$column .= $line{$i};
+					}
 					break;
 				
 				case ']':
-					if($in_bracket && !$in_quote && $token_names[$count] == 'datetime') // only column allowed to be enclodes this way is datetime
+					if($in_bracket && !$in_quote && $token_names[$count] == 'datetime') { // only column allowed to be enclodes this way is datetime
 						$in_bracket = FALSE;
-					else
+					} else {
 						$column .= $line{$i};
+					}
 					break;
 					
 				case ' ':
 				case '\r':
 				case '\n':
-					if(!$in_bracket && !$in_quote)
-					{
+					if(!$in_bracket && !$in_quote) {
 						// end of column
 						$tokens[$token_names[$count]] = stripslashes(trim($column));
 						
-						if(strlen($tokens[$token_names[$count]])==0 || $tokens[$token_names[$count]] == '-')
+						if(strlen($tokens[$token_names[$count]])==0 || $tokens[$token_names[$count]] == '-') {
 							$tokens[$token_names[$count]] = NULL;
+						}
 							
 						$column = '';
 						$count++;
@@ -136,25 +128,22 @@ function fget_tokenised_log_entry(&$file)
 		}
 		
 		// todo - remove code duplication here!
-		if(!$in_bracket && !$in_quote)
-		{
+		if(!$in_bracket && !$in_quote) {
 			// end of column
 			$tokens[$token_names[$count]] = stripslashes(trim($column));
 			
-			if(strlen($tokens[$token_names[$count]])==0 || $tokens[$token_names[$count]] == '-')
+			if(strlen($tokens[$token_names[$count]])==0 || $tokens[$token_names[$count]] == '-') {
 				$tokens[$token_names[$count]] = NULL;
-				
+			}
+			
 			$column = '';
 			$count++;
 		}
 	}//while
 	
-	if($tokens!=NULL)
-	{
+	if($tokens!=NULL) {
 		return $tokens;
-	}
-	else
-	{
+	} else {
 		return FALSE;
 	}
 }
@@ -166,8 +155,7 @@ function fget_tokenised_log_entry(&$file)
 	go over 4000 characters, so as not to confuse the logfile.php
 	script.
 */
-function opendb_logger($msgtype, $file, $function, $message = NULL, $params_r = NULL)
-{
+function opendb_logger($msgtype, $file, $function, $message = NULL, $params_r = NULL) {
 	if(get_opendb_config_var('logging', 'enable')!==FALSE) // only log if enabled in config.php
 	{
 		$entry['datetime'] = date("d/m/y H:i:s");  // get time and date
@@ -176,16 +164,17 @@ function opendb_logger($msgtype, $file, $function, $message = NULL, $params_r = 
 		$entry['user_id'] = get_opendb_session_var('user_id');
 		
 		$entry['admin_user_id'] = get_opendb_session_var('admin_user_id');
-		if(strlen($entry['admin_user_id'])==0)
+		if(strlen($entry['admin_user_id'])==0) {
 			$entry['admin_user_id'] = '-';
+		}
 		
 		$msgtype = strtoupper($msgtype);
-		if(!in_array($msgtype, array('E','I','W')))
+		if(!in_array($msgtype, array('E','I','W'))) {
 			$msgtype = 'E';
+		}
 		
 		// temp bit here!
-		switch($msgtype)
-		{
+		switch($msgtype) {
 			case 'E':
 				$entry['type'] = 'ERROR';
 				break;
@@ -198,36 +187,39 @@ function opendb_logger($msgtype, $file, $function, $message = NULL, $params_r = 
 		}
 		
 		$entry['parameters'] = expand_opendb_logger_params($params_r);
-		if(strlen($entry['parameters'])==0)
-		{
+		if(strlen($entry['parameters'])==0) {
 			$entry['parameters'] = '-';
 		}
 		
-		if(strlen($file)>0)
+		if(strlen($file)>0) {
 			$entry['file'] = str_replace('\\', '/', $file);
-		else
+		} else {
 			$entry['file'] = '-';
-			
-		if(strlen($function)>0 && $function != 'unknown')
+		}
+		
+		if(strlen($function)>0 && $function != 'unknown') {
 			$entry['function'] = $function;
-		else
+		} else {
 			$entry['function'] = '-';
-				
-		if(strlen($message)>0)
+		}
+		
+		if(strlen($message)>0) {
 			$entry['message'] = $message;
-		else
+		} else {
 			$entry['message'] = '-';
-			
-		$fileptr = @fopen(get_opendb_config_var('logging', 'file'), 'a' );
-		if( $fileptr )	// verify file was opened
-		{
+		}
+		
+		$fileptr = file_open(get_opendb_config_var('logging', 'file'), 'a');
+		if($fileptr) {	// verify file was opened
 			$entry['datetime'] = '['.$entry['datetime'].']';
 			
-			if($entry['parameters']!='-')
+			if($entry['parameters']!='-') {
 				$entry['parameters'] = '"'.addslashes(replace_newlines($entry['parameters'])).'"';
-				
-			if($entry['message']!='-')
+			}
+			
+			if($entry['message']!='-') {
 				$entry['message'] = '"'.addslashes(replace_newlines($entry['message'])).'"';
+			}
 			
 			$line = 
 				$entry['datetime'].
@@ -254,29 +246,21 @@ function opendb_logger($msgtype, $file, $function, $message = NULL, $params_r = 
 	}
 }
 
-function expand_opendb_logger_params($params_r)
-{
+function expand_opendb_logger_params($params_r) {
 	$params = '';
-	if(!is_array($params_r))
-	{
+	if(!is_array($params_r)) {
 		$params = $params_r;
-	}
-	else
-	{
+	} else {
 		reset($params_r);
-		while(list($key, $value) = each($params_r))
-		{
+		while(list($key, $value) = each($params_r)) {
 			if(strlen($params)>0)
 				$params .= ', ';
 			
-			if(is_array($value))
-			{
+			if(is_array($value)) {
 				$params .= "{ ";
 				$params .= expand_opendb_logger_params($value);
 				$params .= " }";
-			}
-			else
-			{
+			} else {
 				// might not provide named key values, as for example insert statements its assumed parameters are listed in order
 				// passed into the function.
 				if(!is_numeric($key))

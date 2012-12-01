@@ -44,12 +44,12 @@ deny from all
 */
 
 // This must be first - includes config.php
-require_once("./include/begin.inc.php");
+require_once("include/begin.inc.php");
 
 include_once("lib/database.php");
 include_once("lib/auth.php");
 include_once("lib/logging.php");
-
+include_once("lib/fileutils.php");
 include_once("lib/user.php");
 include_once("lib/datetime.php");
 
@@ -65,12 +65,9 @@ function _build_tooltip($prompt, $value)
 $logging_config_r = get_opendb_config_var('logging');
 
 // Not much point continuing if no logfile.
-if(strlen($logging_config_r['file'])>0)
-{
-	if(is_readable($logging_config_r['file']))
-	{
-		if($HTTP_VARS['op'] == 'download') // user wants to download usagelog
-		{
+if(strlen($logging_config_r['file'])>0) {
+	if(is_readable($logging_config_r['file'])) {
+		if($HTTP_VARS['op'] == 'download') { // user wants to download usagelog
 			$filename = basename($logging_config_r['file']);
 				
 			header("Cache-control: no-store");
@@ -84,26 +81,18 @@ if(strlen($logging_config_r['file'])>0)
 
 			//no theme here!
 			return;
-		}
-		else if($HTTP_VARS['op'] == 'clear') // confirm with user to delete log
-		{
-			if($HTTP_VARS['confirmed'] == 'true')
-			{
+		} else if($HTTP_VARS['op'] == 'clear') { // confirm with user to delete log
+			if($HTTP_VARS['confirmed'] == 'true') {
 				$result = @unlink(get_opendb_config_var('logging', 'file'));
-				if($result)
-				{
+				if($result) {
 					opendb_logger(OPENDB_LOG_INFO, __FILE__, __FUNCTION__, 'Usage log cleared');
-				}
-				else
-				{
+				} else {
 					opendb_logger(OPENDB_LOG_ERROR, __FILE__, __FUNCTION__, 'Usage log not cleared');
 				}
 				
 				// return to log file without POST params so can do immediate refresh of log
 				opendb_redirect(basename($PHP_SELF)."?type=$ADMIN_TYPE");
-			}
-			else if($HTTP_VARS['confirmed'] != 'false')
-			{
+			} else if($HTTP_VARS['confirmed'] != 'false') {
 				echo("<h3>".get_opendb_lang_var('clear_usagelog')."</h3>\n");
 				
 				// hack to get the redirect to work
@@ -113,32 +102,26 @@ if(strlen($logging_config_r['file'])>0)
 					$PHP_SELF, 
 					get_opendb_lang_var('confirm_clear_log'), 
 					$HTTP_VARS);
-			}
-			else // confirmation required.
-			{
+			} else { // confirmation required.
 				$HTTP_VARS['op'] = '';
 				
 				// return to log file without POST params so can do immediate refresh of log
 				opendb_redirect(basename($PHP_SELF)."?type=$ADMIN_TYPE");
 			}
-		}
-		else if($HTTP_VARS['op'] == 'backup')
-		{
-			if(strlen($logging_config_r['backup_ext_date_format'])>0)
+		} else if($HTTP_VARS['op'] == 'backup') {
+			if(strlen($logging_config_r['backup_ext_date_format'])>0) {
 				$mask = get_localised_timestamp($logging_config_r['backup_ext_date_format']);
-			else
+			} else {
 				$mask = get_localised_timestamp('DDMMYY');
+			}
 			
 			$filename = $logging_config_r['file'].'.'.get_localised_timestamp($mask);
 			
 			$result = @copy($logging_config_r['file'], $filename);
-			if($result)
-			{
+			if($result) {
 				opendb_logger(OPENDB_LOG_INFO, __FILE__, __FUNCTION__, 'Usage log backed up', array($filename));
 				$success[] = get_opendb_lang_var('backup_successful', 'filename', $filename);
-			}
-			else
-			{
+			} else {
 				opendb_logger(OPENDB_LOG_ERROR, __FILE__, __FUNCTION__, 'Usage log not backed up', array($filename));
 				$errors[] = get_opendb_lang_var('backup_unsuccessful', 'filename', $filename);
 			}
@@ -146,20 +129,19 @@ if(strlen($logging_config_r['file'])>0)
 			$HTTP_VARS['op'] = '';
 		}
 		
-		if($HTTP_VARS['op'] == '')
-		{
-			if(is_array($errors))
+		if($HTTP_VARS['op'] == '') {
+			if(is_array($errors)) {
 				echo(format_error_block($errors));
-			else if(is_array($success))
+			} else if(is_array($success)) {
 				echo(format_error_block($success, 'information'));
+			}
 			
 			echo("<p>[<a href=\"$PHP_SELF?type=$ADMIN_TYPE&op=clear\">".get_opendb_lang_var('clear_usagelog')."</a>] "
 				."[<a href=\"$PHP_SELF?type=$ADMIN_TYPE&op=backup\">".get_opendb_lang_var('backup_usagelog')."</a>] "
 				."[<a href=\"$PHP_SELF?type=$ADMIN_TYPE&op=download&mode=job\">".get_opendb_lang_var('download_usagelog')."</a>]</p>");
 			
-			$logfile = fopen($logging_config_r['file'], 'r');
-			if($logfile)
-			{
+			$logfile = file_open($logging_config_r['file'], 'r');
+			if($logfile) {
 				// Might need this much time to display logfile
 				@set_time_limit(600);
 				
@@ -176,43 +158,37 @@ if(strlen($logging_config_r['file'])>0)
 					"</tr>");
 				
 				//$token_names = array('ip', 'datetime', 'type', 'function', 'parameters', 'message');
-				while(($tokens = fget_tokenised_log_entry($logfile))!==FALSE)
-				{
-					if($tokens['admin_user_id'] != NULL)
-					{
+				while(($tokens = fget_tokenised_log_entry($logfile))!==FALSE) {
+					if($tokens['admin_user_id'] != NULL) {
 						$tokens['user_id'] .= ' ('.$tokens['admin_user_id'].')';
 					}
 					
-					if($tokens['type'] == 'ERROR')
+					if($tokens['type'] == 'ERROR') {
 						$class = 'error';
-					else if($tokens['type'] == 'WARN')
+					} else if($tokens['type'] == 'WARN') {
 						$class = 'warn';
-					else if($tokens['type'] == 'INFO')
+					} else if($tokens['type'] == 'INFO') {
 						$class = 'success';
-					
-					if($tokens['parameters'] != NULL)
-					{
-						$tokens['parameters'] = _build_tooltip(get_opendb_lang_var('parameters'), $tokens['parameters']);
 					}
-					else
-					{
+					
+					if($tokens['parameters'] != NULL) {
+						$tokens['parameters'] = _build_tooltip(get_opendb_lang_var('parameters'), $tokens['parameters']);
+					} else {
 						$tokens['parameters'] = '&nbsp;';
 					}
 						
-					if($tokens['message'] != NULL)
-					{
+					if($tokens['message'] != NULL) {
 						if(strlen($tokens['message'])>100)
 						{
 							$tokens['message'] = _build_tooltip(get_opendb_lang_var('message'), $tokens['message']);
 						}										
-					}
-					else
-					{
+					} else {
 						$tokens['message'] = '&nbsp;';
 					}
 					
-					if($tokens['function'] == NULL)
+					if($tokens['function'] == NULL) {
 						$tokens['function'] = '&nbsp;';
+					}
 					
 					$tokens['file'] = get_relative_opendb_filename($tokens['file']);
 					
@@ -230,21 +206,16 @@ if(strlen($logging_config_r['file'])>0)
 				fclose($logfile);
 	
 				echo("</table>");
-			}
-			else//if($logfile)
-			{	
+			} else { //if($logfile)
 				// Should never heve happen, as we have already cheched if logfile 'is_readable'
 				echo("<div class=\"error\">".$lang_var['undefined_error']."</div>");
 			}
 		}
 	}
-	else //if(is_readable(get_opendb_config_var('logging', 'file')))
-	{
+	else { //if(is_readable(get_opendb_config_var('logging', 'file')))
 		echo("<div class=\"error\">".get_opendb_lang_var('no_logfile_found')."</div>");
 	}
-}
-else//if(strlen(get_opendb_config_var('logging', 'file'))>0)
-{
+} else { //if(strlen(get_opendb_config_var('logging', 'file'))>0)
 	echo("<div class=\"error\">".get_opendb_lang_var('no_logfile_defined')."</div>");
 }
 ?>

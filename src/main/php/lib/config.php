@@ -21,25 +21,21 @@ include_once("lib/database.php");
 
 // these are defined here - so they can be overriden by downstream packagers
 // as required.  they will no longer be exposed via configuration.
-define('OPENDB_IMPORT_CACHE_DIRECTORY', './importcache');
-define('OPENDB_ITEM_CACHE_DIRECTORY', './itemcache');
-define('OPENDB_ITEM_UPLOAD_DIRECTORY', './upload');
-define('OPENDB_HTTP_CACHE_DIRECTORY', './httpcache');
+define('OPENDB_IMPORT_CACHE_DIRECTORY', 'importcache');
+define('OPENDB_ITEM_CACHE_DIRECTORY', 'itemcache');
+define('OPENDB_ITEM_UPLOAD_DIRECTORY', 'upload');
+define('OPENDB_HTTP_CACHE_DIRECTORY', 'httpcache');
 
 $_OPENDB_CONFIG_EXISTS = NULL;
 
-function is_gzip_compression_enabled($php_self)
-{
+function is_gzip_compression_enabled($php_self) {
 	$page = basename($php_self, '.php');
 	
-	if(get_opendb_config_var('site.gzip_compression', 'enable') === TRUE)
-	{
+	if(get_opendb_config_var('site.gzip_compression', 'enable') === TRUE) {
 		// hard code disable for installer and url as most images already compressed
 		// so is superfluous.
-		if($page != 'install' &&
-		   $page != 'url' &&  
-				!in_array($page, get_opendb_config_var('site.gzip_compression', 'disabled')))
-		{
+		if($page != 'install' && $page != 'url' &&  
+				!in_array($page, get_opendb_config_var('site.gzip_compression', 'disabled'))) {
 			return TRUE;
 		}
 	}
@@ -55,8 +51,7 @@ function get_opendb_image_type() {
 /**
  * @return unknown
  */
-function is_show_login_menu_enabled()
-{
+function is_show_login_menu_enabled() {
 	return get_opendb_config_var('login', 'show_menu')!==FALSE;
 }
 
@@ -64,8 +59,7 @@ function is_show_login_menu_enabled()
 	The current opendb distribution version, which takes into account
 	the release and patch.
 */
-function get_opendb_version()
-{
+function get_opendb_version() {
 	return __OPENDB_RELEASE__;
 }
 
@@ -75,35 +69,26 @@ function get_opendb_version()
  * @param unknown_type $override_title
  * @return unknown
  */
-function get_opendb_title($override_default_title = TRUE)
-{
-	if($override_default_title)
-	{
+function get_opendb_title($override_default_title = TRUE) {
+	if($override_default_title) {
 		return ifempty(get_opendb_config_var('site', 'title'), __OPENDB_TITLE__);
-	}
-	else
-	{
+	} else {
 		return __OPENDB_TITLE__;
 	}
 }
 
-function get_opendb_title_and_version()
-{
+function get_opendb_title_and_version() {
 	return get_opendb_title(FALSE)." ".get_opendb_version();
 }
 
 /**
 */
-function is_opendb_configured()
-{
+function is_opendb_configured() {
 	global $CONFIG_VARS;
 	
-	if(is_array($CONFIG_VARS['db_server']))
-	{
+	if(is_array($CONFIG_VARS['db_server'])) {
 		return TRUE;
-	}
-	else
-	{
+	} else {
 		return FALSE;
 	}
 }
@@ -112,8 +97,7 @@ function is_opendb_configured()
 	Override a config variable for the current script execution only, this should be
 	used with a great deal of care, as no type checking is performed.
 */
-function set_opendb_config_ovrd_var($group, $id, $var)
-{
+function set_opendb_config_ovrd_var($group, $id, $var) {
 	global $CONFIG_VARS;
 	
 	// force the caching of the entire group.
@@ -127,59 +111,46 @@ function set_opendb_config_ovrd_var($group, $id, $var)
 	$group is only specified, then an array of all items in the group
 	will be returned.
 */
-function get_opendb_config_var($group, $id = NULL, $keyid = NULL)
-{
-	if(is_opendb_configured())
-	{
+function get_opendb_config_var($group, $id = NULL, $keyid = NULL) {
+	if(is_opendb_configured()) {
         global $CONFIG_VARS;
 
-		if($group!=NULL)
-		{
+		if($group!=NULL) {
 		  	// override config value.
-		  	if($group == 'db_server' || $group == 'session_handler' || is_array($CONFIG_VARS[$group])) // cached vars
-			{
-				if($id!==NULL && $keyid!==NULL)
+		  	if($group == 'db_server' || $group == 'session_handler' || is_array($CONFIG_VARS[$group])) { // cached vars
+				if($id!==NULL && $keyid!==NULL) {
 		        	return $CONFIG_VARS[$group][$id][$keyid];
-				else if($id!==NULL)
+				} else if($id!==NULL) {
 	  				return $CONFIG_VARS[$group][$id];
-				else
+				} else {
 					return $CONFIG_VARS[$group]; // will return an array of all config items in group
-			}
-			else
-			{
+				}
+			} else {
 			    $group_r = get_opendb_db_config_var($group);
-				if(is_array($group_r))
-				{
+				if(is_array($group_r)) {
 			    	$CONFIG_VARS[$group] = $group_r;
 			    }
 			    
-		        if($id!==NULL && $keyid!==NULL)
+		        if($id!==NULL && $keyid!==NULL) {
 			        return $CONFIG_VARS[$group][$id][$keyid];
-				else if($id!==NULL)
+		        } else if($id!==NULL) {
 		  			return $CONFIG_VARS[$group][$id];
-				else
+		        } else {
 					return $CONFIG_VARS[$group];
+		        }
 			}
-		}//if($group!=NULL)
-		else
-		{
+		} else { //if($group!=NULL)
 		    return NULL;
 		}
-	}
-	else
-	{
+	} else {
 	    return NULL;
 	}
 }
 
-function get_opendb_db_config_var($group, $id = NULL, $keyid = NULL)
-{
-    if(is_db_connected())
-    {
-	    if($group!=NULL)
-		{
-			if($id!=NULL && $keyid!=NULL)
-			{
+function get_opendb_db_config_var($group, $id = NULL, $keyid = NULL) {
+    if(is_db_connected()) {
+	    if($group!=NULL) {
+			if($id!=NULL && $keyid!=NULL) {
 			    $query = "SELECT cgiv.group_id, cgiv.id, scgi.type, cgiv.keyid, cgiv.value ".
 						"FROM s_config_group_item_var cgiv, s_config_group_item scgi ".
 						"WHERE cgiv.group_id = scgi.group_id AND ".
@@ -189,9 +160,7 @@ function get_opendb_db_config_var($group, $id = NULL, $keyid = NULL)
 						"cgiv.id = '$id' AND ".
 						"cgiv.keyid = '$keyid' ".
 		                "LIMIT 0,1"; // enforce only one record returned.
-			}
-			else if($id!=NULL)
-			{
+			} else if($id!=NULL) {
 			    $query = "SELECT cgiv.group_id, cgiv.id, scgi.type, cgiv.keyid, cgiv.value ".
 						"FROM s_config_group_item_var cgiv, s_config_group_item scgi ".
 						"WHERE cgiv.group_id = scgi.group_id AND ".
@@ -199,9 +168,7 @@ function get_opendb_db_config_var($group, $id = NULL, $keyid = NULL)
 						"(scgi.type = 'array' OR cgiv.keyid = scgi.keyid) AND ".
 						"cgiv.group_id = '$group' AND cgiv.id = '$id' ".
 						"ORDER BY cgiv.keyid";
-			}
-			else
-			{
+			} else {
 			    $query = "SELECT cgiv.group_id, cgiv.id, scgi.type, cgiv.keyid, cgiv.value ".
 						"FROM s_config_group_item_var cgiv, s_config_group_item scgi ".
 						"WHERE cgiv.group_id = scgi.group_id AND ".
@@ -211,33 +178,25 @@ function get_opendb_db_config_var($group, $id = NULL, $keyid = NULL)
 						"cgiv.group_id = '$group' ".
 						"ORDER BY cgiv.id, cgiv.keyid";
 			}
-		}
-		else
-		{
+		} else {
 		    // invalid parameters provided
 		    return NULL;
 		}
 
 		$results = db_query($query);
-		if($results)
-		{
-			if(db_num_rows($results)>0)
-			{
+		if($results) {
+			if(db_num_rows($results)>0) {
 				$results_r = NULL;
 				$tmp_vars_r = NULL;
 				$current_id = NULL;
 				$current_type = NULL;
 
-		        while($config_var_r = db_fetch_assoc($results))
-				{
+		        while($config_var_r = db_fetch_assoc($results)) {
 					// first time through loop
-					if($current_id == NULL)
-					{
+					if($current_id == NULL) {
 						$current_id = $config_var_r['id'];
 		                $current_type = $config_var_r['type'];
-					}
-					else if($current_id !== $config_var_r['id']) // end of id, so process
-					{
+					} else if($current_id !== $config_var_r['id']) { // end of id, so process
                         $results_r[$current_id] = get_db_config_var($current_type, $tmp_vars_r, $group, $id, $keyid);
 
 		                $current_id = $config_var_r['id'];
@@ -253,25 +212,23 @@ function get_opendb_db_config_var($group, $id = NULL, $keyid = NULL)
 
                 $results_r[$current_id] = get_db_config_var($current_type, $tmp_vars_r, $group, $id, $keyid);
 
-				if($id!=NULL)
+				if($id!=NULL) {
 					return $results_r[$current_id];
-				else // else return whole group
+				} else { // else return whole group
 					return $results_r;
+				}
 			}//if(db_num_rows($results)>0)
-			else
-			{
+			else {
 				return NULL;
 			}
 		}//if($results)
-		else
-		{
+		else {
 			// cannot log here - causes recursive loop
 			//opendb_logger(OPENDB_LOG_ERROR, __FILE__, __FUNCTION__, db_error(), array($group, $id, $keyid));
 			return NULL;
 		}
 	}//if(db_ping())
-	else
-	{
+	else {
 	    return NULL;
 	}
 }
@@ -290,71 +247,50 @@ function get_opendb_db_config_var($group, $id = NULL, $keyid = NULL)
 			usertype - Restrict to set of user types only.
     		colour - RGB Hexadecimal colour value.
 */
-function get_db_config_var($type, $vars_r, $group, $id, $keyid)
-{
-    if(count($vars_r)>1)
-	{
-	    if($type == 'boolean')
-		{
+function get_db_config_var($type, $vars_r, $group, $id, $keyid) {
+    if(count($vars_r)>1) {
+	    if($type == 'boolean') {
 		    $boolean_vars_r = NULL;
 		    reset($vars_r);
-	    	while(list($key,$value) = each($vars_r))
-	    	{
-	    	    if($value == 'TRUE')
+	    	while(list($key,$value) = each($vars_r)) {
+	    	    if($value == 'TRUE') {
 					$boolean_vars_r[$key] = TRUE;
-				else //if($value == 'FALSE')
+	    	    } else { //if($value == 'FALSE')
 					$boolean_vars_r[$key] = FALSE;
+	    	    }
 	    	}
 	    	
 	    	return $boolean_vars_r;
-		}
-		else
-		{
+		} else {
 		    return $vars_r;
 		}
-	}
-	else
-	{
-	    if($type == 'array')
-	    {
+	} else {
+	    if($type == 'array') {
         	return $vars_r;
-		}
-	    else
-	    {
+		} else {
 	        reset($vars_r);
-	        if(list($key,$value) = each($vars_r))
-			{
-				if($type == 'boolean')
-				{
-				    if($value == 'TRUE')
-				    {
+	        if(list($key,$value) = each($vars_r)) {
+				if($type == 'boolean') {
+				    if($value == 'TRUE') {
 						return TRUE;
-					}
-					else //if($value == 'FALSE')
-					{
+					} else { //if($value == 'FALSE')
 						return FALSE;
 					}
-				}
-				else
-				{
+				} else {
 					// if keyid specified, or key is numeric, then return simple
 					// value, otherwise be helpful and return single element array.
-					if($keyid!=NULL || is_numeric($key))
+					if($keyid!=NULL || is_numeric($key)) {
 					    return $value;
-					else
-					{
+					} else {
 						return $vars_r;
 					}
 				}
 			}
 			
 			//else
-			if($type == 'boolean')
-			{
+			if($type == 'boolean') {
 				return FALSE;
-			}
-			else
-			{
+			} else {
 			    return NULL;
 			}
 		}
@@ -363,8 +299,7 @@ function get_db_config_var($type, $vars_r, $group, $id, $keyid)
 
 /**
 */
-function fetch_title_display_mask_rs($stdm_id)
-{
+function fetch_title_display_mask_rs($stdm_id) {
     $query = "SELECT stdmi.display_mask, ".
             "stdmi.s_item_type,".
             "stdmi.s_item_type_group ".
@@ -372,9 +307,10 @@ function fetch_title_display_mask_rs($stdm_id)
 	        "WHERE stdmi.stdm_id = '$stdm_id'";
 
     $result = db_query($query);
-	if($result && db_num_rows($result)>0)
+	if($result && db_num_rows($result)>0) {
 		return $result;
-	else
+	} else {
 		return FALSE;
+	}
 }
 ?>

@@ -19,7 +19,7 @@
 */
 
 // This must be first - includes config.php
-require_once("./include/begin.inc.php");
+require_once("include/begin.inc.php");
 
 include_once("lib/secretimage.php");
 
@@ -28,5 +28,5 @@ if(is_numeric($HTTP_VARS['gfx_random_number'])) {
 }
 
 // Cleanup after begin.inc.php
-require_once("./include/end.inc.php");
+require_once("include/end.inc.php");
 ?>

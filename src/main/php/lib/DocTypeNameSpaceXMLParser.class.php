@@ -19,6 +19,7 @@
 */
 
 include_once("lib/utils.php");
+include_once("lib/fileutils.php");
 
 /*
 * Work out the DocType and namespace of the Document,
@@ -39,7 +40,7 @@ class DocTypeNameSpaceXMLParser
 		$this->_nameSpace = NULL;
 		$this->_errors = NULL;
 			
-		$fp = @fopen($fileLocation, 'r');
+		$fp = file_open($fileLocation, 'r');
 		if($fp) {
 			$parser = xml_parser_create('ISO-8859-1');
 		    xml_set_object($parser, $this);

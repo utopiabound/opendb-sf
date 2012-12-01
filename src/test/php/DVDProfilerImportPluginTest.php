@@ -21,6 +21,7 @@
 include_once("lib/WrapperFileHandler.class.php");
 include_once("lib/XMLImportPluginHandler.class.php");
 include_once("lib/import/DVDProfilerImportPlugin.class.php");
+include_once("lib/fileutils.php");
 
 class DVDProfilerImportPluginTest extends PHPUnit_Framework_TestCase {
 	function testXMLParse() {
@@ -29,7 +30,7 @@ class DVDProfilerImportPluginTest extends PHPUnit_Framework_TestCase {
 		
 		$plugin->setItemImportHandler($importHandler);
 		
-		$f = fopen("test-classes/DVDProfilerCollection.xml", 'rb');
+		$f = file_open("DVDProfilerCollection.xml", 'rb');
 		if($f) {
 			$fileHandler = new WrapperFileHandler($f);
 			
