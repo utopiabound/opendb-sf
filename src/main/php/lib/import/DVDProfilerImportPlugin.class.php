@@ -195,7 +195,7 @@ class DVDProfilerImportPlugin extends XMLImportPlugin
 			'Dolby Digital Surround'=>'ENGLISH_SR',
 		);
 		
-		if(is_array($audioLangMap))
+		if(is_array($audioLangMap) && isset($audioLangMap[$lang]))
 		{
 			if(strlen($audioLangMap[$lang])>0)
 				$lang = $audioLangMap[$lang];
@@ -228,7 +228,11 @@ class DVDProfilerImportPlugin extends XMLImportPlugin
 			
 			$mapped_feature_r = array();
 			while(list(,$feature) = each($feature_r)) {
-				$mapped_feature_r[] = ifempty($featureMap[$feature], $feature);
+				if (isset($featureMap[$feature])) {
+					$mapped_feature_r[] = ifempty($featureMap[$feature], $feature);
+				} else {
+					$mapped_feature_r[] = $feature;
+				}
 			}
 			
 			return implode("\n", $mapped_feature_r);
@@ -248,7 +252,7 @@ class DVDProfilerImportPlugin extends XMLImportPlugin
 			return 'ScienceFiction';
 		} else if($genre == 'Suspence/Thriller') {
 			return array('Suspense', 'Thriller');
-		} else if($pcdata == 'Special Interest') {
+		} else if($genre == 'Special Interest') {
 			return 'Other';
 		} else {
 			return $genre;

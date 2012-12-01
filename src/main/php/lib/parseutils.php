@@ -40,7 +40,8 @@ function parse_numeric_suffix($s) {
 		$prefix = $s;
 	}
 
-	return array(prefix=>$prefix, suffix=>$suffix);
+	return array('prefix'=>$prefix, 
+			'suffix'=>$suffix);
 }
 
 /**

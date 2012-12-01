@@ -29,7 +29,6 @@ class DVDProfilerImportPluginTest extends PHPUnit_Framework_TestCase {
 		
 		$plugin->setItemImportHandler($importHandler);
 		
-		// FIXME
 		$f = fopen("test-classes/DVDProfilerCollection.xml", 'rb');
 		if($f) {
 			$fileHandler = new WrapperFileHandler($f);
