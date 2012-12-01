@@ -236,9 +236,8 @@ function get_theme_search_site_dir_list() {
 
 /**
  * @param unknown_type $src
- * @param unknown_type $PermitOtherExtension -- only used by GDImage class!
  */
-function theme_image_src($src, $PermitOtherExtension = TRUE) {
+function theme_image_src($src) {
 	if(strlen($src)>0) {
 		if(starts_with($src, 'images/site/')) {
 			$dirPaths = get_theme_search_site_dir_list();
@@ -251,20 +250,14 @@ function theme_image_src($src, $PermitOtherExtension = TRUE) {
 
 		$src = $file_r['name'];
 		
-		// this might seem a little weird, but its simpler code to write
-		if($PermitOtherExtension) {
-			$extension_r = array('gif', 'png', 'jpg');
-		} else {
-			$extension_r = array($file_r['extension']);
-		}
+		$extension_r = array($file_r['extension']);
 		
 		while(list(,$dir) = each($dirPaths)) {
 			reset($extension_r);
 			while(list(,$extension) = each($extension_r)) {
-				$file = $dir.'/'.$src.'.'.$extension;
-				
+				$file = get_opendb_file($dir.'/'.$src.'.'.$extension);
 				if(file_exists($file)) {
-					return $file;
+					return get_opendb_relative_file($file);
 				}
 			}
 		}
