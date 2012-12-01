@@ -18,17 +18,11 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-require_once 'PHPUnit.php';
-require_once("./functions/GDImage.class.php");
+require_once("lib/GDImage.class.php");
 
-class GDImageTest extends PHPUnit_TestCase
-{
+class GDImageTest extends PHPUnit_Framework_TestCase {
 	var $baseDir = './docs/testcases/resources/';
 	
-	function GDImageTest($name)
-	{
-		parent::PHPUnit_TestCase($name);
-	}
 	
 	function testPngBasicFunctions() {
 		$gdImage = new GDImage('png');

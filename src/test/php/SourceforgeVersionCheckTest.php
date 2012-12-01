@@ -18,11 +18,9 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-require_once 'PHPUnit.php';
-include_once("./lib/SourceforgeVersionCheck.class.php");
+include_once("lib/SourceforgeVersionCheck.class.php");
 
-class SourceforgeVersionCheckTest extends PHPUnit_TestCase
-{
+class SourceforgeVersionCheckTest extends PHPUnit_Framework_TestCase {
 	var $baseDir = './docs/testcases/resources/';
 	
 	function SourceforgeVersionCheckTest($name) {

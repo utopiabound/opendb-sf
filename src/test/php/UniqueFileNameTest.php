@@ -18,18 +18,10 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 	*/
 
-require_once 'PHPUnit.php';
+include_once("lib/item_attribute.php");
+include_once("lib/parseutils.php");
 
-include_once("./lib/item_attribute.php");
-include_once("./lib/parseutils.php");
-
-class UniqueFileNameTest extends PHPUnit_TestCase
-{
-	function UniqueFileNameTest($name)
-	{
-		$this->PHPUnit_TestCase($name);
-	}
-
+class UniqueFileNameTest extends PHPUnit_Framework_TestCase {
 	function setUp()
 	{
 	}

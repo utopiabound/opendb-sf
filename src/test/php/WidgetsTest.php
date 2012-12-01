@@ -18,16 +18,9 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-require_once 'PHPUnit.php';
+include_once("lib/parseutils.php");
 
-include_once("./lib/parseutils.php");
-
-class WidgetsTest extends PHPUnit_TestCase
-{
-	function WidgetsTest($name)
-	{
-		$this->PHPUnit_TestCase($name);
-	}
+class WidgetsTest extends PHPUnit_Framework_TestCase {
 
 	function setUp()
 	{

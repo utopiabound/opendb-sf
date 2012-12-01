@@ -18,22 +18,11 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// TODO - add tests
+include_once("lib/WrapperFileHandler.class.php");
+include_once("lib/XMLImportPluginHandler.class.php");
+include_once("lib/import/DVDProfilerImportPlugin.class.php");
 
-require_once 'PHPUnit.php';
-
-include_once("./lib/WrapperFileHandler.class.php");
-include_once("./lib/XMLImportPluginHandler.class.php");
-include_once("./import/DVDProfilerImportPlugin.class.php");
-
-
-
-class DVDProfilerImportPluginTest extends PHPUnit_TestCase
-{
-	function DVDProfilerImportPluginTest($name) {
-		parent::PHPUnit_TestCase($name);
-	}
-	
+class DVDProfilerImportPluginTest extends PHPUnit_Framework_TestCase {
 	function testXMLParse() {
 		$plugin = new DVDProfilerImportPlugin();
 		$importHandler = new TestItemImportHandler();
