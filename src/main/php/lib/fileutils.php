@@ -92,6 +92,53 @@ function get_file_list($dir, $ext=NULL) {
     return $filelist;
 }
 
+function get_dir_list($dir) {
+	$dirlist = array();
+	
+	$dir = get_opendb_file($dir);
+	$handle = @opendir($dir);
+	while ($childdir = readdir($handle)) {
+		if($childdir != "." && $childdir != ".." && is_dir($dir.'/'.$childdir)) {
+			$dirlist[] = $childdir;
+		}
+	}
+	closedir($handle);
+
+	if(is_not_empty_array($dirlist)) {
+		return $dirlist;
+	} else { // empty array as last resort.
+		return array();
+	}
+}
+
+/**
+ * Guarantees that any image sources referenced are relative to opendb and currently
+ * to make this validation simpler, only images which have at most one directory
+ * level deep are supported, all others have their directory information removed.
+ *
+ * @param unknown_type $src
+ * @return unknown
+ */
+function safe_filename($src) {
+	// ensure dealing with only one path separator!
+	$src = str_replace("\\", "/", $src);
+
+	$file = basename($src);
+
+	$dir = dirname($src);
+	if($dir == '/' || $dir == '.') {
+		$dir = NULL;
+	}
+
+	if(strpos($dir, "/") !== FALSE) {
+		return $file; // return basename as illegal pathname - more than one directory path - only one level supported currently!
+	} else if(strlen($dir)>0) {
+		return $dir.'/'.$file;
+	} else {
+		return $file;
+	}
+}
+
 /**
 	Create a temporary file using configured temporary directory
 */
