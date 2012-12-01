@@ -236,6 +236,7 @@ function get_theme_search_site_dir_list() {
 
 /**
  * @param unknown_type $src
+ * @return - expected to be relative image reference, not an absolute one!
  */
 function theme_image_src($src) {
 	if(strlen($src)>0) {
