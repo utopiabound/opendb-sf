@@ -23,8 +23,6 @@ require_once("lib/StringFileHandler.class.php");
 include_once("lib/XMLImportPlugin.class.php");
 
 class XMLImportPluginHandlerTest extends PHPUnit_Framework_TestCase {
-	var $baseDir = './docs/testcases/resources/';
-	
 	function testXPath() {
 		$xml = 
 		"<Collection>

@@ -21,11 +21,9 @@
 require_once("lib/DocTypeNameSpaceXMLParser.class.php");
 
 class DocTypeNameSpaceXMLParserTest extends PHPUnit_Framework_TestCase {
-	var $baseDir = './docs/testcases/resources/';
-
 	function testNoNameSpaceParser() {
 		$parser = new DocTypeNameSpaceXMLParser();
-		if($parser->parseFile($this->baseDir.'FileWithNoNameSpace.xml')) {
+		if($parser->parseFile('test-classes/FileWithNoNameSpace.xml')) {
 			$this->assertEquals('opendb-items', $parser->getDocType());
 			$this->assertNull($parser->getNameSpace());
 		} else {
@@ -36,7 +34,7 @@ class DocTypeNameSpaceXMLParserTest extends PHPUnit_Framework_TestCase {
 	
 	function testWithNameSpaceParser() {
 		$parser = new DocTypeNameSpaceXMLParser();
-		if($parser->parseFile($this->baseDir.'FileWithNameSpace.xml')) {
+		if($parser->parseFile('test-classes/FileWithNameSpace.xml')) {
 			$this->assertEquals('Items', $parser->getDocType());
 			$this->assertEquals('http://opendb.iamvegan.net/xsd/Items-1.3.xsd', $parser->getNameSpace());
 		} else {

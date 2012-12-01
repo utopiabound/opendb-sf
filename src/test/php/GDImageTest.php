@@ -21,9 +21,6 @@
 require_once("lib/GDImage.class.php");
 
 class GDImageTest extends PHPUnit_Framework_TestCase {
-	var $baseDir = './docs/testcases/resources/';
-	
-	
 	function testPngBasicFunctions() {
 		$gdImage = new GDImage('png');
 		$this->assertEquals('png', $gdImage->getImageType());

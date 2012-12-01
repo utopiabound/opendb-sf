@@ -21,21 +21,15 @@
 include_once("lib/SourceforgeVersionCheck.class.php");
 
 class SourceforgeVersionCheckTest extends PHPUnit_Framework_TestCase {
-	var $baseDir = './docs/testcases/resources/';
-	
-	function SourceforgeVersionCheckTest($name) {
-		parent::PHPUnit_TestCase($name);
-	}
-	
 	function testVersionParse() {
-		$file = $this->baseDir.'LatestRelease.sf.net.html';
+		$file = 'test-classes/LatestRelease.sf.net.html';
 		$checker = new SourceforgeVersionCheck($file);
 		
 		$this->assertEquals('1.0.4pl1', $checker->getVersion());
 	}
 	
 	function testIsUpdatedVersionNotUpdated() {
-		$file = $this->baseDir.'LatestRelease.sf.net.html';
+		$file = 'test-classes/LatestRelease.sf.net.html';
 		$checker = new SourceforgeVersionCheck($file);
 		
 		$this->assertFalse($checker->isUpdatedVersion('1.0.4pl1'));
@@ -43,11 +37,10 @@ class SourceforgeVersionCheckTest extends PHPUnit_Framework_TestCase {
 	}
 	
 	function testIsUpdatedVersionUpdated() {
-		$file = $this->baseDir.'LatestRelease.sf.net.html';
+		$file = 'test-classes/LatestRelease.sf.net.html';
 		$checker = new SourceforgeVersionCheck($file);
 		
 		$this->assertTrue($checker->isUpdatedVersion('1.0.4'));
 		$this->assertTrue($checker->isUpdatedVersion('1.0.0'));
-		
 	}	
 }
