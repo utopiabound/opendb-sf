@@ -1,6 +1,6 @@
 /*
  	Open Media Collectors Database
-	Copyright (C) 2001,2006 by Jason Pell
+	Copyright (C) 2001-2012 by Jason Pell
 */
 
 // JavaScript Document

@@ -1,7 +1,7 @@
 <?php
 /* 	
  	Open Media Collectors Database
-	Copyright (C) 2001,2006 by Jason Pell
+	Copyright (C) 2001-2012 by Jason Pell
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -18,6 +18,9 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+// TODO - how do we get the target directory for tests, this is dodgy!
+define('__OPENDB_BASEDIR__', dirname(dirname(dirname(dirname(__FILE__)))) . '/target');
+
 include_once("lib/WrapperFileHandler.class.php");
 include_once("lib/XMLImportPluginHandler.class.php");
 include_once("lib/import/DVDProfilerImportPlugin.class.php");
@@ -30,7 +33,7 @@ class DVDProfilerImportPluginTest extends PHPUnit_Framework_TestCase {
 		
 		$plugin->setItemImportHandler($importHandler);
 		
-		$f = fopen("test-classes/DVDProfilerCollection.xml", 'rb');
+		$f = file_open("test-classes/DVDProfilerCollection.xml", 'rb');
 		if($f) {
 			$fileHandler = new WrapperFileHandler($f);
 			

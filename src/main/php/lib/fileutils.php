@@ -1,7 +1,7 @@
 <?php
 /* 	
 	OpenDb Media Collector Database
-	Copyright (C) 2001,2006 by Jason Pell
+	Copyright (C) 2001-2012 by Jason Pell
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -20,9 +20,12 @@
 
 include_once("lib/logging.php");
 
+if (!defined('__OPENDB_BASEDIR__')) {
+	define('__OPENDB_BASEDIR__', dirname(dirname(__FILE__)));
+}
+
 function get_opendb_basedir() {
-	$currentDir = dirname(__FILE__);
-	return dirname($currentDir);
+	return __OPENDB_BASEDIR__;
 }
 
 function get_opendb_file($filename) {

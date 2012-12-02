@@ -1,7 +1,7 @@
 <?php
 /* 	
 	OpenDb Media Collector Database
-	Copyright (C) 2001,2006 by Jason Pell
+	Copyright (C) 2001-2012 by Jason Pell
 
 	This program is free software; you can redistribute it and/or
 	modify it under the terms of the GNU General Public License
@@ -35,10 +35,8 @@ class DocTypeNameSpaceXMLParser
 	}
 	
 	/**
-	 * This location is not relative to opendb, it must be the absolute file location, pass
-	 * in get_opendb_file if required.
-	 * 
-	 * @param unknown_type $fileLocation
+	 * @param unknown_type $fileLocation - If file does not start with a /, then its considered relative and
+	 * will be opened using file_open.  If its absolute it will be opened using open.
 	 */
 	function parseFile($fileLocation) {
 		// reset it.
@@ -46,7 +44,12 @@ class DocTypeNameSpaceXMLParser
 		$this->_nameSpace = NULL;
 		$this->_errors = NULL;
 			
-		$fp = fopen($fileLocation, 'r');
+		if (starts_with($fileLocation, '/')) {
+			$fp = fopen($fileLocation, 'r');
+		} else {
+			$fp = file_open($fileLocation, 'r');
+		}
+		
 		if($fp) {
 			$parser = xml_parser_create('ISO-8859-1');
 		    xml_set_object($parser, $this);
