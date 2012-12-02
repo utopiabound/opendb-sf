@@ -18,11 +18,23 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("include/begin.inc.php");
-include_once("lib/help.php");
+include_once("lib/config.php");
 
-class HelpTest extends PHPUnit_Framework_TestCase {
-	function testValidateHelpFile() {
-		$this->assertEquals("help/english/borrow.html", validate_opendb_lang_help_page_url('english/borrow.html'));
+set_opendb_config_group_ovrd(
+		'db_server', 
+		array(
+		'host'=>'localhost:/opt/lampp/var/mysql/mysql.sock', //OpenDb database host
+		'dbname'=>'opendb',		//OpenDb database name
+		'username'=>'lender',		//OpenDb database user name
+		'passwd'=>'test',		//OpenDb user password
+		'table_prefix'=>'', 	//Table prefix.
+		'debug-sql'=>FALSE));
+
+include_once("lib/database.php");
+
+class DatabaseTest extends PHPUnit_Framework_TestCase {
+	function testDbPing() {
+		$this->assertTrue(is_opendb_configured());
+		$this->assertTrue(db_ping());
 	}
 }

@@ -22,8 +22,6 @@
 	include/begin.inc.php
 */
 
-$_opendb_dblink = NULL;
-
 /**
 */
 //		'mysqli_connect', 'mysqli_close', 'mysqli_error', 'mysqli_errno', 'mysqli_query', 'mysqli_affected_rows', 'mysqli_free_result',
@@ -35,9 +33,7 @@ $_opendb_dblink = NULL;
 	
 	@param $cache_link - if TRUE, save reference to link for reuse.
 */
-function db_connect($host, $user, $passwd, $dbname, $cache_link = TRUE) {
-	global $_opendb_dblink;
-	
+function db_connect($host, $user, $passwd, $dbname) {
 	$index = strpos($host, ':');
 	if($index!==FALSE) {
 		$port = substr($host, $index+1);
@@ -60,94 +56,64 @@ function db_connect($host, $user, $passwd, $dbname, $cache_link = TRUE) {
 		}
     }
         
-	if($link!==FALSE) {
-		if($cache_link) {
-			$_opendb_dblink = $link;
-		}
-		
-		return $link;
-	}
-	
-	//else
-	return FALSE;
+	return $link;
 }
 
-function db_ping($link = NULL) {
-	global $_opendb_dblink;
-	return @mysqli_ping($link!=NULL?$link:$_opendb_dblink);
+function _db_ping($link) {
+	return @mysqli_ping($link);
 }
 
 /**
 remove reference to cached link upon close
 */
-function db_close($link = NULL) {
-	global $_opendb_dblink;
-	
-	if($link == NULL) {
-		$link = $_opendb_dblink;
-		$_opendb_dblink = NULL;
-	}
-	
+function _db_close($link) {
 	return @mysqli_close($link);
 }
 
-function db_error($link = NULL) {
-	global $_opendb_dblink;
-	
+function _db_error($link = NULL) {
+	// link will be null if connect failed
 	if($link!=NULL) {
 		return @mysqli_error($link);
-	} else if($_opendb_dblink!=NULL) {
-		return @mysqli_error($_opendb_dblink);
 	} else {
 		return @mysqli_connect_error();
 	}
 }
 
-function db_errno($link = NULL) {
-	global $_opendb_dblink;
-	
+function _db_errno($link = NULL) {
+	// link will be null if connect failed
 	if($link!=NULL) {
 		return @mysqli_errno($link);
-	} else if($_opendb_dblink!=NULL) {
-		return @mysqli_errno($_opendb_dblink);
 	} else {
 		return @mysqli_connect_errno();
 	}
 }
 
-function db_query($sql, $link = NULL) {
-	global $_opendb_dblink;
-
-	// expand any prefixes, display any debugging, etc
-	$sql = opendb_pre_query($sql);
-	
-	return @mysqli_query($link!=NULL?$link:$_opendb_dblink, $sql);
+function _db_query($sql, $link) {
+	return @mysqli_query($link, $sql);
 }
 
-function db_affected_rows($link = NULL) {
-	global $_opendb_dblink;
-	return @mysqli_affected_rows($link!=NULL?$link:$_opendb_dblink);
+function _db_affected_rows($link) {
+	return @mysqli_affected_rows($link);
 }
 
 
-function db_insert_id($link = NULL) {
-	global $_opendb_dblink;
-	return @mysqli_insert_id($link!=NULL?$link:$_opendb_dblink);
+function _db_insert_id($link) {
+	return @mysqli_insert_id($link);
 }
 
-function db_free_result($result) {
+function _db_free_result($result) {
 	return @mysqli_free_result($result);
 }
 
-function db_fetch_assoc($result) {
+function _db_fetch_assoc($result) {
 	return @mysqli_fetch_assoc($result);
 }
 
-function db_fetch_row($result) {
+function _db_fetch_row($result) {
 	return @mysqli_fetch_row($result);
 }
 
-function db_field_name($result, $field_offset) {
+function _db_field_name($result, $field_offset) {
 	$finfo = @mysqli_fetch_field_direct($result, $field_offset);
 	if($finfo!=NULL) {
 		return $finfo->name;
@@ -156,11 +122,11 @@ function db_field_name($result, $field_offset) {
 	}	
 }
 
-function db_num_rows($result) {
+function _db_num_rows($result) {
 	return @mysqli_num_rows($result);
 }
 
-function db_num_fields($result) {
+function _db_num_fields($result) {
 	return @mysqli_num_fields($result);
 }
 ?>

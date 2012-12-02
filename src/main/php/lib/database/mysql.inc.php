@@ -22,26 +22,17 @@
 	include/begin.inc.php
 */
 
-$_opendb_dblink = NULL;
-
 //		'mysql_connect', 'mysql_select_db', 'mysql_close', 'mysql_error', 'mysql_errno', 'mysql_query', 
 //		'mysql_affected_rows', 'mysql_free_result',	'mysql_fetch_assoc', 'mysql_fetch_row', 'mysql_field_name', 
 //		'mysql_num_rows', 'mysql_num_fields', 'mysql_insert_id');
 
 /**
 	$host - hostname:port, hostname:socket, socket
-	
-	@param $cache_link - if TRUE, save reference to link for reuse.
 */
-function db_connect($host, $user, $passwd, $dbname, $cache_link = TRUE) {
-	global $_opendb_dblink;
-	
+function db_connect($host, $user, $passwd, $dbname) {
 	$link = @mysql_connect($host, $user, $passwd);
 	if($link!==FALSE) {
 		if(@mysql_select_db($dbname, $link)) {
-			if($cache_link) {
-				$_opendb_dblink = $link;
-			}
 			return $link;
 		}
 	}
@@ -50,75 +41,57 @@ function db_connect($host, $user, $passwd, $dbname, $cache_link = TRUE) {
 	return FALSE;
 }
 
-function db_ping($link = NULL) {
-	global $_opendb_dblink;
-	return @mysql_ping($link!=NULL?$link:$_opendb_dblink);
+function _db_ping($link) {
+	return @mysql_ping($link);
 }
 
-/**
-remove reference to cached link upon close
-*/
-function db_close($link = NULL) {
-	global $_opendb_dblink;
-	
-	if($link == NULL) {
-		$link = $_opendb_dblink;
-		$_opendb_dblink = NULL;
-	}
-	
+function _db_close($link) {
 	return @mysql_close($link);
 }
 
-function db_error($link = NULL) {
-	global $_opendb_dblink;
-	return @mysql_error($link!=NULL?$link:$_opendb_dblink);
+function _db_error($link = NULL) {
+	// link will be null if connect failed
+	return @mysql_error($link);
 }
 
-function db_errno($link = NULL) {
-	global $_opendb_dblink;
-	return @mysql_errno($link!=NULL?$link:$_opendb_dblink);
+function _db_errno($link = NULL) {
+	// link will be null if connect failed
+	return @mysql_errno($link);
 }
 
-function db_query($sql, $link = NULL) {
-	global $_opendb_dblink;
-
-	// expand any prefixes, display any debugging, etc
-	$sql = opendb_pre_query($sql);
-	
-	return @mysql_query($sql, $link!=NULL?$link:$_opendb_dblink);
+function _db_query($sql, $link) {
+	return @mysql_query($sql, $link);
 }
 
-function db_affected_rows($link = NULL) {
-	global $_opendb_dblink;
-	return @mysql_affected_rows($link!=NULL?$link:$_opendb_dblink);
+function _db_affected_rows($link) {
+	return @mysql_affected_rows($link);
 }
 
-function db_insert_id($link = NULL) {
-	global $_opendb_dblink;
-	return @mysql_insert_id($link!=NULL?$link:$_opendb_dblink);
+function _db_insert_id($link) {
+	return @mysql_insert_id($link);
 }
 
-function db_free_result($result) {
+function _db_free_result($result) {
 	return @mysql_free_result($result);
 }
 
-function db_fetch_assoc($result) {
+function _db_fetch_assoc($result) {
 	return @mysql_fetch_assoc($result);
 }
 
-function db_fetch_row($result) {
+function _db_fetch_row($result) {
 	return @mysql_fetch_row($result);
 }
 
-function db_field_name($result, $field_offset) {
+function _db_field_name($result, $field_offset) {
 	return @mysql_field_name($result, $field_offset);
 }
 
-function db_num_rows($result) {
+function _db_num_rows($result) {
 	return @mysql_num_rows($result);
 }
 
-function db_num_fields($result) {
+function _db_num_fields($result) {
 	return @mysql_num_fields($result);
 }
 ?>

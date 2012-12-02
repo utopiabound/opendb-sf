@@ -18,11 +18,11 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-include_once("include/begin.inc.php");
-include_once("lib/help.php");
-
-class HelpTest extends PHPUnit_Framework_TestCase {
-	function testValidateHelpFile() {
-		$this->assertEquals("help/english/borrow.html", validate_opendb_lang_help_page_url('english/borrow.html'));
+class ConfigurationTest extends PHPUnit_Framework_TestCase {
+	function testConfiguration() {
+		$config = new OpenDbConfiguration();
+		
+		
 	}
+	
 }
