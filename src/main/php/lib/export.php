@@ -91,7 +91,7 @@ function fetch_export_item_instance_rs($s_item_type, $owner_id)
 
 function is_export_plugin($plugin)
 {
-	if(strlen($plugin)>0 && file_exists('lib/export/'.$plugin.'.class.php'))
+	if(strlen($plugin)>0 && opendb_file_exists('lib/export/'.$plugin.'.class.php'))
 		return TRUE;
 	else
 		return FALSE;

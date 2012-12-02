@@ -56,7 +56,7 @@ function parse_upload_file_url($url)
  */
 function fetch_10_upload_file_cache_r($item_attrib_r)
 {
-	if(!is_url_absolute($item_attrib_r['attribute_val']) && !file_exists($item_attrib_r['attribute_val']))
+	if(!is_url_absolute($item_attrib_r['attribute_val']) && !opendb_file_exists($item_attrib_r['attribute_val']))
 	{
 		$url = get_upload_file_url(
 					$item_attrib_r['item_id'],
@@ -225,7 +225,7 @@ class Upgrader_100_110 extends OpenDbUpgrader
 			while(list(,$fc_entry_r) = each($fc_entry_rs))
 			{
 				$cacheFile = $directory.'/'.$fc_entry_r['cache_file'];
-				if(file_exists($cacheFile))
+				if(opendb_file_exists($cacheFile))
 				{
 					if(in_array($fc_entry_r['attribute_val'], $previous_filename_r))
 					{

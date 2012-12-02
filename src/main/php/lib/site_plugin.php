@@ -149,7 +149,7 @@ function is_exists_site_plugin($site_type, $check_classname = TRUE)
 		$site_plugin_r = db_fetch_assoc($result);
 		db_free_result($result);
 		
-		if($check_classname === FALSE || file_exists("lib/site/".$site_plugin_r['classname'].".class.php"))
+		if($check_classname === FALSE || opendb_file_exists("lib/site/".$site_plugin_r['classname'].".class.php"))
 			return TRUE;
 		else
 			return FALSE;

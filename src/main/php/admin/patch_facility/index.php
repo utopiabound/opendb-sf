@@ -24,6 +24,7 @@ if(!defined('OPENDB_ADMIN_TOOLS'))
 }
 
 include_once("lib/install.php");
+include_once("lib/fileutils.php");
 
 /**
 	Will display queries as they appear in the script, will
@@ -101,11 +102,7 @@ function validate_sql_script($patchdir, $sqlfile)
 	$sqlfile = basename($sqlfile);
 	
 	$file = "admin/patch_facility/sql/$patchdir/$sqlfile";
-	
-	if(file_exists($file))
-		return $file;
-	else
-		return FALSE;
+	return opendb_file_exists($file);
 }
 
 @set_time_limit(600);

@@ -61,7 +61,7 @@ class InstallTableAjaxJobs extends AdminAjaxJobs
 	}
 	
 	function __perform_install_table_batch() {
-		if(file_exists("admin/s_site_plugin/sql/".$this->_job.".install.class.php")) {
+		if(opendb_file_exists("admin/s_site_plugin/sql/".$this->_job.".install.class.php")) {
 			$classname = "Install_".$this->_job;
 			
 			include_once("admin/s_site_plugin/sql/".$this->_job.".install.class.php");

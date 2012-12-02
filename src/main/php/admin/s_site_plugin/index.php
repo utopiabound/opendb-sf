@@ -30,6 +30,7 @@ include_once("lib/import.php");
 include_once("admin/s_item_type/functions.php");
 include_once("admin/s_attribute_type/functions.php");
 include_once("lib/install.php");
+include_once("lib/fileutils.php");
 
 $cfg_date_mask = 'DD/MM/YYYY HH24:MI:SS';
 
@@ -46,11 +47,11 @@ function display_edit_site_plugin($record_r, $HTTP_VARS=NULL)
 	
 	$field = get_input_field('image', NULL, 'Image', 'url(25,*,"gif,jpg,png",N)', 'N', $record_r['image'], FALSE);
 	
-	if(strlen($record_r['image'])>0)
+	if(strlen($record_r['image'])>0) {
 		$image_src = "images/site/".$record_r['image'];
-
-	if($image_src!==FALSE && strlen($image_src)>0 && file_exists($image_src))
-	{
+	}
+	
+	if($image_src!==FALSE && strlen($image_src)>0 && opendb_file_exists($image_src)) {
 		$field .= theme_image("images/site/".$image_src, NULL, NULL);
 	}
 	
@@ -1503,7 +1504,7 @@ else if($HTTP_VARS['op'] == 'maintain_site_plugin_install') // special function 
 	$site_plugin_r = fetch_site_plugin_r($HTTP_VARS['site_type']);
 	if(is_not_empty_array($site_plugin_r))
 	{
-		if(strlen($HTTP_VARS['import_file'])>0 && file_exists('admin/s_site_plugin/upload/'.$HTTP_VARS['import_file']))
+		if(strlen($HTTP_VARS['import_file'])>0 && opendb_file_exists('admin/s_site_plugin/upload/'.$HTTP_VARS['import_file']))
 		{
 			@set_time_limit(600);
 			
@@ -1637,8 +1638,7 @@ if($HTTP_VARS['op'] == 'list_site_plugins')
 			echo(" / <a href=\"${PHP_SELF}?type=${ADMIN_TYPE}&op=edit_site_plugin_input_fields&site_type=".$site_plugin_r['site_type']."\">Input Fields</a>");
 			echo(" / <a href=\"${PHP_SELF}?type=${ADMIN_TYPE}&op=edit_site_plugin_s_attribute_type_maps&site_type=".$site_plugin_r['site_type']."\">Attribute Map</a>");
 			echo(" / <a href=\"${PHP_SELF}?type=${ADMIN_TYPE}&op=edit_site_plugin_s_attribute_type_lookup_maps&site_type=".$site_plugin_r['site_type']."\">Lookup Attribute Map</a>");
-			if(file_exists('admin/s_site_plugin/sql/'.$site_plugin_r['site_type'].'.install.class.php'))
-			{
+			if(opendb_file_exists('admin/s_site_plugin/sql/'.$site_plugin_r['site_type'].'.install.class.php')) {
 				echo(" / <a href=\"${PHP_SELF}?type=${ADMIN_TYPE}&op=maintain_site_plugin_install&site_type=".$site_plugin_r['site_type']."\">Install&nbsp;Maintenance</a>");
 			}
 			echo("</td>");

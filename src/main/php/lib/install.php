@@ -72,7 +72,7 @@ function fetch_missing_081_upload_item_attributes(&$errors)
 {
 	$missing_files_r = array();
 	
-	if(!file_exists("./upload/"))
+	if(!opendb_file_exists("upload/"))
 	{
 		$errors[] = array('error'=>'./upload directory does not exist.');
 	}
@@ -82,7 +82,7 @@ function fetch_missing_081_upload_item_attributes(&$errors)
 	{
 		while($item_attribute_r = db_fetch_assoc($results))
 		{
-			if(!file_exists($item_attribute_r['attribute_val']))
+			if(!opendb_file_exists($item_attribute_r['attribute_val']))
 			{
 				$missing_files_r[] = basename($item_attribute_r['attribute_val']);
 			}
@@ -991,7 +991,7 @@ function get_upgraders_rs($db_version, $opendb_version, &$latest_to_version)
 
 function is_upgrader_plugin($plugin)
 {
-	if(strlen($plugin)>0 && file_exists('install/upgrade/'.$plugin.'.class.php'))
+	if(strlen($plugin)>0 && opendb_file_exists('install/upgrade/'.$plugin.'.class.php'))
 		return TRUE;
 	else
 		return FALSE;

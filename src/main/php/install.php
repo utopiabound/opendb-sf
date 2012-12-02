@@ -148,9 +148,9 @@ function install_check_install_dir()
 	$buffer = '';
 	
 	// installed in 0.81
-    if(file_exists("./patch") || 
-    			file_exists("./lang") || 
-    			file_exists("include/config.php"))
+    if(opendb_file_exists("./patch") || 
+    			opendb_file_exists("./lang") || 
+    			opendb_file_exists("include/config.php"))
     {
     	$buffer .= "<h3>Installed in a new directory?</h3>";
     	

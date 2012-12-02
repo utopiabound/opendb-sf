@@ -155,6 +155,7 @@ function &get_import_plugin_from_uploadfile($http_post_uploadfile_r, &$error)
 	if(strlen($extension)>0) {
 		if($extension == 'xml') { // We need to find the DOCTYPE for the XML file, so we can assign an XML plugin.
 			if(function_exists('xml_parser_create')) {
+				// FIXME - is this absolute directory???
 				if(file_exists($http_post_uploadfile_r['tmp_name'])) {
 					$xmlParser = new DocTypeNameSpaceXMLParser();
 					if($xmlParser->parseFile($http_post_uploadfile_r['tmp_name'])) {

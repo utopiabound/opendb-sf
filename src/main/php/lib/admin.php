@@ -82,7 +82,7 @@ function get_admin_tools_r()
 	$handle=opendir('admin');
 	while ($file = readdir($handle))
     {
-		if ( (!ereg("[.]",$file)) && file_exists('admin/'.$file.'/index.php'))
+		if ( (!ereg("[.]",$file)) && opendb_file_exists('admin/'.$file.'/index.php'))
 		{
 			$adminlist[] = $file;
 		}
@@ -97,7 +97,7 @@ function get_admin_tools_r()
 
 function is_legal_admin_type($type)
 {
-	if(strlen($type)>0 && file_exists('admin/'.$type.'/index.php'))
+	if(strlen($type)>0 && opendb_file_exists('admin/'.$type.'/index.php'))
 		return true;
 	else
 		return false;

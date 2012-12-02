@@ -117,7 +117,8 @@ function get_item_input_file_upload_url($filename)
 		if($uploadDir!=FALSE)
 		{
 			$url = $uploadDir.'/'.$filename;
-			if(file_exists($url))
+			// FIXME - is the upload directory relative or absolute!?
+			if(opendb_file_exists($url))
 			{
 				return $url;
 			}

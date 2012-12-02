@@ -44,8 +44,8 @@ if(!$_OpendbBrowserSniffer->isBrowserSupported())
 	echo("<ul class=\"browsers\">");
 	while(list(,$browser_r) = each($supportedBrowsers))
 	{
-		if(file_exists('./images/browsers/'.$browser_r['icon']))
-			$browser_r['icon'] = './images/browsers/'.$browser_r['icon'];
+		if(opendb_file_exists('images/browsers/'.$browser_r['icon']))
+			$browser_r['icon'] = 'images/browsers/'.$browser_r['icon'];
 		else
 			$browser_r['icon'] = NULL;
 				

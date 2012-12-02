@@ -45,12 +45,12 @@ if(is_site_enabled())
 			$ADMIN_TYPE = $HTTP_VARS['type'];
 			$ADMIN_DIR = 'admin/'.$ADMIN_TYPE;
 			
-			if(file_exists("admin/".$ADMIN_TYPE."/functions.php"))
+			if(opendb_file_exists("admin/".$ADMIN_TYPE."/functions.php"))
 			{
 				include_once("admin/".$ADMIN_TYPE."/functions.php");
 			}
 			
-			if(file_exists("admin/".$ADMIN_TYPE."/ajaxjobs.php"))
+			if(opendb_file_exists("admin/".$ADMIN_TYPE."/ajaxjobs.php"))
 			{
 				require_once("lib/xajax/xajax_core/xajax.inc.php");
 

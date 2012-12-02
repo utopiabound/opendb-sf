@@ -177,7 +177,7 @@ class OpenDbUpgrader
 			{
 				return $this->$stepFuncName($stepPart);
 			}
-			else if(file_exists($this->getUpgraderDir().'/step'.$index.'.sql'))
+			else if(opendb_file_exists($this->getUpgraderDir().'/step'.$index.'.sql'))
 			{
 				$errors = NULL;
 				if(exec_install_sql_file($this->getUpgraderDir().'/step'.$index.'.sql', $errors))
