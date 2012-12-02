@@ -22,10 +22,6 @@ include_once("lib/item_attribute.php");
 include_once("lib/parseutils.php");
 
 class UniqueFileNameTest extends PHPUnit_Framework_TestCase {
-	function setUp()
-	{
-	}
-
 	function testGetUniqueFilename() {
 		$file_r['name'] = 'abc';
 		$file_r['extension'] = 'gif';

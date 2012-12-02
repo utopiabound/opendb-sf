@@ -78,6 +78,16 @@ class OpenFileTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals(1, count($dirlist));
 	}
 	
+	function testOpenDbFileExists() {
+		$this->assertTrue(opendb_file_exists("upload/deleteme"));
+		$this->assertFalse(opendb_file_exists("upload/deletemeX"));
+		
+		// test dir exists!
+		$this->assertTrue(opendb_file_exists("upload/"));
+		$this->assertFalse(opendb_file_exists("uploadX/"));
+		
+	}
+	
 // 	function testDeleteFile() {
 // 	}
 }

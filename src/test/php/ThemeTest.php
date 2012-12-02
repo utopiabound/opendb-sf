@@ -47,4 +47,9 @@ class ThemeTest extends PHPUnit_Framework_TestCase {
 		$js = get_theme_javascript('item_input');
 		$this->assertTrue(strpos($js, "javascript/overlibmws/overlibmws_function.js") === FALSE);
 	}
+	
+	function testGetCss() {
+		$csslist = theme_css_file_list('item_display');
+		
+	}
 }

@@ -19,44 +19,32 @@
 */
 include_once("lib/phpsniff/phpSniff.class.php");
 
-class OpenDbBrowserSniffer 
-{
+class OpenDbBrowserSniffer {
 	var $phpSniffer;
 	
 	var $isSupported;
 	
-	var $browsers_r = array('ie', 'ip', 'ie6', 'ie7', 'fx', 'fx1.5', 'fx2', 'op', 'kq', 'sf');
+	var $browsers_r = array('ie', 'ie6', 'ie7', 'fx', 'fx1.5', 'fx2', 'op', 'kq', 'sf');
 	
-	function OpenDbBrowserSniffer()
-	{
+	function OpenDbBrowserSniffer() {
 		$this->phpSniffer = new phpSniff(get_http_env('HTTP_USER_AGENT'));
 		$this->__initIsSupported();
 	}
 	
 	/**
-	 * This method returns true if browser is not ns4, ie5 or IE5.5
+	 * This method returns true if browser is not ns4, ie5 or IE5.5 or IE 6
 	 *
 	 * @return unknown
 	 */
-	function isBrowserSupported()
-	{
+	function isBrowserSupported() {
 		return $this->isSupported;
 	}
 	
-	function getSupportedBrowsers()
-	{
+	function getSupportedBrowsers() {
 		return $this->browsers_r;	
 	}
 
-	function isBrowser($b)
-	{
-		if($b == 'ip') {
-			if($this->isPlatform('iphone')) {
-				return TRUE;
-			}
-		}
-		
-		//else
+	function isBrowser($b) {
 		return $this->phpSniffer->browser_is($b);
 	}
 
@@ -70,18 +58,12 @@ class OpenDbBrowserSniffer
 		return $this->phpSniffer->property('platform') == $p;
 	}
 	
-	function __initIsSupported()
-	{
-		if($this->phpSniffer->browser_is('ns4'))
-		{
+	function __initIsSupported() {
+		if($this->phpSniffer->browser_is('ns4')) {
 			$this->isSupported = FALSE;
-		}
-		else if ($this->phpSniffer->browser_is('ie') && !$this->phpSniffer->browser_is('ie6+'))
-		{
+		} else if ($this->phpSniffer->browser_is('ie') && !$this->phpSniffer->browser_is('ie7+')) {
 			$this->isSupported = FALSE;
-		}
-		else
-		{	
+		} else {	
 			$this->isSupported = TRUE;
 		}
 	}

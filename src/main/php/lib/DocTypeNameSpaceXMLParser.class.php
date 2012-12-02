@@ -34,28 +34,31 @@ class DocTypeNameSpaceXMLParser
 	{
 	}
 	
+	/**
+	 * This location is not relative to opendb, it must be the absolute file location, pass
+	 * in get_opendb_file if required.
+	 * 
+	 * @param unknown_type $fileLocation
+	 */
 	function parseFile($fileLocation) {
 		// reset it.
 		$this->_docType = NULL;
 		$this->_nameSpace = NULL;
 		$this->_errors = NULL;
 			
-		$fp = file_open($fileLocation, 'r');
+		$fp = fopen($fileLocation, 'r');
 		if($fp) {
 			$parser = xml_parser_create('ISO-8859-1');
 		    xml_set_object($parser, $this);
 		    xml_parser_set_option($parser, XML_OPTION_CASE_FOLDING, FALSE);
 		    xml_set_element_handler($parser, "_startElement", "_endElement");
 	
-			while ($data = fread($fp, 1024))
-			{
-				if(strlen($this->_docType) > 0)
-				{
+			while ($data = fread($fp, 1024)) {
+				if(strlen($this->_docType) > 0) {
 					break;
 				}
 	
-				if(!xml_parse($parser, $data, feof($fp)))
-				{
+				if(!xml_parse($parser, $data, feof($fp))) {
 					$error = xml_error_string(xml_get_error_code($parser));
 					break;
 				}
@@ -92,15 +95,13 @@ class DocTypeNameSpaceXMLParser
 	 * @param unknown_type $name
 	 * @param unknown_type $attributes
 	 */
-	function _startElement($parser, $name, $attributes)
-	{
+	function _startElement($parser, $name, $attributes) {
 		if(strlen($this->_docType) == 0) {
 			$this->_docType = $name;
 		
 			if(is_array($attributes)) {
 				reset($attributes);
 				while(list($name,$value) = each($attributes)) {
-					
 					if(ends_with($name, ":schemaLocation")) {
 						$this->_nameSpace = $value;
 						break;
@@ -110,8 +111,7 @@ class DocTypeNameSpaceXMLParser
 		}
 	}
 
-	function _endElement($parser,$name)
-	{
+	function _endElement($parser,$name) {
     	// not used
 	}
 }

@@ -18,7 +18,7 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-require_once("lib/DocTypeNameSpaceXMLParser.class.php");
+include_once("lib/DocTypeNameSpaceXMLParser.class.php");
 
 class DocTypeNameSpaceXMLParserTest extends PHPUnit_Framework_TestCase {
 	function testNoNameSpaceParser() {

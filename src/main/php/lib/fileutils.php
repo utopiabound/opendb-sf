@@ -30,6 +30,11 @@ function get_opendb_file($filename) {
 	return $baseDir . '/' . $filename;
 }
 
+function opendb_file_exists($filename) {
+	$baseDir = get_opendb_basedir();
+	return @file_exists($baseDir . '/' . $filename);
+}
+
 function get_opendb_relative_file($path) {
 	$baseDir = get_opendb_basedir();
 	if (starts_with($path, $baseDir)) {

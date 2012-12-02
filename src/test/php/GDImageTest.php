@@ -31,7 +31,7 @@ class GDImageTest extends PHPUnit_Framework_TestCase {
 		$this->assertEquals('png', $gdImage->getImageType());
 		$this->assertEquals('png', $gdImage->getImageExtension());
 		$this->assertEquals('image/png', $gdImage->getImageContentType());
-		$this->assertEquals('images/code_bg.png', $gdImage->getImageSrc('code_bg'));
+		$this->assertTrue(ends_with($gdImage->_getImageSrc('code_bg'), 'images/code_bg.png'));
 		
 		$this->assertTrue($gdImage->isImageTypeValid('png'));
 		$this->assertFalse($gdImage->isImageTypeValid('xxx'));
@@ -62,7 +62,7 @@ class GDImageTest extends PHPUnit_Framework_TestCase {
 		
 		$this->assertFalse($gdImage->createImage('code_bg.png'));
 		$this->assertTrue($gdImage->createImage('code_bg'));
-		$this->assertEquals('images/code_bg.png', $gdImage->getImageSrc());
+		$this->assertTrue(ends_with($gdImage->getImageSrc('code_bg'), 'images/code_bg.png'));
 	}
 	
 	// run after disabling ImagePNG

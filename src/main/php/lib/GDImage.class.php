@@ -148,7 +148,7 @@ class GDImage {
 			
 			$src = theme_image_src($filename);
 			if($src!==FALSE) {
-				return $src;
+				return get_opendb_file($src); // returns the absolute version!
 			} else {
 				$this->addError('Name source not found: '.$filename);
 				return FALSE;

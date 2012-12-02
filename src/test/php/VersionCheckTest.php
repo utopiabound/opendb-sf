@@ -21,10 +21,6 @@
 include_once("lib/install.php");
 
 class VersionCheckTest extends PHPUnit_Framework_TestCase {
-	function setUp()
-	{
-	}
-	
 	function testVersion150a8To150b1()
 	{
 		$this->assertTrue(version_compare('1.5.0b1', '1.5.0a8', '>'), '1.5.0b1 > 1.5.0a8');
