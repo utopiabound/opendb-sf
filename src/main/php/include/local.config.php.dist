@@ -1,6 +1,8 @@
 <?php
 // Database configuration
 $CONFIG_VARS['db_server'] = array(
+			//host can be configured with a port or a socket as well, like so:
+			//'host'=>'localhost:/opt/lampp/var/mysql/mysql.sock',
 			'host'=>'localhost',	//OpenDb database host
 			'dbname'=>'opendb',		//OpenDb database name
 			'username'=>'lender',	//OpenDb database user name

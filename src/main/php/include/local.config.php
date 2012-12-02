@@ -1,6 +1,6 @@
 <?php
 $CONFIG_VARS['db_server'] = array(
-	'host'=>'localhost',		//OpenDb database host
+	'host'=>'localhost:/opt/lampp/var/mysql/mysql.sock',//OpenDb database host
 	'dbname'=>'opendb',		//OpenDb database name
 	'username'=>'lender',		//OpenDb database user name
 	'passwd'=>'test',		//OpenDb user password
