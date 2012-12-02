@@ -44,12 +44,7 @@ class DocTypeNameSpaceXMLParser
 		$this->_nameSpace = NULL;
 		$this->_errors = NULL;
 			
-		if (starts_with($fileLocation, '/')) {
-			$fp = fopen($fileLocation, 'r');
-		} else {
-			$fp = file_open($fileLocation, 'r');
-		}
-		
+		$fp = file_open($fileLocation, 'r');
 		if($fp) {
 			$parser = xml_parser_create('ISO-8859-1');
 		    xml_set_object($parser, $this);

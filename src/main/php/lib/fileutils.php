@@ -60,6 +60,10 @@ function get_opendb_relative_file($path) {
  * @see get_opendb_basedir()
  */
 function file_open($filename, $mode) {
+	if (!starts_with($filename, '/')) {
+		$filename = get_opendb_file($filename);
+	}
+	
 	$resource = @fopen(get_opendb_file($filename), $mode);
 	if ($resource !== FALSE) {
 		return $resource;

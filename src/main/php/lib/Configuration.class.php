@@ -20,14 +20,14 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 // this is just being used to cache config, the db methods are not integrated, they will be
 // called from the config.php file.
-class OpenDbConfiguration {
+class Configuration {
 	var $_configVars = array();
 	var $_database;
 	
 	/**
 	 * Pass by reference - TODO is this required anymore!
 	 */
-	function OpenDbConfiguration(&$database) {
+	function Configuration(&$database) {
 		$this->_database = $database;
 	}
 	
