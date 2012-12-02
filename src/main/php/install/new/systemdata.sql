@@ -146,8 +146,8 @@ INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display,
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'CD', 'CONGO, THE DEMOCRATIC REPUBLIC OF THE', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'CK', 'COOK ISLANDS', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'CR', 'COSTA RICA', '', '');
-INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'CI', 'COTE D\'IVOIRE', '', '');
-INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'HR', 'CROATIA (localname:Hrvatska)', '', '');
+INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'CI', 'COTE D''IVOIRE', '', '');
+INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'HR', 'CROATIA', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'CU', 'CUBA', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'CY', 'CYPRUS', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'CZ', 'CZECH REPUBLIC', '', '');
@@ -207,7 +207,7 @@ INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display,
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'KY', 'CAYMAN ISLANDS', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'KE', 'KENYA', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'KI', 'KIRIBATI', '', '');
-INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'KP', 'KOREA, DEMOCRATIC PEOPLE\'S REPUBLIC OF', '', '');
+INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'KP', 'KOREA, DEMOCRATIC PEOPLE''S REPUBLIC OF', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'KR', 'KOREA, REPUBLIC OF', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'KW', 'KUWAIT', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'KG', 'KYRGYZSTAN', '', '');
@@ -218,7 +218,7 @@ INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display,
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'LY', 'LIBYAN ARAB JAMAHIRIYA', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'LI', 'LIECHTENSTEIN', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'LT', 'LITHUANIA', '', '');
-INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'LA', 'LAO PEOPLE\'S DEMOCRATIC REPUBLIC', '', '');
+INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'LA', 'LAO PEOPLE''S DEMOCRATIC REPUBLIC', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'LU', 'LUXEMBOURG', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'MK', 'MACEDONIA, THE FORMER YUGOSLAV REPUBLIC OF', '', '');
 INSERT INTO s_attribute_type_lookup (s_attribute_type, order_no, value, display, img, checked_ind) VALUES ( 'COUNTRY', NULL, 'MG', 'MADAGASCAR', '', '');

@@ -19,6 +19,7 @@
 */
 include_once("lib/database.php");
 include_once("lib/fileutils.php");
+include_once("lib/OpenDbConfiguration.class.php");
 
 // these are defined here - so they can be overriden by downstream packagers
 // as required.  they will no longer be exposed via configuration.
@@ -97,12 +98,15 @@ function get_opendb_title_and_version() {
 }
 
 function is_opendb_configured() {
+	print_r($GLOBALS);
 	global $OPENDB_CONFIGURATION;
+	
 	return $OPENDB_CONFIGURATION->isDbConfigured();
 }
 
 function set_opendb_config_ovrd_var($group, $id, $var) {
 	global $OPENDB_CONFIGURATION;
+	
 	return $OPENDB_CONFIGURATION->setGroupVar($groupid, $id, $value);
 }
 

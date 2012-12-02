@@ -20,15 +20,15 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 
 include_once("lib/config.php");
 
-set_opendb_config_group_ovrd(
-		'db_server', 
-		array(
-		'host'=>'localhost:/opt/lampp/var/mysql/mysql.sock', //OpenDb database host
-		'dbname'=>'opendb',		//OpenDb database name
-		'username'=>'lender',		//OpenDb database user name
-		'passwd'=>'test',		//OpenDb user password
-		'table_prefix'=>'', 	//Table prefix.
-		'debug-sql'=>FALSE));
+// set_opendb_config_group_ovrd(
+// 		'db_server', 
+// 		array(
+// 		'host'=>'localhost:/opt/lampp/var/mysql/mysql.sock', //OpenDb database host
+// 		'dbname'=>'opendb',		//OpenDb database name
+// 		'username'=>'lender',		//OpenDb database user name
+// 		'passwd'=>'test',		//OpenDb user password
+// 		'table_prefix'=>'', 	//Table prefix.
+// 		'debug-sql'=>FALSE));
 
 include_once("lib/database.php");
 

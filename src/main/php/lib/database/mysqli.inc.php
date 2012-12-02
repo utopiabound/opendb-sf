@@ -88,14 +88,13 @@ function _db_errno($link = NULL) {
 	}
 }
 
-function _db_query($sql, $link) {
+function _db_query($link, $sql) {
 	return @mysqli_query($link, $sql);
 }
 
 function _db_affected_rows($link) {
 	return @mysqli_affected_rows($link);
 }
-
 
 function _db_insert_id($link) {
 	return @mysqli_insert_id($link);

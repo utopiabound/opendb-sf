@@ -22,15 +22,29 @@ Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 // called from the config.php file.
 class OpenDbConfiguration {
 	var $_configVars = array();
+	var $_database;
 	
-	function OpenDbConfiguration() {
+	/**
+	 * Pass by reference - TODO is this required anymore!
+	 */
+	function OpenDbConfiguration(&$database) {
+		$this->_database = $database;
 	}
 	
 	function setGroup($groupid, $group_r) {
-		if($group!=NULL && is_array($group_r)) {
+		if($groupid!=NULL && is_array($group_r)) {
 			$this->_configVars = array_merge($this->_configVars,
 					array($groupid=>$group_r));
 		}
+	}
+	
+	function getGroup($groupid) {
+		if ($this->checkGroupCache($groupid)) {
+			return $this->_configVars[$groupid];
+		}
+	
+		//else
+		return NULL;
 	}
 	
 	/**
@@ -38,16 +52,17 @@ class OpenDbConfiguration {
 	 used with a great deal of care, as no type checking is performed.
 	 */
 	function setGroupVar($groupid, $id, $value) {
-		$this->checkGroupCache($group);
-		
-		$this->_configVars[$group][$id] = $value;
+		if ($this->checkGroupCache($groupid)) {
+			$this->_configVars[$groupid] = array_merge($this->_configVars[$groupid], array($id=>$value));
+			return TRUE;
+		} else {
+			return FALSE;
+		}
 	}
 	
 	function getGroupVar($groupid, $id = NULL, $keyid = NULL) {
-		$this->checkGroupCache($group);
-		
 		// override logging if no db, so can log db errors, notice no caching!
-		if (!is_db_connected() && $group == 'logging') {
+		if (!$this->_database->isConnected() && $groupid == 'logging') {
 			if ($id == 'enable') {
 				return TRUE;
 			} else if ($id == 'file') {
@@ -55,52 +70,73 @@ class OpenDbConfiguration {
 			} else {
 				return NULL;
 			}
-		} else if($id!==NULL && $keyid!==NULL) {
-			return $this->_configVars[$group][$id][$keyid];
-		} else if($id!==NULL) {
-			return $this->_configVars[$group][$id];
 		} else {
-			return $this->_configVars[$group]; // will return an array of all config items in group
+			$group_r = $this->getGroup($groupid);
+			if (is_array($group_r)) {
+				if($id!==NULL && $keyid!==NULL) {
+					if (isset($group_r[$id]) && is_array($group_r[$id]) && isset($group_r[$id][$keyid])) {
+						return $group_r[$id][$keyid];
+					}
+				} else if($id!==NULL) {
+					if (isset($group_r[$id])) {
+						return $group_r[$id];
+					}
+				} else {
+					return $group_r;
+				}
+			}
 		}
+		
+		// no variable
+		return NULL;
 	}
 	
-	private function checkGroupCache($group) {
-		if (is_db_connected()) {
-			$group_r = $this->getDbConfigGroup($group);
-			$this->setGroup($group, $group_r);
+	/**
+	 * Return true if db connection and loading of selected group was successful
+	 * @param unknown_type $groupid
+	 */
+	private function checkGroupCache($groupid) {
+		if ($this->_database->isConnected()) {
+			if (!isset($this->_configVars[$groupid])) {
+				$group_r = $this->getDbConfigGroup($groupid);
+				if (is_array($group_r)) {
+					$this->setGroup($groupid, $group_r);
+					return TRUE;
+				}
+			} else {
+				return TRUE;
+			}
 		}
+		//else
+		return FALSE;
 	}
 	
-	function isDbConfigured() {
-		return is_array($this->_configVars['db_server']);
-	}
-	
-	private function getDbConfigGroup($group) {
-		if(is_db_connected()) {
+	private function getDbConfigGroup($groupid) {
+		if ($this->_database->isConnected()) {
 			$query = "SELECT cgiv.group_id, cgiv.id, scgi.type, cgiv.keyid, cgiv.value ".
 					"FROM s_config_group_item_var cgiv, s_config_group_item scgi ".
 					"WHERE cgiv.group_id = scgi.group_id AND ".
 					"cgiv.id = scgi.id AND ".
 					// will need to update these lines if we ever add any more array types.
 			"(scgi.type = 'array' OR cgiv.keyid = scgi.keyid) AND ".
-			"cgiv.group_id = '$group' ".
+			"cgiv.group_id = '$groupid' ".
 			"ORDER BY cgiv.id, cgiv.keyid";
 	
-			$results = db_query($query);
+			$results = $this->_database->query($query);
 			if($results) {
-				if(db_num_rows($results)>0) {
+				if($this->_database->numRows($results)>0) {
 					$results_r = NULL;
 					$tmp_vars_r = NULL;
 					$current_id = NULL;
 					$current_type = NULL;
 	
-					while($config_var_r = db_fetch_assoc($results)) {
+					while($config_var_r = $this->_database->fetchAssoc($results)) {
 						// first time through loop
 						if($current_id == NULL) {
 							$current_id = $config_var_r['id'];
 							$current_type = $config_var_r['type'];
 						} else if($current_id !== $config_var_r['id']) { // end of id, so process
-							$results_r[$current_id] = $this->getDbConfigVar($current_type, $tmp_vars_r, $group, $id, $keyid);
+							$results_r[$current_id] = $this->getDbConfigVar($current_type, $tmp_vars_r);
 	
 							$current_id = $config_var_r['id'];
 							$current_type = $config_var_r['type'];
@@ -111,15 +147,10 @@ class OpenDbConfiguration {
 	
 						$tmp_vars_r[$config_var_r['keyid']] = $config_var_r['value'];
 					}
-					db_free_result($results);
+					$this->_database->freeResult($results);
 	
-					$results_r[$current_id] = $this->getDbConfigVar($current_type, $tmp_vars_r, $group, $id, $keyid);
-	
-					if($id!=NULL) {
-						return $results_r[$current_id];
-					} else { // else return whole group
-						return $results_r;
-					}
+					$results_r[$current_id] = $this->getDbConfigVar($current_type, $tmp_vars_r);
+					return $results_r;
 				}//if(db_num_rows($results)>0)
 				else {
 					return NULL;
@@ -150,7 +181,7 @@ class OpenDbConfiguration {
 		usertype - Restrict to set of user types only.
 		colour - RGB Hexadecimal colour value.
 	*/
-	private function getDbConfigVar($type, $vars_r, $group, $id, $keyid) {
+	private function getDbConfigVar($type, $vars_r) {
 		if(count($vars_r)>1) {
 			if($type == 'boolean') {
 				$boolean_vars_r = NULL;

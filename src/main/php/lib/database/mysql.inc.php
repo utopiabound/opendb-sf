@@ -59,7 +59,7 @@ function _db_errno($link = NULL) {
 	return @mysql_errno($link);
 }
 
-function _db_query($sql, $link) {
+function _db_query($link, $sql) {
 	return @mysql_query($sql, $link);
 }
 

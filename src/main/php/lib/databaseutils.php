@@ -18,22 +18,6 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-/**
-* @param $sql
-*/
-function opendb_pre_query($sql) {
-	$dbserver_conf_r = get_opendb_config_var('db_server');
-	if(strlen($dbserver_conf_r['table_prefix'])>0) {
-		$sql = parse_sql_statement($sql, $dbserver_conf_r['table_prefix']);
-	}
-	
-	if($dbserver_conf_r['debug-sql'] === TRUE) {
-		echo('<p class="debug-sql">SQL: '.$sql.'</p>');
-	}
-	
-	return $sql;
-}
-
 /*
 * This function is designed to collapse repeated whitespace,
 * and \t \r \n, to a single space character.  This is except

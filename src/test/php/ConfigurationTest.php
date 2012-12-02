@@ -18,11 +18,25 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
+include_once("lib/OpenDbConfiguration.class.php");
+include_once("lib/Database.class.php");
+
 class ConfigurationTest extends PHPUnit_Framework_TestCase {
 	function testConfiguration() {
-		$config = new OpenDbConfiguration();
+		$CONFIG_VARS['db_server'] = array(
+				'host'=>'localhost:/opt/lampp/var/mysql/mysql.sock',//OpenDb database host
+				'dbname'=>'opendb',		//OpenDb database name
+				'username'=>'lender',		//OpenDb database user name
+				'passwd'=>'test',		//OpenDb user password
+				'table_prefix'=>'', 	//Table prefix.
+				'debug-sql'=>FALSE);
 		
+		$database = new Database($CONFIG_VARS['db_server']);
+		$config = new OpenDbConfiguration($database);
+		$this->assertTrue($database->isConnected());
 		
+		$this->assertTrue($config->getGroupVar('item_input', 'duplicate_title_support'));
+		$this->assertTrue($config->setGroupVar('item_input', 'duplicate_title_support', FALSE));
+		$this->assertFalse($config->getGroupVar('item_input', 'duplicate_title_support'));
 	}
-	
 }

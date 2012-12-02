@@ -31,9 +31,12 @@ include_once("lib/logging.php");
 
 class Database {
 	var $_dblink;
+	var $_dbconfig;
 	
 	function Database($dbserver_conf_r) {
 		if(is_array($dbserver_conf_r)) {
+			$this->_dbconfig = $dbserver_conf_r;
+			
 			$link = db_connect(
 					$dbserver_conf_r['host'],
 					$dbserver_conf_r['username'],
@@ -43,6 +46,8 @@ class Database {
 			if ($link !== FALSE) {
 				$this->_dblink = $link;
 			} else {
+				// opendb logger relies on the opendb config to return valid config for logging even if
+				// no db connection!
 				opendb_logger(OPENDB_LOG_ERROR, __FILE__, __FUNCTION__, db_error());
 			}
 		}
@@ -70,9 +75,15 @@ class Database {
 	
 	function query($sql) {
 		// expand any prefixes, display any debugging, etc
-		$sql = opendb_pre_query($sql);
+		if(strlen($this->_dbconfig['table_prefix'])>0) {
+			$sql = parse_sql_statement($sql, $this->_dbconfig['table_prefix']);
+		}
 		
-		return _db_query($this->_dblink);
+		if($this->_dbconfig['debug-sql'] === TRUE) {
+			echo('<p class="debug-sql">SQL: '.$sql.'</p>');
+		}
+		
+		return _db_query($this->_dblink, $sql);
 	}
 	
 	function affectedRows() {
