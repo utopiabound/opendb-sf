@@ -99,7 +99,7 @@ function db_error($link = NULL) {
 	} else if($_opendb_dblink!=NULL) {
 		return @mysqli_error($_opendb_dblink);
 	} else {
-		return @mysqli_connect_error()
+		return @mysqli_connect_error();
 	}
 }
 
