@@ -21,6 +21,10 @@
 include_once("lib/fileutils.php");
 include_once("lib/utils.php");
 
+function local_is_exists_theme($theme) {
+	return $theme == 'default';
+}
+
 class OpenFileTest extends PHPUnit_Framework_TestCase {
 	function testBaseDir() {
 		// we want to assert that the base directory is not the lib directory
@@ -71,6 +75,11 @@ class OpenFileTest extends PHPUnit_Framework_TestCase {
 	function testGetRelativeFilename() {
 		$this->assertEquals('upload/deleteme', 
 				get_opendb_relative_file(get_opendb_file('upload/deleteme')));
+	}
+	
+	function testGetThemeDirList() {
+		$dirlist = get_dir_list("theme", 'local_is_exists_theme');
+		$this->assertEquals(1, count($dirlist));
 	}
 	
 	function testGetDirList() {

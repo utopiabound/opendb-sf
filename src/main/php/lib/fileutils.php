@@ -97,14 +97,16 @@ function get_file_list($dir, $ext=NULL) {
     return $filelist;
 }
 
-function get_dir_list($dir) {
+function get_dir_list($dir, $isValidFunc = NULL) {
 	$dirlist = array();
 	
 	$dir = get_opendb_file($dir);
 	$handle = @opendir($dir);
 	while ($childdir = readdir($handle)) {
 		if($childdir != "." && $childdir != ".." && is_dir($dir.'/'.$childdir)) {
-			$dirlist[] = $childdir;
+			if ($isValidFunc == NULL || $isValidFunc($childdir)) {
+				$dirlist[] = $childdir;
+			}
 		}
 	}
 	closedir($handle);

@@ -311,24 +311,8 @@ function is_exists_theme($theme) {
 	}
 }
 
-/**
-	Generate a list of user themes.
-*/
 function get_user_theme_r() {
-	$dirPaths = get_dir_list('theme');
-	$themes = array();
-	
-	while(list(,$dir) = each($dirPaths)) {
-		if (is_exists_theme($dir)) {
-			$themes[] = $dir;
-		}
-	}
-	
-	if(is_not_empty_array($themes)) {
-		return $themes;
-	} else { // empty array as last resort.
-		return array();
-	}
+	return get_dir_list('theme', 'is_exists_theme');
 }
 
 function opendb_not_authorised_page() {
