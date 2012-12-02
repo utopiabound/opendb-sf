@@ -50,6 +50,12 @@ class ThemeTest extends PHPUnit_Framework_TestCase {
 	
 	function testGetCss() {
 		$csslist = theme_css_file_list('item_display');
+		$this->assertEquals(3, count($csslist)); // style, style_ie and item_display should be returned
 		
+		$csslist = theme_css_file_list('item_display', 'printable');
+		$this->assertEquals(1, count($csslist)); // style_print
+		
+		$csslist = theme_css_file_list('item_display', 'no-menu');
+		$this->assertEquals(1, count($csslist)); // style_nomenu
 	}
 }

@@ -146,10 +146,7 @@ function get_theme_css($pageid, $mode = NULL) {
 function theme_css_file_list($pageid, $mode = NULL) {
 	$css_file_list = array();
 	$css_file_list = array_merge($css_file_list, get_css_files('style', $mode));
-	
-	if ($mode != NULL) {
-		$css_file_list = array_merge($css_file_list, get_css_files($page, $mode));
-	}
+	$css_file_list = array_merge($css_file_list, get_css_files($pageid, $mode));
 	
 	return $css_file_list;
 }
@@ -169,7 +166,7 @@ function get_css_files($pageid, $mode = NULL) {
 		while(list(,$browser) = each($browsers_r)) {
 			$suffix = str_replace(".", NULL, $browser);
 			
-			if(strlen($theme)>0 && file_exists("css/$theme/${pageid}_${suffix}.css")) {
+			if(strlen($theme)>0 && opendb_file_exists("css/$theme/${pageid}_${suffix}.css")) {
 				$css_file_list[] = array(file=>"css/$theme/${pageid}_${suffix}.css", browser=>$browser);
 			}
 		}

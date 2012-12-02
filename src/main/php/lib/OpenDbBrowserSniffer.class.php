@@ -49,9 +49,6 @@ class OpenDbBrowserSniffer {
 	}
 
 	/**
-	 * For instance to determine iphone.
-	 * 
-	 * isPlatform('iphone')
 	 * @param $p
 	 */
 	function isPlatform($p) {
