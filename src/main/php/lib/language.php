@@ -20,27 +20,18 @@
 
 include_once("lib/utils.php");
 
-/**
-*/
-function get_opendb_site_language()
-{
+function get_opendb_site_language() {
 	global $_OPENDB_LANGUAGE;
-
 	return $_OPENDB_LANGUAGE;
 }
 
-/**
-*/
-function is_exists_language($language)
-{
+function is_exists_language($language) {
 	$language = strtoupper(trim($language));
-	if(strlen($language)>0)
-	{
+	if(strlen($language)>0) {
 		$query = "SELECT 'x' FROM s_language WHERE language = '$language'";
 	
 		$result = db_query($query);
-		if($result && db_num_rows($result)>0)
-		{
+		if($result && db_num_rows($result)>0) {
 			db_free_result($result);
 			return TRUE;
 		}
@@ -50,17 +41,14 @@ function is_exists_language($language)
 	return FALSE;
 }
 
-function is_exists_language_var($language, $varname)
-{
+function is_exists_language_var($language, $varname) {
 	$language = strtoupper(trim($language));
-	if(strlen($language)>0)
-	{
+	if(strlen($language)>0) {
 		$query = "SELECT 'X' FROM s_language_var 
 				WHERE language = '$language' AND varname = '$varname'";
 
 		$result = db_query($query);
-		if($result && db_num_rows($result)>0)
-		{
+		if($result && db_num_rows($result)>0) {
 			db_free_result($result);
 			return TRUE;
 		}
@@ -70,30 +58,25 @@ function is_exists_language_var($language, $varname)
 	return FALSE;
 }
 
-function is_default_language($language)
-{
+function is_default_language($language) {
 	return (fetch_default_language() == $language);
 }
 
 /**
 	The default language query is cached
 */
-function fetch_default_language()
-{
+function fetch_default_language() {
 	global $_OPENDB_DEFAULT_LANGUAGE;
 	
-	if(strlen($_OPENDB_DEFAULT_LANGUAGE)==0)
-	{
+	if(strlen($_OPENDB_DEFAULT_LANGUAGE)==0) {
 		$query = "SELECT language FROM s_language WHERE default_ind = 'Y'";
 		
 		$result = db_query($query);
-		if($result && db_num_rows($result)>0)
-		{
+		if($result && db_num_rows($result)>0) {
 			$record_r = db_fetch_assoc($result);
 			db_free_result($result);
 			
-			if($record_r)
-			{
+			if($record_r) {
 				$_OPENDB_DEFAULT_LANGUAGE = $record_r['language'];
 			}
 		}
@@ -102,8 +85,6 @@ function fetch_default_language()
 	return $_OPENDB_DEFAULT_LANGUAGE;
 }
 
-/**
-*/
 function fetch_language_rs()
 {
 	$query = "SELECT language, description, default_ind FROM s_language ORDER BY default_ind DESC, language ASC";
@@ -387,63 +368,5 @@ function fetch_opendb_table_lang_var($language, $table, $column, $key1, $key2 = 
 
 	//else
 	return FALSE;
-}
-
-/**
-	$page should be a basename of $PHP_SELF with .php replaced with .html
-
-	This function will determine whether a page can be found, or else a
-	derivative of a page, based on a mapping algorithm.   The initial
-	mapping algorithm will match borow.html against any pages that
-	end in _borrow.html too
-*/
-function get_opendb_lang_help_page($language, $help_page)
-{
-	$language = strtolower($language);
-
-	$filelist_r = get_file_list('./help/'.$language, 'html');
-    if(is_array($filelist_r))
-	{
-		for($i=0; $i<count($filelist_r); $i++)
-		{
-			if($help_page == $filelist_r[$i])
-			{
-				return $language.'/'.$filelist_r[$i];
-			}
-		}
-
-		for($i=0; $i<count($filelist_r); $i++)
-		{
-			// borrow.html will be returned for item_borrow.html too
-			if(ends_with($help_page, "_".$filelist_r[$i]))
-			{
-				return $language.'/'.$filelist_r[$i];
-			}
-		}
-	}
-
-	return NULL;
-}
-
-/**
-	Look for language specific help file, or fall back to english language help
-
-	uri of page, minus any specific file reference.
-*/
-function get_opendb_help_page($pageid)
-{
-    global $_OPENDB_LANGUAGE;
-
-	if(strlen($_OPENDB_LANGUAGE)>0)
-	{
-   		$page = get_opendb_lang_help_page($_OPENDB_LANGUAGE, $pageid.'.html');
-    }
-
-	if($page == NULL && $_OPENDB_LANGUAGE != 'english')
-    {
-		$page = get_opendb_lang_help_page('english', $pageid.'.html');
-	}
-
-	return $page;
 }
 ?>

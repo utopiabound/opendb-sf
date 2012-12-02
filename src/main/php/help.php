@@ -24,59 +24,29 @@ require_once("include/begin.inc.php");
 include_once("lib/database.php");
 include_once("lib/auth.php");
 include_once("lib/logging.php");
+include_once("lib/help.php");
 
-/**
-	@param $help_page - language/page.html
-*/
-function validate_opendb_lang_help_page_url($help_page)
-{
-	$index = strpos($help_page, "/");
-	if($index!==FALSE)
-	{
-		$language = substr($help_page, 0, $index);
-		// ensure someone is not trying to download the /etc/passwd file or something by basename it back to a simple filename
-		$page = basename(substr($help_page, $index+1));
-	}
-
-	// make sure it ends in html
-	if(is_exists_language($language) && ends_with($page, ".html") && @file_exists("./help/$language/$page"))
-	{
-		return "./help/$language/$page";
-	}
-
-	// else
-	return NULL;
-}
-
-if(is_site_enabled())
-{
-	if(is_opendb_valid_session() || is_site_public_access())
-	{
+if(is_site_enabled()) {
+	if(is_opendb_valid_session() || is_site_public_access()) {
 		echo _theme_header(get_opendb_lang_var('help'), FALSE);
 		
-		if(($page_location = validate_opendb_lang_help_page_url($HTTP_VARS['page']))!=NULL)
-		{
+		if(($page_location = validate_opendb_lang_help_page_url($HTTP_VARS['page'])) != NULL) {
 			$page_title = get_opendb_lang_var('site_help', 'site', get_opendb_config_var('site', 'title'));
 			
 			echo("<h2>".$page_title."</h2>");
 			// TODO: Add support for topic and subtopic
 			include($page_location);
-		}
-		else
-		{
+		} else {
 			echo _theme_header(get_opendb_lang_var('no_help_available'), FALSE);
 			echo("<p class=\"error\">".get_opendb_lang_var('no_help_available')."</p>");
 		}
 		echo _theme_footer();
 	}
-	else//not a valid session.
-	{
+	else { //not a valid session.
 		// invalid login, so login instead.
 		redirect_login($PHP_SELF, $HTTP_VARS);
 	}
-}//if(is_site_enabled())
-else
-{
+} else { //if(is_site_enabled())
 	echo _theme_header(get_opendb_lang_var('site_is_disabled'), FALSE);
 	echo("<p class=\"error\">".get_opendb_lang_var('site_is_disabled')."</p>");
 	echo _theme_footer();

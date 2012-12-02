@@ -18,8 +18,8 @@
 	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
 */
 
-// This must be first - includes config.php
 include_once("include/begin.inc.php");
+
 include_once("lib/GDImage.class.php");
 
 /**
