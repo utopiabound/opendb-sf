@@ -31,21 +31,23 @@ error_reporting(E_ALL & ~E_NOTICE & ~E_DEPRECATED);
 define('__OPENDB_RELEASE__', '1.5.0.8RC1');
 define('__OPENDB_TITLE__', 'OpenDb');
 
+include_once("lib/fileutils.php");
+
 if(extension_loaded('mysqli')) {
 	include_once('lib/database/mysqli.inc.php');
-}
-else if(extension_loaded('mysql')) {
+} else if(extension_loaded('mysql')) {
 	include_once('lib/database/mysql.inc.php');
 }
 
-if(file_exists("include/local.config.php")) {
+if(opendb_file_exists("include/local.config.php")) {
 	include_once("include/local.config.php");
-}		
+}
 
 include_once("lib/config.php");
 
 include_once("lib/http.php");
 include_once("lib/utils.php");
+
 include_once("lib/auth.php");
 include_once("lib/session.php");
 include_once("lib/database.php");

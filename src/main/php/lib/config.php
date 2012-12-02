@@ -125,7 +125,7 @@ function get_opendb_config_var($group, $id = NULL, $keyid = NULL) {
 				} else {
 					return $CONFIG_VARS[$group]; // will return an array of all config items in group
 				}
-			} else {
+			} else if (is_db_already_connected()) { // no point going to db if not connected
 			    $group_r = get_opendb_db_config_var($group);
 				if(is_array($group_r)) {
 			    	$CONFIG_VARS[$group] = $group_r;
@@ -138,6 +138,14 @@ function get_opendb_config_var($group, $id = NULL, $keyid = NULL) {
 		        } else {
 					return $CONFIG_VARS[$group];
 		        }
+			} else if ($group == 'logging') { // override logging if no db, so can log db errors
+				if ($id == 'enable') {
+					return TRUE;
+				} else if ($id == 'file') {
+					return 'log/usagelog.txt';
+				} else {
+					return NULL;
+				}
 			}
 		} else { //if($group!=NULL)
 		    return NULL;

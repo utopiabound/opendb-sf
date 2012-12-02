@@ -38,15 +38,10 @@ define('OPENDB_LOG_INFO', 'I');
 
 function get_relative_opendb_filename($filename) {
 	// make all unix for ease of reference
-	$dir = trim(str_replace('\\', '/', __FILE__)); // Should end in functions/logging.php
-	$index = strpos($dir, 'lib/logging.php');
+	$dir = trim(str_replace('\\', '/', dirname(__FILE__))); // Should end in functions/logging.php
+	$index = strpos($filename, $dir);
 	if($index!==FALSE) {
-		$dir = substr($dir, 0, $index);
-
-		$index = strpos($filename, $dir);
-		if($index!==FALSE) {
-			return substr($filename, strlen($dir));
-		}
+		return substr($filename, strlen($dir));
 	}
 
 	//else
@@ -156,8 +151,7 @@ function fget_tokenised_log_entry(&$file) {
 	script.
 */
 function opendb_logger($msgtype, $file, $function, $message = NULL, $params_r = NULL) {
-	if(get_opendb_config_var('logging', 'enable')!==FALSE) // only log if enabled in config.php
-	{
+	if(get_opendb_config_var('logging', 'enable')!==FALSE) { // only log if enabled in config.php
 		$entry['datetime'] = date("d/m/y H:i:s");  // get time and date
 		$entry['ip'] = ifempty(get_http_env("REMOTE_ADDR"),"0.0.0.0");
 		

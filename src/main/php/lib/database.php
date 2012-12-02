@@ -20,32 +20,40 @@
 
 $_OPENDB_DB_CONNECTED = NULL;
 
-function init_db_connection()
-{
+function init_db_connection() {
 	$dbserver_conf_r = get_opendb_config_var('db_server');
-	if(is_array($dbserver_conf_r))
-	{
-		return db_connect(
+	
+	if(is_array($dbserver_conf_r)) {
+		$link = db_connect(
 				$dbserver_conf_r['host'], 
 				$dbserver_conf_r['username'], 
 				$dbserver_conf_r['passwd'], 
 				$dbserver_conf_r['dbname']);
+		
+		if ($link !== FALSE) {
+			return $link;
+		} else {
+			opendb_logger(OPENDB_LOG_ERROR, __FILE__, __FUNCTION__, db_error());
+		}
 	}
 	
 	//else
 	return FALSE;
 }
 
-function is_db_connected()
-{
+function is_db_connected() {
 	global $_OPENDB_DB_CONNECTED;
 	
-	if(!is_bool($_OPENDB_DB_CONNECTED))
-	{
+	if(!is_bool($_OPENDB_DB_CONNECTED)) {
 		$_OPENDB_DB_CONNECTED = (init_db_connection()!==FALSE);
 	}
 	
 	return $_OPENDB_DB_CONNECTED; 
+}
+
+function is_db_already_connected() {
+	global $_OPENDB_DB_CONNECTED;
+	return $_OPENDB_DB_CONNECTED;
 }
 
 /**
