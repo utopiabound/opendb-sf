@@ -1,6 +1,6 @@
 <?php
 /*
- Open Media Collectors Database
+Open Media Collectors Database
 Copyright (C) 2001-2012 by Jason Pell
 
 This program is free software; you can redistribute it and/or
