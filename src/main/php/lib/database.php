@@ -27,148 +27,73 @@ include_once("lib/Database.class.php");
 include_once("lib/databaseutils.php");
 include_once("lib/config.php");
 
-if(is_opendb_configured()) {
-	$dbserver_conf_r = get_opendb_config_var('db_server');
-	$OPENDB_DATABASE = new Database($dbserver_conf_r);
-}
-
 function is_db_connected() {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->isConnected();
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->isConnected();
 }
 
 function db_ping() {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->ping();
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->ping();
 }
 
 function db_close() {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->close();
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->close();
 }
 
 function db_errno() {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->errno();
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->errno();
 }
 
 function db_error() {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->error();
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->error();
 }
 
 function db_query($sql) {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->query($sql);
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->query($sql);
 }
 
 function db_affected_rows() {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->affectedRows();
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->affectedRows();
 }
 
 function db_insert_id() {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->insertId();
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->insertId();
 }
 
 function db_free_result($result) {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->freeResult($result);
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->freeResult($result);
 }
 
 function db_fetch_assoc($result) {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->fetchAssoc($result);
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->fetchAssoc($result);
 }
 
 function db_fetch_row($result) {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->fetchRow($result);
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->fetchRow($result);
 }
 
 function db_field_name($result, $field_offset) {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->fieldName($result, $field_offset);
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->fieldName($result, $field_offset);
 }
 
 function db_num_rows($result) {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->numRows($result);
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->numRows($result);
 }
 
 function db_num_fields($result) {
 	global $OPENDB_DATABASE;
-	
-	if (is_object($OPENDB_DATABASE)) {
-		return $OPENDB_DATABASE->numFields($result);
-	} else {
-		return FALSE;
-	}
+	return $OPENDB_DATABASE->numFields($result);
 }
 ?>

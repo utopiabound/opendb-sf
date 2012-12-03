@@ -58,63 +58,121 @@ class Database {
 	}
 	
 	function ping() {
-		return _db_ping($this->_dblink);
+		if ($this->isConnected()) {
+			return _db_ping($this->_dblink);
+		} else {
+			return FALSE;
+		}
 	}
 	
 	function close() {
-		_db_close($this->_dblink);
+		if ($this->isConnected()) {
+			_db_close($this->_dblink);
+			$this->_dblink = NULL;
+		}
 	}
 	
 	function errno() {
-		return _db_errno($this->_dblink);
+		if ($this->isConnected()) {
+			return _db_errno($this->_dblink);
+		} else {
+			return _db_errno();
+		}
 	}
 	
 	function error() {
-		return _db_error($this->_dblink);
+		$errno = NULL;
+		if ($this->isConnected()) {
+			$errno = _db_error($this->_dblink);
+		} else {
+			$errno = _db_error();
+		}
+		
+		if (strlen($errno) == 0) {
+			return NULL;
+		} else {
+			return $errno;
+		}
 	}
 	
 	function query($sql) {
-		// expand any prefixes, display any debugging, etc
-		if(strlen($this->_dbconfig['table_prefix'])>0) {
-			$sql = parse_sql_statement($sql, $this->_dbconfig['table_prefix']);
+		if ($this->isConnected()) { 
+			// expand any prefixes, display any debugging, etc
+			if(strlen($this->_dbconfig['table_prefix'])>0) {
+				$sql = parse_sql_statement($sql, $this->_dbconfig['table_prefix']);
+			}
+			
+			if($this->_dbconfig['debug-sql'] === TRUE) {
+				echo('<p class="debug-sql">SQL: '.$sql.'</p>');
+			}
+			
+			return _db_query($this->_dblink, $sql);
+		} else {
+			return FALSE;
 		}
-		
-		if($this->_dbconfig['debug-sql'] === TRUE) {
-			echo('<p class="debug-sql">SQL: '.$sql.'</p>');
-		}
-		
-		return _db_query($this->_dblink, $sql);
 	}
 	
 	function affectedRows() {
-		return _db_affected_rows($this->_dblink);
+		if ($this->isConnected()) {
+			return _db_affected_rows($this->_dblink);
+		} else {
+			return FALSE;
+		}
 	}
 	
-	function insertId() {
-		return _db_insert_id($this->_dblink);
+	function lastInsertId() {
+		if ($this->isConnected()) {
+			return _db_insert_id($this->_dblink);
+		} else {
+			return FALSE;
+		}
 	}
 	
 	function freeResult($result) {
-		return _db_free_result($result);
+		if ($this->isConnected()) {
+			return _db_free_result($result);
+		} else {
+			return FALSE;
+		}
 	}
 	
 	function fetchAssoc($result) {
-		return _db_fetch_assoc($result);
+		if ($this->isConnected()) {
+			return _db_fetch_assoc($result);
+		} else {
+			return FALSE;
+		}
 	}
 	
 	function fetchRow($result) {
-		return _db_fetch_row($result);
+		if ($this->isConnected()) {
+			return _db_fetch_row($result);
+		} else {
+			return FALSE;
+		}
 	}
 	
 	function fieldName($result, $field_offset) {
-		return _db_field_name($result, $field_offset);
+		if ($this->isConnected()) {
+			return _db_field_name($result, $field_offset);
+		} else {
+			return FALSE;
+		}
 	}
 	
 	function numRows($result) {
-		return _db_num_rows($result);
+		if ($this->isConnected()) {
+			return _db_num_rows($result);
+		} else {
+			return FALSE;
+		}
 	}
 	
 	function numFields($result) {
-		return _db_num_fields($result);
+		if ($this->isConnected()) {
+			return _db_num_fields($result);
+		} else {
+			return FALSE;
+		}
 	}
 }

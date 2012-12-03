@@ -34,20 +34,16 @@ include_once("lib/email.php");
  * @param unknown_type $address_type_r
  * @return unknown
  */
-function is_user_address_visible($HTTP_VARS, $address_type_r)
-{
-	if($address_type_r['public_address_ind'] == 'Y')
+function is_user_address_visible($HTTP_VARS, $address_type_r) {
+	if($address_type_r['public_address_ind'] == 'Y') {
 		return TRUE;
-	else if(is_user_granted_permission(PERM_ADMIN_USER_PROFILE))
+	} else if(is_user_granted_permission(PERM_ADMIN_USER_PROFILE)) {
 		return TRUE;
-	else if($address_type_r['borrow_address_ind'] == 'Y' && 
+	} else if($address_type_r['borrow_address_ind'] == 'Y' && 
 		(is_owner_and_borrower(get_opendb_session_var('user_id'), $HTTP_VARS['uid'])) ||
-				is_owner_and_borrower($HTTP_VARS['uid'], get_opendb_session_var('user_id')))
-	{
+				is_owner_and_borrower($HTTP_VARS['uid'], get_opendb_session_var('user_id'))) {
 		return TRUE;
-	}
-	else
-	{
+	} else {
 		return FALSE;
 	}
 }

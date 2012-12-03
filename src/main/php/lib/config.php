@@ -19,7 +19,7 @@
 */
 include_once("lib/database.php");
 include_once("lib/fileutils.php");
-include_once("lib/OpenDbConfiguration.class.php");
+include_once("lib/Configuration.class.php");
 
 // these are defined here - so they can be overriden by downstream packagers
 // as required.  they will no longer be exposed via configuration.
@@ -27,22 +27,6 @@ define('OPENDB_IMPORT_CACHE_DIRECTORY', 'importcache');
 define('OPENDB_ITEM_CACHE_DIRECTORY', 'itemcache');
 define('OPENDB_ITEM_UPLOAD_DIRECTORY', 'upload');
 define('OPENDB_HTTP_CACHE_DIRECTORY', 'httpcache');
-
-$OPENDB_CONFIGURATION = new OpenDbConfiguration();
-
-if(opendb_file_exists("include/local.config.php")) {
-	include_once("include/local.config.php");
-
-	if (is_array($CONFIG_VARS)) {
-		if (is_array($CONFIG_VARS['db_server'])) {
-			$OPENDB_CONFIGURATION->setGroup('db_server', $CONFIG_VARS['db_server']);
-		}
-
-		if (is_array($CONFIG_VARS['session_handler'])) {
-			$OPENDB_CONFIGURATION->setGroup('session_handler', $CONFIG_VARS['session_handler']);
-		}
-	}
-}
 
 function is_gzip_compression_enabled($php_self) {
 	$page = basename($php_self, '.php');

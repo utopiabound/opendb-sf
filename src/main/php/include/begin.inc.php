@@ -35,6 +35,21 @@ include_once("lib/fileutils.php");
 include_once("lib/config.php");
 include_once("lib/database.php");
 
+$OPENDB_CONFIGURATION = new OpenDbConfiguration();
+
+if(opendb_file_exists("include/local.config.php")) {
+	include_once("include/local.config.php");
+
+	if (is_array($CONFIG_VARS)) {
+		if (is_array($CONFIG_VARS['session_handler'])) {
+			$OPENDB_CONFIGURATION->setGroup('session_handler', $CONFIG_VARS['session_handler']);
+		}
+	}
+}
+
+// create database regardless of configuration
+$OPENDB_DATABASE = new Database($CONFIG_VARS['db_server']);
+
 include_once("lib/http.php");
 include_once("lib/utils.php");
 
