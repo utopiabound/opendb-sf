@@ -35,20 +35,20 @@ include_once("lib/fileutils.php");
 include_once("lib/config.php");
 include_once("lib/database.php");
 
-$OPENDB_CONFIGURATION = new OpenDbConfiguration();
-
 if(opendb_file_exists("include/local.config.php")) {
 	include_once("include/local.config.php");
-
-	if (is_array($CONFIG_VARS)) {
-		if (is_array($CONFIG_VARS['session_handler'])) {
-			$OPENDB_CONFIGURATION->setGroup('session_handler', $CONFIG_VARS['session_handler']);
-		}
-	}
 }
 
 // create database regardless of configuration
 $OPENDB_DATABASE = new Database($CONFIG_VARS['db_server']);
+
+$OPENDB_CONFIGURATION = new Configuration($OPENDB_DATABASE);
+
+if (is_array($CONFIG_VARS)) {
+	if (is_array($CONFIG_VARS['session_handler'])) {
+		$OPENDB_CONFIGURATION->setGroup('session_handler', $CONFIG_VARS['session_handler']);
+	}
+}
 
 include_once("lib/http.php");
 include_once("lib/utils.php");
@@ -95,86 +95,84 @@ $_OpendbBrowserSniffer = new OpenDbBrowserSniffer();
 $_OPENDB_THEME = 'default';
 $_OPENDB_LANGUAGE = 'ENGLISH';
 
-if(is_opendb_configured()) {
-	if(is_db_connected()) {
-		// Cache often used configuration entries
-	    $CONFIG_VARS['logging'] = get_opendb_config_var('logging');
+if($OPENDB_DATABASE->isConnected()) {
+	// Cache often used configuration entries
+    $CONFIG_VARS['logging'] = get_opendb_config_var('logging');
 
-		// Buffer output for possible pushing through ob_gzhandler handler
-		if(is_gzip_compression_enabled($PHP_SELF)) {
-			ob_start('ob_gzhandler');
-		}
+	// Buffer output for possible pushing through ob_gzhandler handler
+	if(is_gzip_compression_enabled($PHP_SELF)) {
+		ob_start('ob_gzhandler');
+	}
 
-		// Restrict cookie to site host and path.
-		if(get_opendb_config_var('site', 'restrict_session_cookie_to_host_path')===TRUE) {
-			session_set_cookie_params(
-						0,
-						get_site_path(),
-						get_site_host());
-		}
+	// Restrict cookie to site host and path.
+	if(get_opendb_config_var('site', 'restrict_session_cookie_to_host_path')===TRUE) {
+		session_set_cookie_params(
+					0,
+					get_site_path(),
+					get_site_host());
+	}
 
-		if(get_opendb_config_var('session_handler', 'enable') === TRUE) {
-			require_once("lib/dbsession.php");
+	if(get_opendb_config_var('session_handler', 'enable') === TRUE) {
+		require_once("lib/dbsession.php");
 
-			if(strtolower(ini_get('session.save_handler')) == 'user' || ini_set('session.save_handler', 'user')) {
-				session_set_save_handler('db_session_open',
-										'db_session_close',
-										'db_session_read',
-										'db_session_write',
-										'db_session_destroy',
-										'db_session_gc');
-			} else {
-				opendb_logger(OPENDB_LOG_ERROR, __FILE__, NULL, 'Cannot set session.save_handler to \'user\'');
-			}
-		}
-
-		// We want to start the session here, so we can get access to the $_SESSION properly.
-		session_start();
-
-		//allows specific pages to overide themes
-		if(is_exists_theme($_OVRD_OPENDB_THEME)) {
-			$_OPENDB_THEME = $_OVRD_OPENDB_THEME;
-		}
-		else
-		{
-			unset($_OPENDB_THEME);
-			
-			if(strlen(get_opendb_session_var('user_id'))>0 && get_opendb_config_var('user_admin', 'user_themes_support')!==FALSE) {
-				$user_theme = fetch_user_theme(get_opendb_session_var('user_id'));
-
-				if(is_exists_theme($user_theme)) {
-					$_OPENDB_THEME = $user_theme;
-				}
-			}
-		
-			if(strlen($_OPENDB_THEME)==0) {
-				if(is_exists_theme(get_opendb_config_var('site', 'theme'))) {
-					$_OPENDB_THEME = get_opendb_config_var('site', 'theme');
-				} else {
-					$_OPENDB_THEME = 'default';
-				}
-			}
-		}
-		
-		if(is_exists_language($_OVRD_OPENDB_LANGUAGE)) {
-			$_OPENDB_LANGUAGE = $_OVRD_OPENDB_LANGUAGE;
+		if(strtolower(ini_get('session.save_handler')) == 'user' || ini_set('session.save_handler', 'user')) {
+			session_set_save_handler('db_session_open',
+									'db_session_close',
+									'db_session_read',
+									'db_session_write',
+									'db_session_destroy',
+									'db_session_gc');
 		} else {
-			unset($_OPENDB_LANGUAGE);
-			
-			if(strlen(get_opendb_session_var('user_id'))>0 && get_opendb_config_var('user_admin', 'user_language_support')!==FALSE) {
-				$user_language = fetch_user_language(get_opendb_session_var('user_id'));
-				
-				if(is_exists_language($user_language)) {
-					$_OPENDB_LANGUAGE = $user_language;
-				}
+			opendb_logger(OPENDB_LOG_ERROR, __FILE__, NULL, 'Cannot set session.save_handler to \'user\'');
+		}
+	}
+
+	// We want to start the session here, so we can get access to the $_SESSION properly.
+	session_start();
+
+	//allows specific pages to overide themes
+	if(is_exists_theme($_OVRD_OPENDB_THEME)) {
+		$_OPENDB_THEME = $_OVRD_OPENDB_THEME;
+	}
+	else
+	{
+		unset($_OPENDB_THEME);
+		
+		if(strlen(get_opendb_session_var('user_id'))>0 && get_opendb_config_var('user_admin', 'user_themes_support')!==FALSE) {
+			$user_theme = fetch_user_theme(get_opendb_session_var('user_id'));
+
+			if(is_exists_theme($user_theme)) {
+				$_OPENDB_THEME = $user_theme;
 			}
+		}
+	
+		if(strlen($_OPENDB_THEME)==0) {
+			if(is_exists_theme(get_opendb_config_var('site', 'theme'))) {
+				$_OPENDB_THEME = get_opendb_config_var('site', 'theme');
+			} else {
+				$_OPENDB_THEME = 'default';
+			}
+		}
+	}
+	
+	if(is_exists_language($_OVRD_OPENDB_LANGUAGE)) {
+		$_OPENDB_LANGUAGE = $_OVRD_OPENDB_LANGUAGE;
+	} else {
+		unset($_OPENDB_LANGUAGE);
+		
+		if(strlen(get_opendb_session_var('user_id'))>0 && get_opendb_config_var('user_admin', 'user_language_support')!==FALSE) {
+			$user_language = fetch_user_language(get_opendb_session_var('user_id'));
 			
-			if(strlen($_OPENDB_LANGUAGE)==0) {
-				if(is_exists_language(get_opendb_config_var('site', 'language'))) {
-					$_OPENDB_LANGUAGE = strtoupper(get_opendb_config_var('site', 'language'));
-				} else {
-					$_OPENDB_LANGUAGE = fetch_default_language();
-				}
+			if(is_exists_language($user_language)) {
+				$_OPENDB_LANGUAGE = $user_language;
+			}
+		}
+		
+		if(strlen($_OPENDB_LANGUAGE)==0) {
+			if(is_exists_language(get_opendb_config_var('site', 'language'))) {
+				$_OPENDB_LANGUAGE = strtoupper(get_opendb_config_var('site', 'language'));
+			} else {
+				$_OPENDB_LANGUAGE = fetch_default_language();
 			}
 		}
 	}

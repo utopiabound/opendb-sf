@@ -82,21 +82,17 @@ function get_opendb_title_and_version() {
 }
 
 function is_opendb_configured() {
-	print_r($GLOBALS);
 	global $OPENDB_CONFIGURATION;
-	
 	return $OPENDB_CONFIGURATION->isDbConfigured();
 }
 
 function set_opendb_config_ovrd_var($group, $id, $var) {
 	global $OPENDB_CONFIGURATION;
-	
 	return $OPENDB_CONFIGURATION->setGroupVar($groupid, $id, $value);
 }
 
 function get_opendb_config_var($group, $id = NULL, $keyid = NULL) {
 	global $OPENDB_CONFIGURATION;
-	
 	return $OPENDB_CONFIGURATION->getGroupVar($group, $id, $keyid);
 }
 
