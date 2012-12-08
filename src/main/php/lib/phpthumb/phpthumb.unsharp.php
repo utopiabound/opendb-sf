@@ -3,7 +3,7 @@
 ////
 ////            Unsharp Mask for PHP - version 2.1.1
 ////
-////    Unsharp mask algorithm by Torstein Hønsi 2003-07.
+////    Unsharp mask algorithm by Torstein Hï¿½nsi 2003-07.
 ////             thoensi_at_netcom_dot_no.
 ////               Please leave this notice.
 ////
@@ -38,7 +38,7 @@ are treated normally. This is good for pictures of e.g. skin or blue skies.
 
 Any suggenstions for improvement of the algorithm, expecially regarding the speed
 and the roundoff errors in the Gaussian blur process, are welcome.
-*/
+ */
 
 class phpUnsharpMask {
 
@@ -57,7 +57,7 @@ class phpUnsharpMask {
 		$w = ImageSX($img);
 		$h = ImageSY($img);
 		$imgCanvas = ImageCreateTrueColor($w, $h);
-		$imgBlur   = ImageCreateTrueColor($w, $h);
+		$imgBlur = ImageCreateTrueColor($w, $h);
 
 		// Gaussian blur matrix:
 		//
@@ -68,11 +68,7 @@ class phpUnsharpMask {
 		//////////////////////////////////////////////////
 
 		if (function_exists('imageconvolution')) { // PHP >= 5.1
-			$matrix = array(
-				array(1, 2, 1),
-				array(2, 4, 2),
-				array(1, 2, 1)
-			);
+			$matrix = array(array(1, 2, 1), array(2, 4, 2), array(1, 2, 1));
 			ImageCopy($imgBlur, $img, 0, 0, 0, 0, $w, $h);
 			ImageConvolution($imgBlur, $matrix, 16, 0);
 
@@ -80,32 +76,32 @@ class phpUnsharpMask {
 
 			// Move copies of the image around one pixel at the time and merge them with weight
 			// according to the matrix. The same matrix is simply repeated for higher radii.
-			for ($i = 0; $i < $radius; $i++)    {
-				ImageCopy(     $imgBlur,   $img,       0, 0, 1, 0, $w - 1, $h);               // left
-				ImageCopyMerge($imgBlur,   $img,       1, 0, 0, 0, $w    , $h,     50);       // right
-				ImageCopyMerge($imgBlur,   $img,       0, 0, 0, 0, $w    , $h,     50);       // center
-				ImageCopy(     $imgCanvas, $imgBlur,   0, 0, 0, 0, $w    , $h);
-				ImageCopyMerge($imgBlur,   $imgCanvas, 0, 0, 0, 1, $w    , $h - 1, 33.33333); // up
-				ImageCopyMerge($imgBlur,   $imgCanvas, 0, 1, 0, 0, $w    , $h,     25);       // down
+			for ($i = 0; $i < $radius; $i++) {
+				ImageCopy($imgBlur, $img, 0, 0, 1, 0, $w - 1, $h); // left
+				ImageCopyMerge($imgBlur, $img, 1, 0, 0, 0, $w, $h, 50); // right
+				ImageCopyMerge($imgBlur, $img, 0, 0, 0, 0, $w, $h, 50); // center
+				ImageCopy($imgCanvas, $imgBlur, 0, 0, 0, 0, $w, $h);
+				ImageCopyMerge($imgBlur, $imgCanvas, 0, 0, 0, 1, $w, $h - 1, 33.33333); // up
+				ImageCopyMerge($imgBlur, $imgCanvas, 0, 1, 0, 0, $w, $h, 25); // down
 			}
 		}
 
-		if ($threshold > 0){
+		if ($threshold > 0) {
 			// Calculate the difference between the blurred pixels and the original
 			// and set the pixels
-			for ($x = 0; $x < $w-1; $x++)    { // each row
-				for ($y = 0; $y < $h; $y++)    { // each pixel
+			for ($x = 0; $x < $w - 1; $x++) { // each row
+				for ($y = 0; $y < $h; $y++) { // each pixel
 
 					$rgbOrig = ImageColorAt($img, $x, $y);
 					$rOrig = (($rgbOrig >> 16) & 0xFF);
-					$gOrig = (($rgbOrig >>  8) & 0xFF);
-					$bOrig =  ($rgbOrig        & 0xFF);
+					$gOrig = (($rgbOrig >> 8) & 0xFF);
+					$bOrig = ($rgbOrig & 0xFF);
 
 					$rgbBlur = ImageColorAt($imgBlur, $x, $y);
 
 					$rBlur = (($rgbBlur >> 16) & 0xFF);
-					$gBlur = (($rgbBlur >>  8) & 0xFF);
-					$bBlur =  ($rgbBlur        & 0xFF);
+					$gBlur = (($rgbBlur >> 8) & 0xFF);
+					$bBlur = ($rgbBlur & 0xFF);
 
 					// When the masked pixels differ less from the original
 					// than the threshold specifies, they are set to their original value.
@@ -120,23 +116,23 @@ class phpUnsharpMask {
 				}
 			}
 		} else {
-			for ($x = 0; $x < $w; $x++)    { // each row
-				for ($y = 0; $y < $h; $y++)    { // each pixel
+			for ($x = 0; $x < $w; $x++) { // each row
+				for ($y = 0; $y < $h; $y++) { // each pixel
 					$rgbOrig = ImageColorAt($img, $x, $y);
 					$rOrig = (($rgbOrig >> 16) & 0xFF);
-					$gOrig = (($rgbOrig >>  8) & 0xFF);
-					$bOrig =  ($rgbOrig        & 0xFF);
+					$gOrig = (($rgbOrig >> 8) & 0xFF);
+					$bOrig = ($rgbOrig & 0xFF);
 
 					$rgbBlur = ImageColorAt($imgBlur, $x, $y);
 
 					$rBlur = (($rgbBlur >> 16) & 0xFF);
-					$gBlur = (($rgbBlur >>  8) & 0xFF);
-					$bBlur =  ($rgbBlur        & 0xFF);
+					$gBlur = (($rgbBlur >> 8) & 0xFF);
+					$bBlur = ($rgbBlur & 0xFF);
 
 					$rNew = min(255, max(0, ($amount * ($rOrig - $rBlur)) + $rOrig));
 					$gNew = min(255, max(0, ($amount * ($gOrig - $gBlur)) + $gOrig));
 					$bNew = min(255, max(0, ($amount * ($bOrig - $bBlur)) + $bOrig));
-					$rgbNew = ($rNew << 16) + ($gNew <<8) + $bNew;
+					$rgbNew = ($rNew << 16) + ($gNew << 8) + $bNew;
 					ImageSetPixel($img, $x, $y, $rgbNew);
 				}
 			}

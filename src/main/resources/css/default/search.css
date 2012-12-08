@@ -1,11 +1,9 @@
-table.searchForm th.prompt
-{
+table.searchForm th.prompt {
 	background: transparent;
 	color: black;
 }
 
-table.searchForm td.data
-{
+table.searchForm td.data {
 	background: transparent;
 }
 

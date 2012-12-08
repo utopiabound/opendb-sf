@@ -15,7 +15,7 @@
 
 //die('For security reasons, this demo is disabled by default. Please comment out line '.__LINE__.' in '.basename(__FILE__));
 
-$ServerInfo['gd_string']  = 'unknown';
+$ServerInfo['gd_string'] = 'unknown';
 $ServerInfo['gd_numeric'] = 0;
 //ob_start();
 if (!include_once('../.lib/phpthumb/phpthumb.functions.php')) {
@@ -30,15 +30,15 @@ if (!include_once('../.lib/phpthumb/phpthumb.class.php')) {
 $phpThumb = new phpThumb();
 if (@include_once('../phpThumb.config.php')) {
 	foreach ($PHPTHUMB_CONFIG as $key => $value) {
-		$keyname = 'config_'.$key;
+		$keyname = 'config_' . $key;
 		$phpThumb->setParameter($keyname, $value);
 	}
 }
 
-$ServerInfo['gd_string']  = phpthumb_functions::gd_version(true);
+$ServerInfo['gd_string'] = phpthumb_functions::gd_version(true);
 $ServerInfo['gd_numeric'] = phpthumb_functions::gd_version(false);
 $ServerInfo['im_version'] = $phpThumb->ImageMagickVersion();
-$gd_info                  = gd_info();
+$gd_info = gd_info();
 
 ?>
 
@@ -67,35 +67,32 @@ $gd_info                  = gd_info();
 <tr style="background-color: #EEEEEE;"><th>Setting</th><th colspan="2">Value</th><th>Comments</th></tr>
 <?php
 
-$versions['raw'] = array(
-	'latest' => phpthumb_functions::SafeURLread('http://phpthumb.sourceforge.net/?latestversion=1', $dummy),
-	'this'   => $phpThumb->phpthumb_version,
-);
+$versions['raw'] = array('latest' => phpthumb_functions::SafeURLread('http://phpthumb.sourceforge.net/?latestversion=1', $dummy), 'this' => $phpThumb->phpthumb_version,);
 foreach ($versions['raw'] as $key => $value) {
 	preg_match('#^([0-9\\.]+)\\-?(([0-9]{4})([0-9]{2})([0-9]{2})([0-9]{2})([0-9]{2}))?#i', $value, $matches);
 	@list($huge, $major, $minor) = @explode('.', @$matches[1]);
 	@list($year, $month, $day, $hour, $min) = @$matches[3];
-	$versions['base'][$key]  = $matches[1];
-	$versions['huge'][$key]  = $huge;
+	$versions['base'][$key] = $matches[1];
+	$versions['huge'][$key] = $huge;
 	$versions['major'][$key] = $major;
 	$versions['minor'][$key] = $minor;
 	$versions['stamp'][$key] = $matches[2];
-	$versions['year'][$key]  = $year;
+	$versions['year'][$key] = $year;
 	$versions['month'][$key] = $month;
-	$versions['day'][$key]   = $day;
-	$versions['hour'][$key]  = $hour;
-	$versions['min'][$key]   = $min;
-	$versions['date'][$key]  = @mktime($hour, $min, 0, $month, $day, $year);
+	$versions['day'][$key] = $day;
+	$versions['hour'][$key] = $hour;
+	$versions['min'][$key] = $min;
+	$versions['date'][$key] = @mktime($hour, $min, 0, $month, $day, $year);
 }
 
 $downloadlatest = 'Download the latest version from <a href="http://phpthumb.sourceforge.net">http://phpthumb.sourceforge.net</a>';
-echo '<tr><th nowrap>Latest phpThumb version:</th><th colspan="2">'.$versions['raw']['latest'].'</th><td>'.$downloadlatest.'</td></tr>';
+echo '<tr><th nowrap>Latest phpThumb version:</th><th colspan="2">' . $versions['raw']['latest'] . '</th><td>' . $downloadlatest . '</td></tr>';
 echo '<tr><th nowrap>This phpThumb version:</th><th colspan="2" style="background-color: ';
 
 if (!$versions['base']['latest']) {
 	// failed to get latest version number
 	echo 'white';
-	$message = 'Latest version unknown.<br>'.$downloadlatest;
+	$message = 'Latest version unknown.<br>' . $downloadlatest;
 } elseif (phpthumb_functions::version_compare_replacement($versions['base']['this'], $versions['base']['latest'], '>')) {
 	// new than latest, must be beta version
 	echo 'lightblue';
@@ -108,19 +105,18 @@ if (!$versions['base']['latest']) {
 	// latest version
 	echo 'lime';
 	$message = 'You are using the latest released version.';
-} elseif ($versions['huge']['latest'].$versions['major']['latest'] == $versions['huge']['this'].$versions['major']['this']) {
+} elseif ($versions['huge']['latest'] . $versions['major']['latest'] == $versions['huge']['this'] . $versions['major']['this']) {
 	echo 'olive';
-	$message = 'One (or more) minor version(s) have been released since this version.<br>'.$downloadlatest;
-} elseif (floatval($versions['huge']['latest'].str_pad($versions['major']['latest'], 2, '0', STR_PAD_LEFT)) < floatval($versions['huge']['this'].str_pad($t_major, 2, '0', STR_PAD_LEFT))) {
+	$message = 'One (or more) minor version(s) have been released since this version.<br>' . $downloadlatest;
+} elseif (floatval($versions['huge']['latest'] . str_pad($versions['major']['latest'], 2, '0', STR_PAD_LEFT)) < floatval($versions['huge']['this'] . str_pad($t_major, 2, '0', STR_PAD_LEFT))) {
 	echo 'yellow';
-	$message = 'One (or more) major version(s) have been released since this version, you really should upgrade.<br>'.$downloadlatest;
+	$message = 'One (or more) major version(s) have been released since this version, you really should upgrade.<br>' . $downloadlatest;
 } else {
 	echo 'orange';
-	$message = 'Fundamental changes have been made since this version.<br>'.$downloadlatest;
+	$message = 'Fundamental changes have been made since this version.<br>' . $downloadlatest;
 }
-echo ';">'.$phpThumb->phpthumb_version;
-echo '</th><td>'.$message.'.<br></td></tr>';
-
+echo ';">' . $phpThumb->phpthumb_version;
+echo '</th><td>' . $message . '.<br></td></tr>';
 
 echo '<tr><th>PHP version:</th><th colspan="2" style="background-color: ';
 if (phpthumb_functions::version_compare_replacement(phpversion(), '5.0.0', '>=')) {
@@ -138,9 +134,8 @@ if (phpthumb_functions::version_compare_replacement(phpversion(), '5.0.0', '>=')
 } else {
 	echo 'red';
 }
-echo ';">'.phpversion();
+echo ';">' . phpversion();
 echo '</th><td>PHP5 is ideal (support for numerous built-in filters which are much faster than my code).<br>PHP v4.4.2 contains a bug in fopen over HTTP (phpThumb has a workaround)<br>PHP v4.3.2+ supports ImageSaveAlpha which is required for proper PNG/ICO output.<br>ImageRotate requires PHP v4.3.0+ (but buggy before v4.3.3).<br>EXIF thumbnail extraction requires PHP v4.2.0+.<br>Most things will work back to PHP v4.1.0, and mostly (perhaps buggy) back to v4.0.6, but no guarantees for any version older than that.</td></tr>';
-
 
 echo '<tr><th>GD version:</th><th colspan="2" style="background-color: ';
 if ($ServerInfo['gd_numeric'] >= 2) {
@@ -154,9 +149,8 @@ if ($ServerInfo['gd_numeric'] >= 2) {
 } else {
 	echo 'red';
 }
-echo ';">'.(!empty($ServerInfo['gd_string']) ? $ServerInfo['gd_string'] : 'n/a');
+echo ';">' . (!empty($ServerInfo['gd_string']) ? $ServerInfo['gd_string'] : 'n/a');
 echo '</th><td>GD2-bundled version is ideal.<br>GD2 (non-bundled) is second choice, but there are a number of bugs in the non-bundled version. ImageRotate is only available in the bundled version of GD2.<br>GD1 will also (mostly) work, at much-reduced image quality and several features disabled. phpThumb can perform most operations with ImageMagick only, even if GD is not available.</td></tr>';
-
 
 $IMreleaseDate = 0;
 if (preg_match('# ([0-9]{2})/([0-9]{2})/([0-9]{2}) #', $ServerInfo['im_version'], $matches)) {
@@ -191,23 +185,23 @@ if ($ServerInfo['im_version']) {
 	echo 'red';
 }
 echo ';">';
-echo '<div style="color: navy; font-family: monospace;">'.htmlentities($phpThumb->config_imagemagick_path);
-echo ' <span style="cursor: help;" title="file_exists"                  >['.intval(                            @file_exists($phpThumb->config_imagemagick_path)).']</span> ';
-echo ' <span style="cursor: help;" title="file_exists_ignoreopenbasedir">['.intval($phpThumb->file_exists_ignoreopenbasedir($phpThumb->config_imagemagick_path)).']</span> ';
-echo ' <span style="cursor: help;" title="is_file"                      >['.intval(                                @is_file($phpThumb->config_imagemagick_path)).']</span> ';
-echo ' <span style="cursor: help;" title="is_readable"                  >['.intval(                            @is_readable($phpThumb->config_imagemagick_path)).']</span> ';
-echo ' <span style="cursor: help;" title="is_executable"                >['.intval(                          @is_executable($phpThumb->config_imagemagick_path)).']</span> ';
+echo '<div style="color: navy; font-family: monospace;">' . htmlentities($phpThumb->config_imagemagick_path);
+echo ' <span style="cursor: help;" title="file_exists"                  >[' . intval(@file_exists($phpThumb->config_imagemagick_path)) . ']</span> ';
+echo ' <span style="cursor: help;" title="file_exists_ignoreopenbasedir">[' . intval($phpThumb->file_exists_ignoreopenbasedir($phpThumb->config_imagemagick_path)) . ']</span> ';
+echo ' <span style="cursor: help;" title="is_file"                      >[' . intval(@is_file($phpThumb->config_imagemagick_path)) . ']</span> ';
+echo ' <span style="cursor: help;" title="is_readable"                  >[' . intval(@is_readable($phpThumb->config_imagemagick_path)) . ']</span> ';
+echo ' <span style="cursor: help;" title="is_executable"                >[' . intval(@is_executable($phpThumb->config_imagemagick_path)) . ']</span> ';
 echo '</div>';
-echo '<div style="color: blue; font-family: monospace;">'.htmlentities($phpThumb->ImageMagickCommandlineBase()).'</div>';
+echo '<div style="color: blue; font-family: monospace;">' . htmlentities($phpThumb->ImageMagickCommandlineBase()) . '</div>';
 echo ($ServerInfo['im_version'] ? $ServerInfo['im_version'] : 'n/a');
-echo ($IMreleaseDate ? '<br><br>This version of ImageMagick is '.NiceTimeFormatting($IMversionAge).' old<br>(see <a href="http://www.imagemagick.org/">www.imagemagick.org</a> for new versions)' : '');
+echo ($IMreleaseDate ? '<br><br>This version of ImageMagick is ' . NiceTimeFormatting($IMversionAge) . ' old<br>(see <a href="http://www.imagemagick.org/">www.imagemagick.org</a> for new versions)' : '');
 echo '</th><td>ImageMagick is faster than GD, can process larger images without PHP memory_limit issues, can resize animated GIFs. phpThumb can perform most operations with ImageMagick only, even if GD is not available.</td></tr>';
-
 
 echo '<tr><th>ImageMagick features:</th>';
 if ($ServerInfo['im_version']) {
-	$GDfeatures['red']    = array('help', 'thumbnail', 'resize', 'crop', 'repage', 'coalesce', 'gravity', 'background', 'interlace', 'flatten', 'border', 'bordercolor', 'dither', 'quality');
-	$GDfeatures['orange'] = array('version', 'blur', 'colorize', 'colors', 'colorspace', 'contrast', 'contrast-stretch', 'edge', 'emboss', 'fill', 'flip', 'flop', 'gamma', array('gaussian','gaussian-blur'), 'level', 'modulate', 'monochrome', 'negate', 'normalize', 'rotate', 'sepia-tone', 'threshold', 'unsharp');
+	$GDfeatures['red'] = array('help', 'thumbnail', 'resize', 'crop', 'repage', 'coalesce', 'gravity', 'background', 'interlace', 'flatten', 'border', 'bordercolor', 'dither', 'quality');
+	$GDfeatures['orange'] = array('version', 'blur', 'colorize', 'colors', 'colorspace', 'contrast', 'contrast-stretch', 'edge', 'emboss', 'fill', 'flip', 'flop', 'gamma', array('gaussian', 'gaussian-blur'), 'level', 'modulate', 'monochrome', 'negate', 'normalize', 'rotate', 'sepia-tone',
+			'threshold', 'unsharp');
 	echo '<th colspan="2">|';
 	foreach ($GDfeatures as $missingcolor => $features) {
 		foreach ($features as $dummy => $feature) {
@@ -224,7 +218,7 @@ if ($ServerInfo['im_version']) {
 			} else {
 				$foundOneThatWorks = $phpThumb->ImageMagickSwitchAvailable($feature);
 			}
-			echo '| <span style="background-color: '.($foundOneThatWorks ? 'lime' : $missingcolor).';">'.htmlentities($feature).'</span> |';
+			echo '| <span style="background-color: ' . ($foundOneThatWorks ? 'lime' : $missingcolor) . ';">' . htmlentities($feature) . '</span> |';
 		}
 	}
 	echo '|</th>';
@@ -233,27 +227,25 @@ if ($ServerInfo['im_version']) {
 }
 echo '<td>All of these parameters may be called by phpThumb, depending on parameters used.  Green means the feature is available; red means a critical feature is missing; orange means an optional filter/feature is missing.</td></tr>';
 
-
 echo '<tr><th>ImageMagick formats:</th>';
 if ($ServerInfo['im_version']) {
-	echo '<td colspan="2"><div style="width: 100%; height: 200px; overflow: auto; font-family: monospace; white-space: pre; background-color: #FFFFFF;">'.htmlentities($phpThumb->ImageMagickFormatsList()).'</div></td>';
+	echo '<td colspan="2"><div style="width: 100%; height: 200px; overflow: auto; font-family: monospace; white-space: pre; background-color: #FFFFFF;">' . htmlentities($phpThumb->ImageMagickFormatsList()) . '</div></td>';
 } else {
 	echo '<th colspan="2" style="background-color: orange;">ImageMagick not found</th>';
 }
 echo '<td>ImageMagick can only read/write formats as listed here. You may need to recompile ImageMagick if you need to use a format not listed</td></tr>';
 
 echo '<tr><th>GD features:</th><th colspan="2">';
-$GDfeatures['red']    = array('JPEG Support', 'JPG Support', 'PNG Support'); // older versions would report "JPG Support", newer versions report "JPEG Support"
+$GDfeatures['red'] = array('JPEG Support', 'JPG Support', 'PNG Support'); // older versions would report "JPG Support", newer versions report "JPEG Support"
 $GDfeatures['orange'] = array('GIF Read Support', 'GIF Create Support', 'FreeType Support');
 foreach ($GDfeatures as $missingcolor => $features) {
 	foreach ($features as $dummy => $feature) {
 		if (isset($gd_info[$feature])) {
-			echo '<div style="background-color: '.($gd_info[$feature] ? 'lime' : $missingcolor).';">'.htmlentities($feature).'</div>';
+			echo '<div style="background-color: ' . ($gd_info[$feature] ? 'lime' : $missingcolor) . ';">' . htmlentities($feature) . '</div>';
 		}
 	}
 }
 echo '</th><td>PNG support is required for watermarks, overlays, calls to ImageMagick and other internal operations.<br>JPG support is obviously quite useful, but ImageMagick can substitute<br>GIF read support can be bypassed with ImageMagick and/or internal GIF routines.<br>GIF create support can be bypassed with ImageMagick (if no filters are applied)<br>FreeType support is needed for TTF overlays.</td></tr>';
-
 
 echo '<tr><th>GD extension "EXIF"</th><th colspan="2" style="background-color: ';
 if (extension_loaded('exif')) {
@@ -261,9 +253,8 @@ if (extension_loaded('exif')) {
 } elseif (!empty($ServerInfo['gd_string'])) {
 	echo 'orange';
 }
-echo ';">'.(extension_loaded('exif') ? 'TRUE' : 'FALSE');
+echo ';">' . (extension_loaded('exif') ? 'TRUE' : 'FALSE');
 echo '</th><td>EXIF extension required for auto-rotate images. Also required to extract EXIF thumbnail to use as source if source image is too large for PHP memory_limit and ImageMagick is unavailable.</td></tr>';
-
 
 echo '<tr><th>php_sapi_name()</th><th colspan="2" style="background-color: ';
 $php_sapi_name = strtolower(function_exists('php_sapi_name') ? php_sapi_name() : '');
@@ -278,9 +269,8 @@ if (!$php_sapi_name || (preg_match('#~#', dirname($_SERVER['PHP_SELF'])) && ($ph
 } else {
 	echo 'green';
 }
-echo ';">'.htmlentities($php_sapi_name).'</th>';
+echo ';">' . htmlentities($php_sapi_name) . '</th>';
 echo '<td>SAPI mode preferred to CGI mode. FCGI mode has unconfirmed strange behavior (notably more than one space in "wmt" filter text causes errors). If not working in "apache" (SAPI) mode, <i>apache_lookup_uri()</i> will not work.</td></tr>';
-
 
 echo '<tr><th>Server Software</th><th colspan="2" style="background-color: ';
 $server_software = getenv('SERVER_SOFTWARE');
@@ -295,9 +285,8 @@ if (!$server_software) {
 } else {
 	echo 'darkgreen';
 }
-echo ';">'.$server_software.'</th>';
+echo ';">' . $server_software . '</th>';
 echo '<td>Apache v1.x has the fewest compatability problems. IIS has numerous annoyances. Apache v2.x is broken when lookup up <i>/~user/filename.jpg</i> style relative filenames using <i>apache_lookup_uri()</i>.</td></tr>';
-
 
 echo '<tr><th>curl_version:</th><th colspan="2" style="background-color: ';
 $curl_version = (function_exists('curl_version') ? curl_version() : '');
@@ -309,85 +298,61 @@ if ($curl_version) {
 } else {
 	echo 'yellow';
 }
-echo ';">'.$curl_version.'</th>';
+echo ';">' . $curl_version . '</th>';
 echo '<td>Best if available. HTTP source images will be unavailable if CURL unavailable and <i>allow_url_fopen</i> is also disabled.</td></tr>';
 
 echo '<tr style="background-color: #EEEEEE;"><th colspan="4">&nbsp;</th></tr>';
 echo '<tr style="background-color: #EEEEEE;"><th>function_exists:</th><th colspan="2">Value</th><th>Comments</th></tr>';
 
-$FunctionsExist = array(
-	'ImageRotate'           => array('orange',     'required for "ra" and "ar" filters.'),
-	'exif_read_data'        => array('yellow',     'required for "ar" filter.'),
-	'exif_thumbnail'        => array('yellow',     'required to extract EXIF thumbnails.'),
-	'memory_get_usage'      => array('lightgreen', 'mostly used for troubleshooting.'),
-	'version_compare'       => array('darkgreen',  'available in PHP v4.1.0+, internal workaround available'),
-	'file_get_contents'     => array('darkgreen',  'available in PHP v4.3.0+, internal workaround available'),
-	'file_put_contents'     => array('darkgreen',  'available in PHP v5.0.0+, internal workaround available'),
-	'is_executable'         => array('yellow',     'available in PHP3, except only PHP5 for Windows. poor internal workaround available'),
-	'gd_info'               => array('olive',      'available in PHP v4.3.0+ (with bundled GD2), internal workaround available'),
-	'ImageTypes'            => array('red',        'required for GD image output.'),
-	'ImageCreateFromJPEG'   => array('orange',     'required for JPEG source images using GD.'),
-	'ImageCreateFromGIF'    => array('yellow',     'useful for GIF source images using GD.'),
-	'ImageCreateFromPNG'    => array('orange',     'required for PNG source images using GD and other source image formats using ImageMagick.'),
-	'ImageCreateFromWBMP'   => array('yellow',     'required for WBMP source images using GD.'),
-	'ImageCreateFromString' => array('orange',     'required for HTTP and non-file image sources.'),
-	'ImageCreateTrueColor'  => array('orange',     'required for all non-ImageMagick filters.'),
-	'ImageIsTrueColor'      => array('olive',      'available in PHP v4.3.2+ with GD v2.0.1+'),
-	'ImageFilter'           => array('yellow',     'PHP5 only. Required for some filters (but most can use ImageMagick instead)'),
-);
+$FunctionsExist = array('ImageRotate' => array('orange', 'required for "ra" and "ar" filters.'), 'exif_read_data' => array('yellow', 'required for "ar" filter.'), 'exif_thumbnail' => array('yellow', 'required to extract EXIF thumbnails.'),
+		'memory_get_usage' => array('lightgreen', 'mostly used for troubleshooting.'), 'version_compare' => array('darkgreen', 'available in PHP v4.1.0+, internal workaround available'), 'file_get_contents' => array('darkgreen', 'available in PHP v4.3.0+, internal workaround available'),
+		'file_put_contents' => array('darkgreen', 'available in PHP v5.0.0+, internal workaround available'), 'is_executable' => array('yellow', 'available in PHP3, except only PHP5 for Windows. poor internal workaround available'),
+		'gd_info' => array('olive', 'available in PHP v4.3.0+ (with bundled GD2), internal workaround available'), 'ImageTypes' => array('red', 'required for GD image output.'), 'ImageCreateFromJPEG' => array('orange', 'required for JPEG source images using GD.'),
+		'ImageCreateFromGIF' => array('yellow', 'useful for GIF source images using GD.'), 'ImageCreateFromPNG' => array('orange', 'required for PNG source images using GD and other source image formats using ImageMagick.'),
+		'ImageCreateFromWBMP' => array('yellow', 'required for WBMP source images using GD.'), 'ImageCreateFromString' => array('orange', 'required for HTTP and non-file image sources.'), 'ImageCreateTrueColor' => array('orange', 'required for all non-ImageMagick filters.'),
+		'ImageIsTrueColor' => array('olive', 'available in PHP v4.3.2+ with GD v2.0.1+'), 'ImageFilter' => array('yellow', 'PHP5 only. Required for some filters (but most can use ImageMagick instead)'),);
 foreach ($FunctionsExist as $function => $details) {
 	list($color, $description) = $details;
-	echo '<tr><th>'.$function.'</th><th colspan="2" style="background-color: ';
+	echo '<tr><th>' . $function . '</th><th colspan="2" style="background-color: ';
 	if (function_exists(strtolower($function))) {
 		echo 'lime;">TRUE';
 	} else {
-		echo $color.';">FALSE';
+		echo $color . ';">FALSE';
 	}
-	echo '</th><td>'.htmlentities($description).'</td></tr>';
+	echo '</th><td>' . htmlentities($description) . '</td></tr>';
 }
-
 
 echo '<tr style="background-color: #EEEEEE;"><th colspan="4">&nbsp;</th></tr>';
 echo '<tr style="background-color: #EEEEEE;"><th>Setting</th><th>Master Value</th><th>Local Value</th><th>Comments</th></tr>';
 
-
-$SettingFeatures = array(
-	'magic_quotes_runtime' => array('red',    'lime',   'This setting is evil. Turn it off.'),
-	'magic_quotes_gpc'     => array('yellow', 'lime',   'This setting is bad. Turn it off, if possible. phpThumb will attempt to work around it if it is enabled.'),
-	'safe_mode'            => array('orange', 'lime',   'Best if off. Calls to ImageMagick will be disabled if safe_mode is set to prevent writing temp files (limiting max image resolution, no animated GIF resize). Raw image data sources (e.g. from MySQL database) may not work. Temp files may be disabled. Features will be limited. If disabled in Master but enabled in Local, edit httpd.conf and set (php_admin_value safe_mode "Off") between <VirtualHost> tags'),
-	'allow_url_fopen'      => array('lime',   'yellow', 'Best if on. HTTP source images will be unavailable if disabled and CURL is unavailable.'),
-);
+$SettingFeatures = array('magic_quotes_runtime' => array('red', 'lime', 'This setting is evil. Turn it off.'), 'magic_quotes_gpc' => array('yellow', 'lime', 'This setting is bad. Turn it off, if possible. phpThumb will attempt to work around it if it is enabled.'),
+		'safe_mode' => array('orange', 'lime',
+				'Best if off. Calls to ImageMagick will be disabled if safe_mode is set to prevent writing temp files (limiting max image resolution, no animated GIF resize). Raw image data sources (e.g. from MySQL database) may not work. Temp files may be disabled. Features will be limited. If disabled in Master but enabled in Local, edit httpd.conf and set (php_admin_value safe_mode "Off") between <VirtualHost> tags'),
+		'allow_url_fopen' => array('lime', 'yellow', 'Best if on. HTTP source images will be unavailable if disabled and CURL is unavailable.'),);
 
 foreach ($SettingFeatures as $feature => $FeaturesDetails) {
 	list($color_true, $color_false, $reason) = $FeaturesDetails;
-	echo '<tr><th>'.$feature.':</th>';
-	echo '<th style="background-color: '.(@get_cfg_var($feature)                      ? $color_true : $color_false).';">'.$phpThumb->phpThumbDebugVarDump((bool) @get_cfg_var($feature)).'</th>';
-	echo '<th style="background-color: '.(preg_match('#(1|ON)#i', @ini_get($feature)) ? $color_true : $color_false).';">'.$phpThumb->phpThumbDebugVarDump((bool) preg_match('#(1|ON)#i', ini_get($feature))).'</th>';
-	echo '<td>'.htmlentities($reason).'</td></tr>';
+	echo '<tr><th>' . $feature . ':</th>';
+	echo '<th style="background-color: ' . (@get_cfg_var($feature) ? $color_true : $color_false) . ';">' . $phpThumb->phpThumbDebugVarDump((bool) @get_cfg_var($feature)) . '</th>';
+	echo '<th style="background-color: ' . (preg_match('#(1|ON)#i', @ini_get($feature)) ? $color_true : $color_false) . ';">' . $phpThumb->phpThumbDebugVarDump((bool) preg_match('#(1|ON)#i', ini_get($feature))) . '</th>';
+	echo '<td>' . htmlentities($reason) . '</td></tr>';
 }
 
-$MissingFunctionSeverity = array(
-	'shell_exec' => 'red',
-	'system'     => 'red',
-	'passthru'   => 'red',
-	'exec'       => 'red',
-	'curl_exec'  => 'orange',
-);
+$MissingFunctionSeverity = array('shell_exec' => 'red', 'system' => 'red', 'passthru' => 'red', 'exec' => 'red', 'curl_exec' => 'orange',);
 $DisabledFunctions[0] = explode(',', @get_cfg_var('disable_functions'));
-$DisabledFunctions[1] = explode(',',     @ini_get('disable_functions'));
+$DisabledFunctions[1] = explode(',', @ini_get('disable_functions'));
 echo '<tr><th>disable_functions:</th>';
 for ($i = 0; $i <= 1; $i++) {
 	foreach ($DisabledFunctions[$i] as $key => $value) {
 		if (!empty($MissingFunctionSeverity[$value])) {
-			$DisabledFunctions[$i][$key] = '<span style="background-color: '.$MissingFunctionSeverity[$value].';">'.$value.'</span>';
+			$DisabledFunctions[$i][$key] = '<span style="background-color: ' . $MissingFunctionSeverity[$value] . ';">' . $value . '</span>';
 		}
 	}
 	$disabled_functions = implode(', ', $DisabledFunctions[$i]);
-	echo '<th style="background-color: '.($disabled_functions ? 'yellow' : 'lime').';">';
+	echo '<th style="background-color: ' . ($disabled_functions ? 'yellow' : 'lime') . ';">';
 	echo '</th>';
 }
 echo '<td>Best if nothing disabled. Calls to ImageMagick will be prevented if exec+system+shell_exec+passthru are disabled.</td></tr>';
-
 
 echo '<tr><th>memory_limit:</th><th style="background-color: ';
 $memory_limit = @get_cfg_var('memory_limit');
@@ -410,7 +375,7 @@ if (!$memory_limit) {
 } else {
 	echo 'red';
 }
-echo ';">'.($memory_limit ? $memory_limit : '<i>unlimited</i>').'</th><th style="background-color: ';
+echo ';">' . ($memory_limit ? $memory_limit : '<i>unlimited</i>') . '</th><th style="background-color: ';
 $memory_limit = @ini_get('memory_limit');
 if (!$memory_limit) {
 	echo 'lime';
@@ -431,49 +396,49 @@ if (!$memory_limit) {
 } else {
 	echo 'red';
 }
-echo ';">'.($memory_limit ? $memory_limit : '<i>unlimited</i>').'</th>';
-echo '<td>The higher the better. Divide by 5 to get maximum megapixels of source image that can be thumbnailed (without ImageMagick).'.($memory_limit ? ' Your setting ('.$memory_limit.') allows images up to approximately '.number_format($memory_limit / 5, 1).' megapixels' : '').'</td></tr>';
+echo ';">' . ($memory_limit ? $memory_limit : '<i>unlimited</i>') . '</th>';
+echo '<td>The higher the better. Divide by 5 to get maximum megapixels of source image that can be thumbnailed (without ImageMagick).' . ($memory_limit ? ' Your setting (' . $memory_limit . ') allows images up to approximately ' . number_format($memory_limit / 5, 1) . ' megapixels' : '')
+		. '</td></tr>';
 
 echo '</table>';
 
-
-function NiceTimeFormatting($seconds, $precision=1, $returnparts=false) {
+function NiceTimeFormatting($seconds, $precision = 1, $returnparts = false) {
 	$sign = (($seconds < 0) ? -1 : 1);
 	$seconds = abs($seconds);
 	do {
 		if ($seconds < 100) {
 			$value = number_format($seconds, 0);
-			$unit  = 'second'.(($seconds > 1) ? 's' : '');
+			$unit = 'second' . (($seconds > 1) ? 's' : '');
 			break;
 		}
 		$minutes = $seconds / 60;
 		if ($minutes < 60) {
 			$value = number_format($minutes, $precision);
-			$unit  = 'minutes';
+			$unit = 'minutes';
 			break;
 		}
 		$hours = $seconds / 3600;
 		if ($hours < 24) {
 			$value = number_format($hours, $precision);
-			$unit  = 'hours';
+			$unit = 'hours';
 			break;
 		}
 		$days = $seconds / 86400;
 		if ($days < 60) {
 			$value = number_format($days, $precision);
-			$unit  = 'days';
+			$unit = 'days';
 			break;
 		}
 		$months = $seconds / (30 * 86400);
 		if ($months < 12) {
 			$value = number_format($months, $precision);
-			$unit  = 'months';
+			$unit = 'months';
 			break;
 		}
 		$years = $seconds / (365 * 86400);
 		if (true) {
 			$value = number_format($years, $precision);
-			$unit  = 'years';
+			$unit = 'years';
 			break;
 		}
 	} while (false);
@@ -481,7 +446,7 @@ function NiceTimeFormatting($seconds, $precision=1, $returnparts=false) {
 	if ($returnparts) {
 		return array($value, $unit);
 	}
-	return $value.' '.$unit;
+	return $value . ' ' . $unit;
 }
 
 ?>

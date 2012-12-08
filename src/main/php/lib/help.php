@@ -16,7 +16,7 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ */
 
 include_once("lib/fileutils.php");
 include_once("lib/language.php");
@@ -32,18 +32,18 @@ include_once("lib/language.php");
 function get_opendb_lang_help_page($language, $help_page) {
 	$language = strtolower($language);
 
-	$filelist_r = get_file_list('help/'.$language, 'html');
-	if(is_array($filelist_r)) {
-		for($i=0; $i<count($filelist_r); $i++) {
-			if($help_page == $filelist_r[$i]) {
-				return $language.'/'.$filelist_r[$i];
+	$filelist_r = get_file_list('help/' . $language, 'html');
+	if (is_array($filelist_r)) {
+		for ($i = 0; $i < count($filelist_r); $i++) {
+			if ($help_page == $filelist_r[$i]) {
+				return $language . '/' . $filelist_r[$i];
 			}
 		}
 
-		for($i=0; $i<count($filelist_r); $i++) {
+		for ($i = 0; $i < count($filelist_r); $i++) {
 			// HACK ALERT - borrow.html will be returned for item_borrow.html too
-			if(ends_with($help_page, "_".$filelist_r[$i])) {
-				return $language.'/'.$filelist_r[$i];
+			if (ends_with($help_page, "_" . $filelist_r[$i])) {
+				return $language . '/' . $filelist_r[$i];
 			}
 		}
 	}
@@ -59,12 +59,12 @@ function get_opendb_lang_help_page($language, $help_page) {
 function get_opendb_help_page($pageid) {
 	global $_OPENDB_LANGUAGE;
 
-	if(strlen($_OPENDB_LANGUAGE)>0) {
-		$page = get_opendb_lang_help_page($_OPENDB_LANGUAGE, $pageid.'.html');
+	if (strlen($_OPENDB_LANGUAGE) > 0) {
+		$page = get_opendb_lang_help_page($_OPENDB_LANGUAGE, $pageid . '.html');
 	}
 
-	if($page == NULL && $_OPENDB_LANGUAGE != 'english') {
-		$page = get_opendb_lang_help_page('english', $pageid.'.html');
+	if ($page == NULL && $_OPENDB_LANGUAGE != 'english') {
+		$page = get_opendb_lang_help_page('english', $pageid . '.html');
 	}
 
 	return $page;
@@ -72,17 +72,17 @@ function get_opendb_help_page($pageid) {
 
 /**
 @param $help_page - language/page.html
-*/
+ */
 function validate_opendb_lang_help_page_url($help_page) {
 	$index = strpos($help_page, "/");
-	if($index !== FALSE) {
+	if ($index !== FALSE) {
 		$language = substr($help_page, 0, $index);
 		// ensure someone is not trying to download the /etc/passwd file or something by basename it back to a simple filename
-		$page = basename(substr($help_page, $index+1));
+		$page = basename(substr($help_page, $index + 1));
 	}
 
 	// make sure it ends in html
-	if(is_exists_language($language) && ends_with($page, ".html") && opendb_file_exists("help/$language/$page")) {
+	if (is_exists_language($language) && ends_with($page, ".html") && opendb_file_exists("help/$language/$page")) {
 		return "help/$language/$page";
 	}
 

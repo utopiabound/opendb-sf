@@ -1,20 +1,16 @@
-table.moreInfo
-{
+table.moreInfo {
 	margin: 20px;
 }
 
-table.listing-table
-{
+table.listing-table {
 	width: 100%;
 }
 
-#moreInfoListing table.listing-table
-{
+#moreInfoListing table.listing-table {
 	width: 50%;
 }
 
-dl.userItemList dt
-{
+dl.userItemList dt {
 	padding-left: 10px;
 	font-weight: bold;
 }

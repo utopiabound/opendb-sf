@@ -25,7 +25,7 @@ include_once("lib/http.php");
 require_once("lib/GDImage.class.php");
 
 function get_secret_image_random_num() {
-	mt_srand ((double)microtime()*1000000);
+	mt_srand((double) microtime() * 1000000);
 	$maxran = 1000000;
 	$random_num = mt_rand(0, $maxran);
 
@@ -54,9 +54,9 @@ function get_secret_image_code($random_num) {
  Validate code entered against the generated image number
  */
 function is_secret_image_code_valid($gfxcode, $random_num) {
-	if(is_numeric($gfxcode) && is_numeric($random_num)) {
+	if (is_numeric($gfxcode) && is_numeric($random_num)) {
 		$code = get_secret_image_code($random_num);
-		if($code != $gfxcode) {
+		if ($code != $gfxcode) {
 			return FALSE;
 		} else {
 			return TRUE;
@@ -67,16 +67,16 @@ function is_secret_image_code_valid($gfxcode, $random_num) {
 }
 
 function CenterImageString($image, $image_width, $string, $font_size, $y, $color) {
-	$text_width = imagefontwidth($font_size)*strlen($string);
+	$text_width = imagefontwidth($font_size) * strlen($string);
 	$center = ceil($image_width / 2);
-	$x = $center - (ceil($text_width/2));
+	$x = $center - (ceil($text_width / 2));
 	ImageString($image, $font_size, $x, $y, $string, $color);
 }
 
 function render_secret_image($random_num) {
 	$gdImage = new GDImage(get_opendb_image_type());
 	$gdImage->createImage('code_bg');
-	$image =& $gdImage->getImage();
+	$image = &$gdImage->getImage();
 	$text_color = ImageColorAllocate($image, 80, 80, 80);
 
 	header("Cache-control: no-store");
@@ -93,9 +93,8 @@ function render_secret_image_form_field() {
 	$random_num = get_secret_image_random_num();
 	$buffer .= "\n<input type=\"hidden\" name=\"gfx_random_number\" value=\"$random_num\">";
 
-	$buffer .= "<p class=\"verifyCode\"><label for=\"gfx_code_check\">".get_opendb_lang_var('verify_code')."</label>".
-   				"<img width=\"120\" height=\"25\" src=\"secretimage.php?op=gfx_code_check&gfx_random_number=$random_num\">".
-				"<input type=\"text\" class=\"text\" id=\"gfx_code_check\" name=\"gfx_code_check\" size=\"15\" maxlength=\"6\"></p>";
+	$buffer .= "<p class=\"verifyCode\"><label for=\"gfx_code_check\">" . get_opendb_lang_var('verify_code') . "</label>" . "<img width=\"120\" height=\"25\" src=\"secretimage.php?op=gfx_code_check&gfx_random_number=$random_num\">"
+			. "<input type=\"text\" class=\"text\" id=\"gfx_code_check\" name=\"gfx_code_check\" size=\"15\" maxlength=\"6\"></p>";
 	return $buffer;
 }
 ?>

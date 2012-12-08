@@ -16,24 +16,21 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ */
 
 include_once("lib/logging.php");
 
-$GD_IMAGE_TYPES = array(
-			'png'=>array(extension=>'png', ctype=>'image/png', sendfunc=>'ImagePNG', createfunc=>'ImageCreateFromPNG'),
-			'jpg'=>array(extension=>'jpg', ctype=>'image/jpeg', sendfunc=>'ImageJPEG', createfunc=>'ImageCreateFromJPEG'),
-			'gif'=>array(extension=>'gif', ctype=>'image/gif', sendfunc=>'ImageGIF', createfunc=>'ImageCreateFromGIF')
-		);
+$GD_IMAGE_TYPES = array('png' => array(extension => 'png', ctype => 'image/png', sendfunc => 'ImagePNG', createfunc => 'ImageCreateFromPNG'), 'jpg' => array(extension => 'jpg', ctype => 'image/jpeg', sendfunc => 'ImageJPEG', createfunc => 'ImageCreateFromJPEG'),
+		'gif' => array(extension => 'gif', ctype => 'image/gif', sendfunc => 'ImageGIF', createfunc => 'ImageCreateFromGIF'));
 
 function is_function_valid($function) {
 	$disabled_functions = @ini_get("disable_functions");
-    if (strlen($disabled_functions)>0) {
+	if (strlen($disabled_functions) > 0) {
 		$disabled_functions_r = explode(',', $disabled_functions);
 		return (function_exists($function) == true && array_search($function, $disabled_functions_r) === FALSE);
-    } else {
-    	return function_exists($function);
-    }
+	} else {
+		return function_exists($function);
+	}
 }
 
 class GDImage {
@@ -42,23 +39,23 @@ class GDImage {
 	var $_imageSrc;
 	var $_image_type_r;
 	var $_errors;
-	
+
 	function GDImage($imgType = 'auto') {
 		global $GD_IMAGE_TYPES;
-		
-		if($imgType != NULL && $imgType != 'auto') {
-			if($this->isImageTypeValid($imgType)!==FALSE) {
+
+		if ($imgType != NULL && $imgType != 'auto') {
+			if ($this->isImageTypeValid($imgType) !== FALSE) {
 				$this->_imgType = $imgType;
 				$this->_image_type_r = $this->getImageTypeConfig($imgType);
 			} else {
-				$this->addError('Illegal Image Type: '.$imgType);
+				$this->addError('Illegal Image Type: ' . $imgType);
 				return NULL;
 			}
 		} else {
 			// else choose automatically based on support of functions
 			reset($GD_IMAGE_TYPES);
-			while(list($imgType, $image_type_r) = each($GD_IMAGE_TYPES)) {
-				if($this->isImageTypeValid($imgType)!==FALSE) {
+			while (list($imgType, $image_type_r) = each($GD_IMAGE_TYPES)) {
+				if ($this->isImageTypeValid($imgType) !== FALSE) {
 					$this->_imgType = $imgType;
 					$this->_image_type_r = $image_type_r;
 					break;
@@ -66,80 +63,80 @@ class GDImage {
 			}
 		}
 	}
-	
+
 	function addError($error) {
 		$this->_errors[] = $error;
 	}
-	
+
 	function getErrors() {
 		return $this->_errors;
 	}
-	
+
 	function getImageType() {
 		return $this->_imgType;
 	}
-	
+
 	function getImageSrc() {
 		return $this->_imageSrc;
 	}
-	
+
 	function getImageExtension() {
 		return $this->_image_type_r['extension'];
 	}
-	
+
 	function getImageContentType() {
 		return $this->_image_type_r['ctype'];
 	}
-	
+
 	function getImageTypeConfig($imgType = NULL) {
 		global $GD_IMAGE_TYPES;
-		
-		if($imgType == NULL) {
-			$imgType = $this-> getImageType();
+
+		if ($imgType == NULL) {
+			$imgType = $this->getImageType();
 		}
-		
-		if(is_array($GD_IMAGE_TYPES[$imgType])) {
+
+		if (is_array($GD_IMAGE_TYPES[$imgType])) {
 			return $GD_IMAGE_TYPES[$imgType];
 		} else {
 			return FALSE;
 		}
 	}
-	
+
 	function isImageTypeValid($imgType) {
 		$image_config_r = $this->getImageTypeConfig($imgType);
-		if($image_config_r!==FALSE) {
-			if(!is_function_valid($image_config_r['sendfunc'])) {
-				$this->addError('Image Send function not found:'.$image_config_r['sendfunc']);
+		if ($image_config_r !== FALSE) {
+			if (!is_function_valid($image_config_r['sendfunc'])) {
+				$this->addError('Image Send function not found:' . $image_config_r['sendfunc']);
 				return FALSE;
 			}
-			
-			if(!is_function_valid($image_config_r['createfunc'])) {
-				$this->addError('Image Create function not found: '.$image_config_r['createfunc']);
+
+			if (!is_function_valid($image_config_r['createfunc'])) {
+				$this->addError('Image Create function not found: ' . $image_config_r['createfunc']);
 			}
-			
+
 			return TRUE;
 		} else {
-			$this->addError('Image Config not found: '.$imgType);
+			$this->addError('Image Config not found: ' . $imgType);
 		}
-		
+
 		return FALSE;
 	}
-	
+
 	function &getImage() {
-		if($this->_image!==NULL) {
+		if ($this->_image !== NULL) {
 			return $this->_image;
 		} else {
 			$this->addError('Image not created or already sent');
 			return FALSE;
 		}
 	}
-	
+
 	/**
 	 * @param unknown_type $image - should be the name minus any extension
 	 */
 	function createImage($image) {
 		$this->_imageSrc = $this->_getImageSrc($image);
-		if($this->_imageSrc!==FALSE) {
+		if ($this->_imageSrc !== FALSE) {
 			$createFunc = $this->_image_type_r['createfunc'];
 			$this->_image = $createFunc($this->_imageSrc);
 			return TRUE;
@@ -147,33 +144,33 @@ class GDImage {
 			return FALSE;
 		}
 	}
-	
+
 	function sendImage() {
-		Header("Content-Type: ".$this->getImageContentType());
-	
+		Header("Content-Type: " . $this->getImageContentType());
+
 		$sendFunc = $this->_image_type_r['sendfunc'];
-		
+
 		$sendFunc($this->_image);
-	
+
 		// destroy image when done
 		ImageDestroy($this->_image);
-		
+
 		unset($this->_image);
 	}
-	
+
 	function _getImageSrc($name) {
-		if(strpos($name, '.') === FALSE) {
-			$filename = $name.'.'.$this->getImageExtension();
-			
+		if (strpos($name, '.') === FALSE) {
+			$filename = $name . '.' . $this->getImageExtension();
+
 			$src = theme_image_src($filename);
-			if($src!==FALSE) {
+			if ($src !== FALSE) {
 				return get_opendb_file($src); // returns the absolute version!
 			} else {
-				$this->addError('Name source not found: '.$filename);
+				$this->addError('Name source not found: ' . $filename);
 				return FALSE;
 			}
 		} else {
-			$this->addError('Name must not include extension: '.$name);
+			$this->addError('Name must not include extension: ' . $name);
 			return FALSE;
 		}
 	}

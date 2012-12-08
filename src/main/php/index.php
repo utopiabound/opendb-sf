@@ -16,18 +16,18 @@ GNU General Public License for more details.
 You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+ */
 
 // This must be first - includes config.php
 require_once("include/begin.inc.php");
-	
+
 include_once("lib/install.php");
 include_once("lib/database.php");
 
-if($_OpendbBrowserSniffer->isBrowserSupported()) {
-	if($OPENDB_DATABASE->isConnected()) {
-		if(get_opendb_config_var('site', 'upgrade_check')===FALSE || check_opendb_version()) {
-			if(is_opendb_valid_session() || is_site_public_access()) {
+if ($_OpendbBrowserSniffer->isBrowserSupported()) {
+	if ($OPENDB_DATABASE->isConnected()) {
+		if (get_opendb_config_var('site', 'upgrade_check') === FALSE || check_opendb_version()) {
+			if (is_opendb_valid_session() || is_site_public_access()) {
 				opendb_redirect('welcome.php');
 			} else {
 				opendb_redirect('login.php');
@@ -42,6 +42,6 @@ if($_OpendbBrowserSniffer->isBrowserSupported()) {
 	opendb_redirect('browserSupport.php');
 }
 
-	// Cleanup after begin.inc.php
+// Cleanup after begin.inc.php
 require_once("include/end.inc.php");
 ?>

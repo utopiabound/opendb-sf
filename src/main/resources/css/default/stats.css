@@ -1,9 +1,7 @@
-.OpendbStatsGraphs
-{
+.OpendbStatsGraphs {
 	background: transparent;
 	width: 550;
 	height: 275;
-	
 	/* currently the libchart implementation does not readily support custom colours */
 	text-color: #000000;
 	caption-color: #000000;
@@ -12,23 +10,19 @@
 	light-border-color: #DCE6FB;
 	dark-border-color: #000000;
 	background-color: #FFFFFF;
-	
 }
 
-h3
-{
+h3 {
 	clear: both;
 }
 
-dl.reviewStats
-{
+dl.reviewStats {
 	width: 30%;
 	float: left;
 	margin-top: 0px;
 }
 
-dl.reviewStats dt
-{
+dl.reviewStats dt {
 	float: left;
 	padding-right: 10px;
 	font-weight: bold;
@@ -36,25 +30,21 @@ dl.reviewStats dt
 	white-space: nowrap;
 }
 
-dl.reviewStats dd
-{
+dl.reviewStats dd {
 	color: #626C99;
 }
 
-table.itemStats td
-{
+table.itemStats td {
 	color: #626C99;
 	text-align: center;
 }
 
-table.itemStats tr.totals th
-{
+table.itemStats tr.totals th {
 	text-align: right;
 	font-size: 90%;
 }
 
-ul.graph
-{
+ul.graph {
 	list-style-type: none;
 	padding-left: 0px;
 	margin-left: 0px;

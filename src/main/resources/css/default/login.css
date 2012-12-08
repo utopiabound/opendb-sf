@@ -1,8 +1,8 @@
 #loginFormDiv {
 	margin-top: 25px;
 	margin-left: 10px;
-	margin-bottom:300px;
-	font-size:150%;
+	margin-bottom: 300px;
+	font-size: 150%;
 }
 
 h2 {
@@ -13,25 +13,22 @@ h2 {
 	color: #626C99;
 }
 
-#loginForm input.text, input.password, input.submit {
+#loginForm input.text,input.password,input.submit {
 	font-size: 100%;
 }
 
-#loginForm ul
-{
+#loginForm ul {
 	text-align: left;
 	margin-left: 0px;
 	padding-left: 0px;
 	list-style-type: none;
 }
 
-#loginForm ul li
-{
+#loginForm ul li {
 	white-space: nowrap;
 }
 
-#loginForm ul li label
-{
+#loginForm ul li label {
 	margin: 5px;
 	display: block;
 }

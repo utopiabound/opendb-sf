@@ -1,22 +1,22 @@
 <?php
 /* 	
- 	Open Media Collectors Database
-	Copyright (C) 2001-2012 by Jason Pell
+    Open Media Collectors Database
+    Copyright (C) 2001-2012 by Jason Pell
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
-*/
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.
+ */
 
 include_once("lib/user.php");
 include_once("lib/utils.php");
@@ -68,20 +68,16 @@ function get_public_access_rolename() {
 }
 
 // todo - cache user_role and permissions list after first call
-function is_user_granted_permission($permission, $user_id = NULL)
-{
+function is_user_granted_permission($permission, $user_id = NULL) {
 	$user_permissions_clause = format_sql_in_clause($permission);
-	
-	if(strlen($user_id)==0 && is_site_public_access())
-	{
+
+	if (strlen($user_id) == 0 && is_site_public_access()) {
 		$query = "SELECT 'X' 
 			FROM 	s_role_permission
-			WHERE 	role_name = '".get_public_access_rolename()."' AND
+			WHERE 	role_name = '" . get_public_access_rolename() . "' AND
 				  	permission_name IN ($user_permissions_clause)";
-	}
-	else 
-	{
-		if(strlen($user_id)==0)
+	} else {
+		if (strlen($user_id) == 0)
 			$user_id = get_opendb_session_var('user_id');
 
 		$query = "SELECT 'X' 
@@ -91,10 +87,9 @@ function is_user_granted_permission($permission, $user_id = NULL)
 				  	srp.permission_name IN ($user_permissions_clause) AND
 				  	u.user_id = '$user_id'";
 	}
-	
+
 	$result = db_query($query);
-	if($result && db_num_rows($result)>0)
-	{
+	if ($result && db_num_rows($result) > 0) {
 		db_free_result($result);
 		return TRUE;
 	}
@@ -103,101 +98,73 @@ function is_user_granted_permission($permission, $user_id = NULL)
 	return FALSE;
 }
 
-function is_site_public_access()
-{
-	if(is_opendb_configured() && !is_opendb_valid_session() && get_opendb_config_var('site.public_access', 'enable') === TRUE)
-	{
+function is_site_public_access() {
+	if (is_db_connected() && !is_opendb_valid_session() && get_opendb_config_var('site.public_access', 'enable') === TRUE) {
 		return TRUE;
-	}
-	else
-	{
-	    return FALSE;
+	} else {
+		return FALSE;
 	}
 }
 
-function is_site_enabled()
-{
-    if(is_opendb_configured())
-	{
+function is_site_enabled() {
+	if (is_db_connected()) {
 		// if an administrator is logged in, then the site is considered enabled, even if
 		// configured to be disabled.
-		if(get_opendb_config_var('site', 'enable')!==FALSE)
-    	    return TRUE;
-		else if(is_user_granted_permission(PERM_ADMIN_LOGIN))
+		if (get_opendb_config_var('site', 'enable') !== FALSE)
 			return TRUE;
-		else if(is_user_admin_changed_user())
-		{
+		else if (is_user_granted_permission(PERM_ADMIN_LOGIN))
+			return TRUE;
+		else if (is_user_admin_changed_user()) {
 			return TRUE;
 		}
 	}
 
 	//else
-    return FALSE;
+	return FALSE;
 }
 
-function is_user_admin_changed_user()
-{
-	if(get_opendb_config_var('login', 'enable_change_user')!==FALSE && 
-					strlen(get_opendb_session_var('admin_user_id'))>0 && 
-						is_user_granted_permission(PERM_ADMIN_LOGIN, get_opendb_session_var('admin_user_id')))
-	{
-		return TRUE;		
-	}
-	else
-	{
+function is_user_admin_changed_user() {
+	if (get_opendb_config_var('login', 'enable_change_user') !== FALSE && strlen(get_opendb_session_var('admin_user_id')) > 0 && is_user_granted_permission(PERM_ADMIN_LOGIN, get_opendb_session_var('admin_user_id'))) {
+		return TRUE;
+	} else {
 		return FALSE;
 	}
 }
 
 /**
-*/
-function is_opendb_valid_session()
-{
-    if(is_opendb_configured())
-    {
-		if(get_opendb_session_var('login_time')!=NULL &&
-				get_opendb_session_var('last_access_time')!=NULL &&
-				get_opendb_session_var('user_id')!=NULL &&
-				get_opendb_session_var('hash_check')!=NULL)
-		{
+ */
+function is_opendb_valid_session() {
+	if (is_db_connected()) {
+		if (get_opendb_session_var('login_time') != NULL && get_opendb_session_var('last_access_time') != NULL && get_opendb_session_var('user_id') != NULL && get_opendb_session_var('hash_check') != NULL) {
 			$site_r = get_opendb_config_var('site');
-			
+
 			// A valid session as far as the variables go at least.
-			if($site_r['security_hash'] == get_opendb_session_var('hash_check'))
-			{
+			if ($site_r['security_hash'] == get_opendb_session_var('hash_check')) {
 				// idle_timeout is how long between requests a login session
 				// can remain valid.  If login_timeout is set, then this controls
 				// how long a session can remain active overall.
 				$current_time = time();
 
-				if (!is_numeric($site_r['login_timeout']) || 
-						( ($current_time - get_opendb_session_var('login_time')) < $site_r['login_timeout']) )
-				{
-					if ( !is_numeric($site_r['idle_timeout']) ||
-							( ($current_time - get_opendb_session_var('last_access_time')) < $site_r['idle_timeout']) )
-					{
-						if(is_user_active(get_opendb_session_var('user_id')))
-						{
-                            // reset the time, as we are only interested in idle session tests.
-                            $_SESSION['last_access_time'] = $current_time;
+				if (!is_numeric($site_r['login_timeout']) || (($current_time - get_opendb_session_var('login_time')) < $site_r['login_timeout'])) {
+					if (!is_numeric($site_r['idle_timeout']) || (($current_time - get_opendb_session_var('last_access_time')) < $site_r['idle_timeout'])) {
+						if (is_user_active(get_opendb_session_var('user_id'))) {
+							// reset the time, as we are only interested in idle session tests.
+							$_SESSION['last_access_time'] = $current_time;
 							return TRUE;
-						}
-						else
-						{
+						} else {
 							opendb_logger(OPENDB_LOG_WARN, __FILE__, __FUNCTION__, 'Invalid user encountered');
 							return FALSE;
 						}
 					}
 				}
 			}//if($site_r['security_hash'] == get_opendb_session_var('hash_check'))
-			else
-			{
+ else {
 				opendb_logger(OPENDB_LOG_WARN, __FILE__, __FUNCTION__, 'Invalid security-hash login invalidated');
 				return FALSE;
 			}
 		}
-	}//if(is_opendb_configured())
-	
+	}//if(is_db_connected())
+
 	//else
 	return FALSE;
 }

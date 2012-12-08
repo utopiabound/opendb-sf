@@ -1,22 +1,20 @@
-#content
-{
-	margin-left:0px;
+#content {
+	margin-left: 0px;
 }
 
-#login-box { display: none; }
+#login-box {
+	display: none;
+}
 
-table.installDirList th.prompt
-{
+table.installDirList th.prompt {
 	text-align: left;
 }
 
-table.installDirList td.data, table.userPrivilegesList td.data
-{
+table.installDirList td.data,table.userPrivilegesList td.data {
 	text-align: center;
 }
 
-.installwarning
-{
+.installwarning {
 	font-size: 100%;
 	font-weight: bold;
 }
