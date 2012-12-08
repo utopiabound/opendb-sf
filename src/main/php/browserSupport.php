@@ -32,7 +32,12 @@ echo ("<h1>" . $pageTitle . "</h1>");
 if (!$_OpendbBrowserSniffer->isBrowserSupported()) {
 	echo ("<p class=\"error\">" . get_opendb_lang_var('browser_not_supported_text') . "</p>");
 
-	$supportedBrowsers = array(array('url' => 'http://www.mozilla.com/firefox/', 'icon' => 'firefox.jpg'), array('url' => 'http://www.microsoft.com/windows/products/winfamily/ie/default.mspx', 'icon' => 'icon_ie7.gif'), array('url' => 'http://www.apple.com/safari/', 'icon' => 'safari.png'),);
+	$supportedBrowsers = array(
+			array('url' => 'http://www.mozilla.com/firefox/', 'icon' => 'firefox.jpg'), 
+			array('url' => 'http://windows.microsoft.com/en-AU/internet-explorer/download-ie', 'icon' => 'icon_ie7.gif'), 
+			array('url' => 'http://www.apple.com/safari/', 'icon' => 'safari.png'),
+			array('url' => 'www.google.com/chrome', 'icon' => 'chrome.png'),
+			);
 
 	echo ("<ul class=\"browsers\">");
 	while (list(, $browser_r) = each($supportedBrowsers)) {

@@ -120,8 +120,9 @@ function get_http_env($envname) {
 function is_url_absolute($url) {
 	if (preg_match("!([a-zA-Z]+)://!", $url)) {
 		return TRUE;
-	} else
+	} else {
 		return FALSE;
+	}
 }
 
 /**
