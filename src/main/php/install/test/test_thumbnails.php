@@ -25,7 +25,7 @@ include_once('lib/phpthumb/phpthumb.class.php');
 <title>Testing Thumbnails</title>
 </head>
 <body>
-<table cellspacing=5 cellpadding=5><tr><td>
+<table><tr><td>
 <img src="./itemcache/5.cache.jpeg">
 </td>
 <?php
@@ -55,8 +55,7 @@ if (@$_GET['op'] == 'generate') {
 } else {
 	echo ("<td><a href=\"${_SERVER['PHP_SELF']}?op=generate\">Generate Thumbnail</a></td>");
 }
-echo ("</tr></table>");
-
 ?>
+</tr></table>
 </body>
 </html>
